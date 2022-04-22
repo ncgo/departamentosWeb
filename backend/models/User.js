@@ -5,14 +5,17 @@ var bcrypt = require("bcrypt");
 
 // # 2
 var UserSchema = Schema ({
-    id: {
+    
+    firstName: {
         type: String,
-        required: true,
-        unique:  true
+        required: true
     },
-    userName: {
+    lastName: {
         type: String,
-        unique:  true,
+        required: true
+    },
+    birthDate: {
+        type: Date,
         required: true
     },
     email: {
@@ -26,8 +29,16 @@ var UserSchema = Schema ({
     },
     role: {
         type: String,
-        default: "driver"
-    }
+        required: true
+    },
+    phone:{
+        type: String,
+        required: true
+    },
+    apartment: {
+        type: String,
+        required: true
+    },
 },{timestamps: true});
 
 UserSchema.methods.encryptPassword = function(password){
