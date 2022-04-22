@@ -25,6 +25,7 @@ app.use(function (req, res, next) {
 //Routes
 app.use("/api/user", require("./routes/user.routes"));
 
+
 //Static Files
 app.use(express.static(path.join(__dirname, "public")));
 

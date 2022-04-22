@@ -1,27 +1,33 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const User = require('../models/User');
+const User = require("../models/User");
 
-router.get('/', async (req, res) => { 
-    res.json(tasks);
+router.get("/", async (req, res) => {
+  res.status(200).json({
+    ok: true,
+    message: "Users",
+  });
 });
 
-router.get('/:id', async (req, res) => {
-    const task = await Task.findById(req.params.id);
-    res.status(200).json(task);
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({
+    ok: true,
+    user: id,
+  });
 });
 
-router.post('/', async (req, res) => {
-    res.status(201).json(task);
+router.post("/", async (req, res) => {
+  res.status(201).json({ ok: true, message: "User created" });
 });
 
-router.put('/:id', async (req, res) => {
-    res.status(200).json(task);
+router.put("/:id", async (req, res) => {
+  res.status(200).json({ ok: true, message: "User updated" });
 });
 
-router.delete('/:id', async (req, res) => {
-    res.sendStatus(200)
+router.delete("/:id", async (req, res) => {
+  res.status(200).json({ ok: true, message: "User deleted" });
 });
 
 module.exports = router;
