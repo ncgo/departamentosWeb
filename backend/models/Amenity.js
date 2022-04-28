@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 // # 2
-var areaSchema = Schema(
+var amenitySchema = Schema(
   {
     id: {
       type: String,
@@ -30,4 +30,4 @@ var areaSchema = Schema(
 );
 
 // # 3
-module.exports = mongoose.model("areas", areaSchema);
+module.exports = mongoose.model("amenidades", amenitySchema);

@@ -4,17 +4,24 @@ const router = express.Router();
 const Report = require("../models/Reports");
 
 router.get("/", async (req, res) => {
+
+  const reports = await Report.find();
+
   res.status(200).json({
     ok: true,
-    message: "Reports",
+    reports: reports,
   });
+
 });
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
+
+  const report = await Report.findById(id);
+
   res.status(200).json({
     ok: true,
-    user: id,
+    report: report,
   });
 });
 
