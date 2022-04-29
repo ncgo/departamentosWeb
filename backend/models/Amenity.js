@@ -33,6 +33,7 @@ var AmenitiesSchema = Schema(
           {
             id: {
               type: Schema.ObjectId,
+              ref: "users",
               required: true,
             },
             date: {
