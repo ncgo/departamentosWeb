@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
-const mongoose  = require("./database");
+const mongoose = require("./database");
 const app = express();
 
 //Settings
@@ -25,12 +25,8 @@ app.use(function (req, res, next) {
 
 //Routes
 app.use("/api/user", require("./routes/user.routes"));
-app.use("/api/amenity", require("./routes/amenity.routes"));
-app.use("/api/machine", require("./routes/machine.routes"));
 app.use("/api/report", require("./routes/report.routes"));
 app.use("/api/login", require("./routes/login.routes"));
-
-
 
 //Static Files
 app.use(express.static(path.join(__dirname, "public")));
