@@ -46,7 +46,7 @@ var UserSchema = Schema(
       ref: "apartments",
       required: false,
     },
-    administers_tower: [
+    administers_towers: [
       {
         type: Schema.ObjectId,
         ref: "towers",
