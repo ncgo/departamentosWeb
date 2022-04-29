@@ -24,7 +24,31 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  res.status(201).json({ ok: true, message: "Report created" });
+  const { user, description, tower, apartment, status, resolved } = req.body;
+
+  const report = new Report({
+    user,
+    description,
+    tower,
+    apartment,
+    status,
+    resolved,
+  });
+
+  const created = await report.save();
+
+  if (created) {
+    res.status(201).json({
+      ok: true,
+      message: "Report created",
+      report: created,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error creating report",
+    });
+  }
 });
 
 router.put("/:id", async (req, res) => {
