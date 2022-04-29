@@ -1,17 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const Report = require("../models/Reports");
+const Report = require("../models/Report");
 
 router.get("/", async (req, res) => {
-
   const reports = await Report.find();
 
   res.status(200).json({
     ok: true,
     reports: reports,
   });
-
 });
 
 router.get("/:id", async (req, res) => {
