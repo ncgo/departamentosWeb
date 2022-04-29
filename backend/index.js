@@ -28,6 +28,8 @@ app.use("/api/user", require("./routes/user.routes"));
 app.use("/api/amenity", require("./routes/amenity.routes"));
 app.use("/api/machine", require("./routes/machine.routes"));
 app.use("/api/report", require("./routes/report.routes"));
+app.use("/api/login", require("./routes/login.routes"));
+
 
 
 //Static Files
