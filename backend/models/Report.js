@@ -5,10 +5,6 @@ var Schema = mongoose.Schema;
 // # 2
 var reportSchema = Schema(
   {
-    report_num: {
-      type: Number,
-      required: true,
-    },
     user: {
       type: Schema.ObjectId,
       ref: "users",
@@ -30,7 +26,6 @@ var reportSchema = Schema(
     },
     status: {
       type: String,
-      required: true,
       default: "pending",
     },
     resolved: {
