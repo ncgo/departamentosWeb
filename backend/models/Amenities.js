@@ -20,10 +20,32 @@ var AmenitiesSchema = Schema ({
         required: true,
         unique: true
     },
-    services: {
-        type: String,
-        required: true
-    }
+    services: [
+      {
+        id: {
+          type: Number,
+          required: true,
+        },
+        userName: {
+          type: String,
+          required: true,
+        },
+        fecha_reservada: [
+            {
+                id: {
+                    type:Schema.ObjectId, 
+                    required: true
+                },
+                date: {
+                    type: Date,
+                    required: true
+                },
+                required: false
+            }
+        ],
+        required: false,
+      },
+    ]
 },{timestamps: true});
 
 UserSchema.methods.encryptPassword = function(password){

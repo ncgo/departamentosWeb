@@ -15,11 +15,19 @@ var ServicesSchema = Schema ({
         unique:  true,
         required: true
     },
-    fecha_reservda: {
-        type: String,
-        required: true,
-        unique: true
-    }
+    fecha_reservada: [
+        {
+            id: {
+                type:Schema.ObjectId, 
+                required: true
+            },
+            date: {
+                type: Date,
+                required: true
+            },
+            required: false
+           }
+        ]
 },{timestamps: true});
 
 UserSchema.methods.encryptPassword = function(password){
