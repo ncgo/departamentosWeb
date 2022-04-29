@@ -50,4 +50,4 @@ var reportSchema = Schema(
 );
 
 // # 3
-module.exports = mongoose.model("reports", reportSchema);
+module.exports = mongoose.model("towers", reportSchema);
