@@ -52,7 +52,25 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  res.status(200).json({ ok: true, message: "Report updated" });
+  const { id } = req.params;
+  const update = req.body;
+
+  const newReport = await Report.findOneAndUpdate({ _id: id }, update, {
+    new: true,
+  });
+
+  if (newReport) {
+    res.status(201).json({
+      ok: true,
+      message: "Report updated",
+      report: newReport,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error updating report",
+    });
+  }
 });
 
 router.delete("/:id", async (req, res) => {
