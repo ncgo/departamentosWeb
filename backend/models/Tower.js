@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 // # 2
-var reportSchema = Schema(
+var towerSchema = Schema(
   {
     name: {
       type: String,
@@ -50,4 +50,4 @@ var reportSchema = Schema(
 );
 
 // # 3
-module.exports = mongoose.model("towers", reportSchema);
+module.exports = mongoose.model("towers", towerSchema);
