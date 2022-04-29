@@ -29,6 +29,7 @@ var UserSchema = Schema ({
     },
     role: {
         type: String,
+        default: "tenant",
         required: true
     },
     phone:{
@@ -37,7 +38,8 @@ var UserSchema = Schema ({
     },
     apartment: {
         type: String,
-        required: true
+        required: true,
+        default: "N/A"
     },
 },{timestamps: true});
 
