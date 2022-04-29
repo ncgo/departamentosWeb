@@ -55,7 +55,7 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const update = req.body;
 
-  const newReport = await Report.findOneAndUpdate({ _id: id }, update, {
+  const newReport = await Report.findByIdAndUpdate(id, update, {
     new: true,
   });
 
