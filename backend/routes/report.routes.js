@@ -56,7 +56,26 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  res.status(200).json({ ok: true, message: "Report deleted" });
+  const { id } = req.params;
+  Report.findByIdAndDelete(id, (err, report) => {
+    if (err) {
+      return res.status(500).json({
+        ok: false,
+        message: "Error deleting report",
+        errors: err,
+      });
+    }
+    if (!report) {
+      return res.status(404).json({
+        ok: false,
+        message: "Report not found",
+      });
+    }
+    res.status(200).json({
+      ok: true,
+      message: "Report deleted",
+    });
+  });
 });
 
 module.exports = router;
