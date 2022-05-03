@@ -16,7 +16,7 @@ var towerSchema = Schema(
       },
       street_2: {
         type: String,
-        required: true,
+        required: false,
       },
       city: {
         type: String,
@@ -30,6 +30,7 @@ var towerSchema = Schema(
         type: String,
         required: true,
       },
+      required: true,
     },
     apartments: [
       {
