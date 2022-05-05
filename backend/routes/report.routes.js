@@ -23,6 +23,17 @@ router.get("/:id", async (req, res) => {
   });
 });
 
+router.get("/user/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const reports = await Report.find({ user: id });
+
+  res.status(200).json({
+    ok: true,
+    report: reports,
+  });
+});
+
 router.post("/", async (req, res) => {
   const { user, description, tower, apartment, status, resolved } = req.body;
 
