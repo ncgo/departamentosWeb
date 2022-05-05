@@ -26,6 +26,7 @@ app.use(function (req, res, next) {
 //Routes
 app.use("/api/user", require("./routes/user.routes"));
 app.use("/api/report", require("./routes/report.routes"));
+app.use("/api/tower", require("./routes/tower.routes"));
 app.use("/api/login", require("./routes/login.routes"));
 
 //Static Files

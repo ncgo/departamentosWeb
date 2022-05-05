@@ -30,7 +30,6 @@ var towerSchema = Schema(
         type: String,
         required: true,
       },
-      required: true,
     },
     apartments: [
       {
