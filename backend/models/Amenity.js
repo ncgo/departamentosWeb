@@ -6,11 +6,6 @@ var bcrypt = require("bcrypt");
 // # 2
 var AmenitiesSchema = Schema(
   {
-    id: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
     name: {
       type: String,
       required: true,
