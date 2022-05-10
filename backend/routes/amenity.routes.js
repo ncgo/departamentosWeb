@@ -24,12 +24,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const {name, description, services} = req.body;
+  const { name, description, services } = req.body;
 
   const amenity = new Amenity({
     name,
     description,
-    services
+    services,
   });
 
   const created = await amenity.save();

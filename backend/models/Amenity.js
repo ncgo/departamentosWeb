@@ -1,7 +1,6 @@
 // # 1
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var bcrypt = require("bcrypt");
 
 // # 2
 var AmenitiesSchema = Schema(
@@ -16,11 +15,7 @@ var AmenitiesSchema = Schema(
     },
     services: [
       {
-        id: {
-          type: Number,
-          required: true,
-        },
-        userName: {
+        name: {
           type: String,
           required: true,
         },
