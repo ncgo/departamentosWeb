@@ -27,6 +27,10 @@ a {
   font-size: 1.1rem;
 }
 
+a.router-link-active {
+  text-decoration: underline;
+}
+
 a:hover {
   text-decoration: underline;
 }
