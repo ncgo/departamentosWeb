@@ -1,18 +1,18 @@
+<script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+</script>
+
 <template>
-  <ion-app>
-    <ion-router-outlet />
-  </ion-app>
+  <header>
+    <div class="wrapper">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/reserve">Reserve</RouterLink>
+    </div>
+  </header>
+
+  <RouterView />
 </template>
 
-<script lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    IonApp,
-    IonRouterOutlet
-  }
-});
-</script>
+<style>
+@import "./assets/base.css";
+</style>
