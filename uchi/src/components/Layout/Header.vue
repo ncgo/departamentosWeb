@@ -16,14 +16,14 @@ header {
   box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
   padding: 0 1.5rem;
   height: 3.6rem;
-  background-color: #e4355c;
+  background-color: #7b2cbf;
   align-items: center;
 }
 
 a {
   text-decoration: none;
   color: white;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   font-size: 1.1rem;
 }
 
