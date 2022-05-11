@@ -2,15 +2,23 @@
   import { RouterView } from 'vue-router'
   import Header from './components/Layout/Header.vue'
   import Tabs from './components/Layout/Tabs.vue'
+
+
+  // if not token, go to /login 
+
+    const token = localStorage.getItem("token");
+    if(window.location.pathname !== "/login" && !token) {
+      window.location.href = "/login";
+    }
 </script>
 
 <template>
   <div id="app">
-    <Header />
+    <Header v-if="$route.path !== '/login'" />
     <div id="content">
       <RouterView />
     </div>
-    <Tabs />
+    <Tabs v-if="$route.path !== '/login'"/>
   </div>
 </template>
 
