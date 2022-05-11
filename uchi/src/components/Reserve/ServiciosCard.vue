@@ -1,19 +1,17 @@
 <script setup lang="ts">
 defineProps<{
-  amenity: object;
+  service: object;
 }>();
 </script>
 
 <template>
-  <RouterLink :to="'/reserve/' + amenity._id" style="text-decoration: none">
-    <li class="wrapper">
-      <img
-        src="https://hispanosemprendedores.com/wp-content/uploads/2021/02/laundry-machines-J9AM5SS.jpg"
-      />
-      <h3>{{ amenity.name }}</h3>
-      <p>{{ amenity.description }}</p>
-    </li>
-  </RouterLink>
+  <li class="wrapper">
+    <img
+      src="https://www.lg.com/cac/images/lavadoras-y-secadoras/md06205436/gallery/D-02.jpg"
+    />
+    <h3>{{ service.name.charAt(0).toUpperCase() + service.name.slice(1) }}</h3>
+    <button>Reservar</button>
+  </li>
 </template>
 
 <style scoped>
@@ -73,11 +71,23 @@ h3 {
   text-decoration: none;
 }
 
-p {
+button {
+  width: 7rem;
+  background-color: #7b2cbf;
+  border: 0;
+  border-radius: 0.4rem;
   color: white;
-  left: 1rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 2rem;
+  position: absolute;
+  right: 1rem;
   bottom: 1rem;
   z-index: 9;
-  text-decoration: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 </style>
