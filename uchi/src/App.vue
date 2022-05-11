@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import HeaderVue from "./components/Layout/Header.vue";
+
+
 </script>
 
 <template>
-  <HeaderVue />
+  <HeaderVue  v-if="$route.path !== '/login'"/>
   <RouterView />
 </template>
 

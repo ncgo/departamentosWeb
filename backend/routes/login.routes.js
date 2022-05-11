@@ -7,9 +7,9 @@ const User = require("../models/User");
 
 router.post("/", async (req, res) => {
     const {email, password} = req.body;
+    console.log(email);
 
-    const user = await User.findOne({email});
-
+    const user = await User.findOne({email: email.toLowerCase()});
     if (!user) {
         return res.status(404).json({
             ok: false,
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
             });
             const usr = {
                 id: user._id,
-                name: user.firstName,
+                firstName: user.firstName,
                 lastName: user.lastName
             }
             res.status(200).json({
