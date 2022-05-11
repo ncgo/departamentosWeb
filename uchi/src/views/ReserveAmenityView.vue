@@ -14,7 +14,6 @@ const getAmenity = async () => {
 
   const amenity = await fetch(`${import.meta.env.VITE_HOST}/api/amenity/${id}`);
   const amenityJson = await amenity.json();
-  console.log(amenityJson);
 
   if (amenityJson.amenity) {
     amenityRef.value = amenityJson.amenity;
