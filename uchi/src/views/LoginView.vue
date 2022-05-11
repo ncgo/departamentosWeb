@@ -34,6 +34,7 @@ async function login() {
         localStorage.setItem("userID", json.user.id);
         localStorage.setItem("userFName", json.user.firstName);
         localStorage.setItem("userLName", json.user.lastName);
+        localStorage.setItem("role", json.user.role);
         window.location.href = "/";
       } else {
         alert(json.message);
