@@ -43,6 +43,7 @@
 
   #content {
     height: 82vh;
+    overflow-y: scroll;
   }
 
   Tabs {

@@ -42,12 +42,23 @@ const router = createRouter({
       path: "/messages",
       name: "Messages",
       component: () => import("../views/MessagesView.vue"),
+      children: [{
+        path: "/messages/message/:id",
+        name: "Message",
+        component: () => import("../components/Messages/Message.vue"),
+      }
+      ]
     },
     {
       path: "/profile",
       name: "Profile",
-      component: () => import("../views/ProfileView.vue"),
+      component: () => import("../views/Profile/ProfileView.vue"),
     },
+    {
+      path: "/profile/edit",
+      name: "Edit Profile",
+      component: () => import("../views/Profile/EditCreateProfileView.vue"),
+    }
   ],
 });
 

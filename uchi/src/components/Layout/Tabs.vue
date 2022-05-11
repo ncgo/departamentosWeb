@@ -27,6 +27,9 @@
     display: flex;
     padding: 0 1.5rem;
     height: 10vh;
+    -webkit-box-shadow: 0px -5px 15px -9px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px -5px 15px -9px rgba(0, 0, 0, 0.27);
+
     background-color: #7b2cbf;
     align-items: center;
     justify-content: center;
@@ -35,7 +38,7 @@
   a {
     text-decoration: none;
     color: #9d4edd;
-    margin: 0 5rem;
+    margin: 0 3vw;
     font-size: 1.1rem;
     display: flex;
     flex-direction: column;
