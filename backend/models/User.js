@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt')
 // # 2
 var UserSchema = Schema(
   {
+
     firstName: {
       type: String,
       required: true,
