@@ -216,4 +216,10 @@
     border: 2px solid rgb(123, 44, 191);
     border-radius: 5px;
   }
+
+  @media (orientation: landscape) {
+    .content {
+      width: 50%;
+    }
+  }
 </style>
