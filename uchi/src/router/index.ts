@@ -6,8 +6,13 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Home",
       component: HomeView,
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
     },
     {
       path: "/reserve",
@@ -25,6 +30,35 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/ReserveAmenityView.vue"),
     },
+    {
+      path: "/report",
+      name: "Report",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/ReportView.vue"),
+    },
+    {
+      path: "/messages",
+      name: "Messages",
+      component: () => import("../views/MessagesView.vue"),
+      children: [{
+        path: "/messages/message/:id",
+        name: "Message",
+        component: () => import("../components/Messages/Message.vue"),
+      }
+      ]
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: () => import("../views/Profile/ProfileView.vue"),
+    },
+    {
+      path: "/profile/edit",
+      name: "Edit Profile",
+      component: () => import("../views/Profile/EditCreateProfileView.vue"),
+    }
   ],
 });
 

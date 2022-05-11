@@ -1,11 +1,12 @@
 // # 1
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var bcrypt = require("bcrypt");
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+var bcrypt = require('bcrypt')
 
 // # 2
 var UserSchema = Schema(
   {
+
     firstName: {
       type: String,
       required: true,
@@ -29,7 +30,7 @@ var UserSchema = Schema(
     },
     role: {
       type: String,
-      default: "tenant",
+      default: 'tenant',
       required: true,
     },
     phone: {
@@ -38,32 +39,32 @@ var UserSchema = Schema(
     },
     tower: {
       type: Schema.ObjectId,
-      ref: "torres",
+      ref: 'torres',
       required: false,
     },
-    aparment: {
+    apartment: {
       type: Schema.ObjectId,
-      ref: "apartments",
+      ref: 'apartments',
       required: false,
     },
     administers_towers: [
       {
         type: Schema.ObjectId,
-        ref: "towers",
+        ref: 'towers',
         required: false,
       },
     ],
   },
   { timestamps: true }
-);
+)
 
 UserSchema.methods.encryptPassword = function (password) {
-  return bcrypt.hashSync(password, 10);
-};
+  return bcrypt.hashSync(password, 10)
+}
 
 UserSchema.methods.validatePassword = function (userPassword) {
-  return bcrypt.compare(userPassword, this.password);
-};
+  return bcrypt.compare(userPassword, this.password)
+}
 
 // # 3
-module.exports = mongoose.model("users", UserSchema);
+module.exports = mongoose.model('users', UserSchema)
