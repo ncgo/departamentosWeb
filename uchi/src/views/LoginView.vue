@@ -1,53 +1,53 @@
 <script setup lang="ts">
 import { ref, useAttrs } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
 import { onMounted } from "vue";
+import router from "../router";
 
 const email = ref("");
 const password = ref("");
 
-// const api = import.meta.env.VITE_HOST;
-// get .env variable host
+const api = import.meta.env.VITE_HOST + "/api/login";
 
-const api = "http://localhost:3001/api/login";
+const login = async (e) => {
+  e.preventDefault();
 
-async function login() {
-  //login
   const User = {
     email: email.value,
     password: password.value,
   };
 
-  await fetch(api, {
+  const res = await fetch(api, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(User),
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log(json);
-      console.log(json.ok);
-      if (json.ok) {
-        localStorage.setItem("token", json.token);
-        localStorage.setItem("userID", json.user.id);
-        localStorage.setItem("userFName", json.user.firstName);
-        localStorage.setItem("userLName", json.user.lastName);
-        localStorage.setItem("role", json.user.role);
-        window.location.href = "/";
-      } else {
-        alert(json.message);
-      }
-    });
-}
+  });
+
+  const resObject = await res.json();
+
+  console.log(resObject);
+  console.log(resObject.ok);
+
+  if (resObject.ok) {
+    localStorage.setItem("token", resObject.token);
+    localStorage.setItem("userID", resObject.user.id);
+    localStorage.setItem("userFName", resObject.user.firstName);
+    localStorage.setItem("userLName", resObject.user.lastName);
+    localStorage.setItem("role", resObject.user.role);
+
+    router.push("/");
+  } else {
+    alert(resObject.message);
+  }
+};
 </script>
 
 <template>
   <main>
     <div class="container">
       <h1>Login</h1>
-      <form action="">
+      <form @submit="login">
         <div class="userName">
           <label for="email">Email</label>
           <input
@@ -68,7 +68,7 @@ async function login() {
         </div>
         <!-- <button type="submit">Login</button> -->
         <!-- button click  -->
-        <button type="button" @click="login">Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   </main>
@@ -99,9 +99,9 @@ main {
   color: #fff;
 }
 
-h1{
-    font-size: 2rem;
-    margin-bottom: 1rem;
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
 form {
@@ -130,19 +130,18 @@ input:focus {
   outline: none;
 }
 
-button{
-    padding: .7rem 6rem;
-    border:none;
-    border-radius: .6rem;
-    background-color: rgb(147, 105, 184);
-    color: #fff;
-    font-size: 1.2rem;
-    font-weight: bold;
+button {
+  padding: 0.7rem 6rem;
+  border: none;
+  border-radius: 0.6rem;
+  background-color: rgb(147, 105, 184);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-button:hover{
-    cursor: pointer;
-    background-color: rgb(191, 141, 235);
+button:hover {
+  cursor: pointer;
+  background-color: rgb(191, 141, 235);
 }
-
 </style>
