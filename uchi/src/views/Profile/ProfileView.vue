@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import router from "../../router";
+
 const userID = localStorage.getItem("userID");
 
 const userRef = ref({});
@@ -17,6 +19,15 @@ fetchUser().then((user) => {
   userRef.value = user.user;
   console.log(userRef.value);
 });
+
+const signOut = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userID");
+  localStorage.removeItem("userFName");
+  localStorage.removeItem("userLName");
+  localStorage.removeItem("role");
+  router.push("/login");
+};
 </script>
 
 <template>
@@ -25,16 +36,16 @@ fetchUser().then((user) => {
     <h1>User Profile</h1>
     <img src="../../assets/user.png" alt="" class="profileImage" />
     <div class="content">
-      <h2>{{userRef.firstName}} {{userRef.lastName}}</h2>
-      <h3>{{userRef.tower}} {{userRef.apartment}}</h3>
+      <h2>{{ userRef.firstName }} {{ userRef.lastName }}</h2>
+      <h3>{{ userRef.tower }} {{ userRef.apartment }}</h3>
       <table>
         <tr>
           <td class="title">Email</td>
-          <td>{{userRef.email}}</td>
+          <td>{{ userRef.email }}</td>
         </tr>
         <tr>
           <td class="title">Phone</td>
-          <td>{{userRef.phone}}</td>
+          <td>{{ userRef.phone }}</td>
         </tr>
       </table>
       <p class="title">Emergency contact</p>
@@ -45,6 +56,7 @@ fetchUser().then((user) => {
 
     <p class="role"><span class="title">Role: </span> User</p>
     <router-link class="button" to="/profile/edit">Edit</router-link>
+    <button class="button" @click="signOut">Sign Out</button>
   </main>
 </template>
 
@@ -141,6 +153,11 @@ table {
   text-decoration: none;
   display: inline-block;
   margin-top: 5vh;
+  border: 0;
+}
+
+.button:hover {
+  cursor: pointer;
 }
 
 @media (orientation: landscape) {
