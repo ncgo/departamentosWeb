@@ -23,7 +23,8 @@ router.post("/", async (req, res) => {
             const usr = {
                 id: user._id,
                 firstName: user.firstName,
-                lastName: user.lastName
+                lastName: user.lastName,
+                role : user.role
             }
             res.status(200).json({
                 ok: true,
