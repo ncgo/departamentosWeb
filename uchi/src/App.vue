@@ -13,13 +13,14 @@
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" v-if="$route.path !== '/login'">
     <Header v-if="$route.path !== '/login'" />
     <div id="content">
       <RouterView />
     </div>
     <Tabs v-if="$route.path !== '/login'"/>
   </div>
+      <RouterView v-if="$route.path === '/login'"/>
 </template>
 
 <script lang="ts">

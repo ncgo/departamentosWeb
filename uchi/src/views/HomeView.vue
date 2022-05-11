@@ -54,10 +54,12 @@
   main {
     padding: 1.5rem;
     text-align: center;
+    overflow-x: hidden;
   }
   .circle {
     height: 20vh;
     width: 150vw;
+    /* width: 100vw; */
     background: rgb(123, 44, 191);
     background: linear-gradient(
       297deg,
