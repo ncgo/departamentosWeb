@@ -30,6 +30,7 @@ app.use("/api/tower", require("./routes/tower.routes"));
 app.use("/api/apartment", require("./routes/apartment.routes"));
 app.use("/api/amenity", require("./routes/amenity.routes"));
 app.use("/api/login", require("./routes/login.routes"));
+app.use("/api/message", require("./routes/message.routes"));
 
 //Static Files
 app.use(express.static(path.join(__dirname, "public")));

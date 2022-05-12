@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
                 id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                tower: user.tower,
                 role : user.role
             }
             res.status(200).json({

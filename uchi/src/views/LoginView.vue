@@ -35,6 +35,8 @@ const login = async (e) => {
     localStorage.setItem("userFName", resObject.user.firstName);
     localStorage.setItem("userLName", resObject.user.lastName);
     localStorage.setItem("role", resObject.user.role);
+    localStorage.setItem("tower", resObject.user.tower);
+
 
     router.push("/");
   } else {
