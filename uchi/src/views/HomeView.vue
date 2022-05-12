@@ -3,8 +3,10 @@
 <template>
   <main>
     <div class="circle"></div>
-    <h1>Home</h1>
-    <h3>Welcome to uchi</h3>
+    <div id="greeting">
+      <h1>Home</h1>
+      <h3>Welcome to uchi</h3>
+    </div>
     <div id="messages">
       <h2>Latest Messages</h2>
       <table>
@@ -28,12 +30,41 @@
     </div>
     <div id="amenities">
       <h2>Amenities</h2>
-      <div class="amenity"></div>
-      <div class="servicio"></div>
+      <div class="pills">
+        <div class="amenity">
+          <img src="../assets/washer.png" />
+          <h3>[MAQUINA 1]</h3>
+          <div class="status true">
+            <i class="fa-solid fa-circle-check fa-4x"></i>
+          </div>
+        </div>
+        <div class="amenity">
+          <img src="../assets/washer.png" />
+          <h3>[MAQUINA 2]</h3>
+          <div class="status false">
+            <i class="fa-solid fa-circle-xmark fa-4x"></i>
+          </div>
+        </div>
+        <div class="amenity">
+          <img src="../assets/washer.png" />
+          <h3>[MAQUINA 3]</h3>
+          <div class="status false">
+            <i class="fa-solid fa-circle-xmark fa-4x"></i>
+          </div>
+        </div>
+        <div class="amenity">
+          <img src="../assets/washer.png" />
+          <h3>[MAQUINA 4]</h3>
+          <div class="status true">
+            <i class="fa-solid fa-circle-check fa-4x"></i>
+          </div>
+        </div>
+      </div>
+      <router-link to="/reserve" class="button">See more</router-link>
     </div>
 
     <div id="reports">
-      <h2>Reportes</h2>
+      <h2>Reports</h2>
       <table>
         <tr>
           <th>Report #</th>
@@ -52,9 +83,12 @@
 
 <style scoped>
   main {
-    padding: 1.5rem;
+    padding: 1vh 4vw;
     text-align: center;
     overflow-x: hidden;
+  }
+  #greeting {
+    height: 13vh;
   }
   .circle {
     height: 20vh;
@@ -86,12 +120,8 @@
     font-weight: bold;
   }
 
-  #messages {
-    margin-top: 2vh;
-  }
-
   #amenities {
-    margin-top: 2vh;
+    margin: 2vh 0;
   }
 
   .amenity,
@@ -108,13 +138,22 @@
     -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
     margin: 1vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .amenity::after {
-    height: 2vh;
-    width: 2vh;
-    background-color: red;
-    border-radius: 50%;
+  .amenity img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .false {
+    color: #f42c04;
+  }
+
+  .true {
+    color: #5aff15;
   }
 
   table {
@@ -127,11 +166,11 @@
   }
 
   .text {
-    width: 80%;
     padding: 0 1vw;
+    width: 80%;
   }
   .imgSender {
-    height: 2.5rem;
+    height: 3rem;
     border-radius: 50%;
     -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
@@ -152,7 +191,6 @@
     border: solid #7b2cbf;
     border-radius: 15px;
     margin-bottom: 1vh;
-    width: 100%;
     -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
     padding: 0.3rem;
@@ -168,7 +206,60 @@
     color: #7b2cbf;
   }
 
-  a:visited {
-    color: black;
+  .button {
+    background: rgb(123, 44, 191);
+    background: linear-gradient(
+      297deg,
+      rgba(123, 44, 191, 1) 43%,
+      rgba(157, 78, 221, 1) 84%
+    );
+    border-radius: 10px;
+    color: white;
+    padding: 0.5rem 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 2.5vh;
+    border: 0;
+    font-weight: bold;
+  }
+
+  .button a {
+    color: white;
+  }
+
+  #reports {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (orientation: landscape) {
+    table {
+      width: 40%;
+      text-align: center;
+    }
+
+    #messages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .imgSender {
+      height: 3.5rem;
+    }
+
+    .amenity,
+    .servicio {
+      height: 40vh;
+      width: 15%;
+      min-width: 200px;
+    }
+
+    .pills {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 </style>
