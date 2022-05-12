@@ -8,6 +8,10 @@ defineProps<{
 }>();
 
 const showTime = ref(false);
+
+const toggleShowTime = () => {
+  showTime.value = !showTime.value;
+};
 </script>
 
 <template>
@@ -16,8 +20,8 @@ const showTime = ref(false);
       src="https://www.lg.com/cac/images/lavadoras-y-secadoras/md06205436/gallery/D-02.jpg"
     />
     <h3>{{ service.name.charAt(0).toUpperCase() + service.name.slice(1) }}</h3>
-    <button @click="showTime = !showTime">Reservar</button>
-    <SelectTime v-if="showTime" />
+    <button @click="toggleShowTime">Reservar</button>
+    <SelectTime v-if="showTime" :showTime="toggleShowTime" />
   </li>
 </template>
 
