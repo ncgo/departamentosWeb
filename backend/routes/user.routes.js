@@ -109,7 +109,25 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  res.status(200).json({ ok: true, message: "User updated" });
+  const { id } = req.params;
+  const update = req.body;
+
+  const newUser = await User.findByIdAndUpdate(id, update, {
+    new: true,
+  });
+
+  if (newUser) {
+    res.status(201).json({
+      ok: true,
+      message: "User updated",
+      user: newUser,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error updating user",
+    });
+  }
 });
 
 router.delete("/:id", async (req, res) => {

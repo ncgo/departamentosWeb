@@ -1,4 +1,57 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, useAttrs } from "@vue/runtime-core";
+import { onMounted } from "vue";
+import router from "../router";
+
+const userID = localStorage.getItem("userID");
+const firstName = ref("");
+const lastName = ref("");
+const birthdate = ref("");
+const email = ref("");
+const phone = ref("");
+const firstNameEmergency = ref("");
+const lastNameEmergency = ref("");
+const relationship = ref("");
+const phoneEmergency = ref("");
+
+const api = import.meta.env.VITE_HOST + "/api/user/";
+
+const changeUser = async (e) => {
+  e.preventDefault();
+
+  const User = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    birthdate: birthdate.value,
+    email: email.value,
+    phone: phone.value,
+    emergencyContact: {
+    firstNameEmergency: firstNameEmergency.value,
+    lastNameEmergency: lastNameEmergency.value,
+    relationship: relationship.value,
+    phoneEmergency: phoneEmergency.value,},
+  };
+  console.log(User)
+
+  const res = await fetch(`${api}/${userID}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(User),
+  });
+
+  const resObject = await res.json();
+
+  console.log(resObject);
+  console.log(resObject.ok);
+
+  if (resObject.ok) {
+  } else {
+    alert(resObject.message);
+  }
+};
+</script>
 
 <template>
   <main>
@@ -6,103 +59,102 @@
     <h1 v-if="create == true">Create User Profile</h1>
     <img src="../../assets/user.png" alt="" class="profileImage" />
     <div class="content">
-      <form>
+      <form @submit="changeUser">
         <h2>Personal Information</h2>
-        <div class="formGroup">
+        
+        <div class="firstName">
           <label for="firstName" class="title">First Name(s): </label>
           <input
             type="text"
             id="firstName"
             name="firstName"
             required
-            v-model="user.firstName"
+            v-model="firstName"
           />
         </div>
-        <div class="formGroup">
+        <div class="lastName">
           <label for="lastName" class="title">Last Name(s): </label>
           <input
             type="text"
             id="lastName"
             name="lastName"
             required
-            v-model="user.lastName"
+            v-model="lastName"
           />
         </div>
-        <div class="formGroup">
+        <div class="birthdate">
           <label for="birthdate" class="title">Birthday: </label>
           <input
             type="text"
             id="birthdate"
             name="birthdate"
             required
-            v-model="user.birthdate"
+            v-model="birthdate"
           />
         </div>
-        <div class="formGroup">
+        <div class="email">
           <label for="email" class="title">Email: </label>
           <input
             type="text"
             id="email"
             name="email"
             required
-            v-model="user.email"
+            v-model="email"
           />
         </div>
-        <div class="formGroup">
+        <div class="phone">
           <label for="phone" class="title">Phone #: </label>
           <input
             type="text"
             id="phone"
             name="phone"
             required
-            v-model="user.phone"
+            v-model="phone"
           />
         </div>
 
         <h2>Emergency Contact Information</h2>
-        <div class="formGroup">
+        <div class="firstNameEmergency">
           <label for="firstNameEmergency" class="title">First Name(s): </label>
           <input
             type="text"
             id="firstNameEmergency"
             name="firstNameEmergency"
             required
-            v-model="user.emergencyContact.firstName"
+            v-model="firstNameEmergency"
           />
         </div>
-        <div class="formGroup">
+        <div class="lastNameEmergency">
           <label for="lastNameEmergency" class="title">Last Name(s): </label>
           <input
             type="text"
             id="lastNameEmergency"
             name="lastNameEmergency"
             required
-            v-model="user.emergencyContact.lastName"
+            v-model="lastNameEmergency"
           />
         </div>
-        <div class="formGroup">
+        <div class="relationship">
           <label for="relationship" class="title">Relationship: </label>
           <input
             type="text"
             id="relationship"
             name="relationship"
             required
-            v-model="user.emergencyContact.relationship"
+            v-model="relationship"
           />
         </div>
-        <div class="formGroup">
+        <div class="phoneEmergency">
           <label for="phoneEmergency" class="title">Phone #: </label>
           <input
             type="text"
             id="phoneEmergency"
             name="phoneEmergency"
             required
-            v-model="user.emergencyContact.phone"
+            v-model="phoneEmergency"
           />
         </div>
-        <button class="button" @click="createUser" v-if="create == true">
-          Create
-        </button>
+        <button type="submit">Create User</button>
       </form>
     </div>
   </main>

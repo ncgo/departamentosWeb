@@ -8,7 +8,7 @@
     <RouterLink to="/" class="tab">
       <i class="fa-solid fa-house"></i
     ></RouterLink>
-    <RouterLink to="/report">Report</RouterLink>
+    <RouterLink to="/reports">Report</RouterLink>
   </footer>
 </template>
 
@@ -29,7 +29,6 @@
     height: 10vh;
     -webkit-box-shadow: 0px -5px 15px -9px rgba(0, 0, 0, 0.27);
     box-shadow: 0px -5px 15px -9px rgba(0, 0, 0, 0.27);
-
     background-color: #7b2cbf;
     align-items: center;
     justify-content: center;
