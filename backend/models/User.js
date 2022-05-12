@@ -39,8 +39,9 @@ var UserSchema = Schema(
     },
     tower: {
       type: Schema.ObjectId,
-      ref: 'torres',
+      ref: 'towers',
       required: false,
+      default: null,
     },
     apartment: {
       type: Schema.ObjectId,

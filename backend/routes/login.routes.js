@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     }else{
         if (await user.validatePassword(password)) {
             const token = jwt.sign({user}, process.env.SECRET_KEY, {
-                expiresIn: 60 * 60 * 24
+                expiresIn: "24h",
             });
             const usr = {
                 id: user._id,
