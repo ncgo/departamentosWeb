@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
+import SelectTime from "./SelectTime.vue";
+
 defineProps<{
   service: object;
 }>();
+
+const showTime = ref(false);
 </script>
 
 <template>
@@ -10,7 +16,8 @@ defineProps<{
       src="https://www.lg.com/cac/images/lavadoras-y-secadoras/md06205436/gallery/D-02.jpg"
     />
     <h3>{{ service.name.charAt(0).toUpperCase() + service.name.slice(1) }}</h3>
-    <button>Reservar</button>
+    <button @click="showTime = !showTime">Reservar</button>
+    <SelectTime v-if="showTime" />
   </li>
 </template>
 
