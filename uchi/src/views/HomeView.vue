@@ -374,8 +374,27 @@ a:visited {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-color: #f9f4f5;
+    padding: 1.5rem;
+    border-radius: 25px;
+    -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+    width: 50vw;
+    margin: 0;
+    text-align: center;
   }
 
+  #reports table {
+    width: 100%;
+  }
+
+  th {
+    border-bottom: #7b2cbf solid;
+    border-collapse: collapse;
+    color: #7b2cbf;
+    font-weight: bold;
+  }
   @media (orientation: landscape) {
     table {
       width: 40%;
