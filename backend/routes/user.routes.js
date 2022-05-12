@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-
+const generator = require("generate-password");
+const nodemailer = require("nodemailer");
+const config = require("../config");
 const User = require("../models/User");
+const Tower = require("../models/Tower");
+const Apartment = require("../models/Apartment");
 
 router.get("/", async (req, res) => {
   const users = await User.find();
@@ -24,42 +28,73 @@ router.get("/:id", async (req, res) => {
       message: "User not found",
     });
   } else {
+
+    const tower = await Tower.findById(user.tower);
+    const apartment = await Apartment.findById(user.apartment);
+
+    const User = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthDate: user.birthDate,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      tower: tower.name,
+      apartment: apartment.name,
+    };
+
+    console.log(user);
+
     res.status(200).json({
       ok: true,
-      user: user,
+      user: User,
     });
   }
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  const {
-    firstName,
-    lastName,
-    birthDate,
-    phone,
-    apartment,
-    email,
-    password,
-    role,
-  } = req.body;
+  const { firstName, lastName, birthDate, tower,phone, apartment, email, role } =
+    req.body;
 
-  const user = new User({
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+    uppercase: true,
+  });
+
+  var user = new User({
     firstName: firstName.toLowerCase(),
     lastName: lastName.toLowerCase(),
     birthDate,
     phone,
+    tower,
     apartment,
     email: email.toLowerCase(),
     password,
     role,
   });
 
+  const towerN = await Tower.findOne({ name: tower });
+
+  if (towerN) {
+    user.tower = towerN._id;
+    const apt = await Apartment.findOne({ name: apartment });
+    if (apt) {
+      user.apartment = apt._id;
+    }else{
+      return res.status(404).json({ok: false, message: "Apartment not found"});
+    }
+  }else{
+    return res.status(404).json({ok: false, message: "Tower not found"});
+  }
+
   user.password = await user.encryptPassword(password);
 
   const created = await user.save();
 
   if (created) {
+    const name = `${firstName} ${lastName}`;
+    await sendPass(email, name, password);
     res.status(201).json({
       ok: true,
       message: "User created",
@@ -99,5 +134,32 @@ router.delete("/:id", async (req, res) => {
     });
   });
 });
+
+async function sendPass(mail, name, pass) {
+  let transporter = nodemailer.createTransport({
+    host: config.mail.host,
+    port: config.mail.port,
+    secure: false,
+    auth: {
+      user: config.mail.auth.user,
+      pass: config.mail.auth.pass,
+    },
+  });
+
+  let info = await transporter
+    .sendMail({
+      from: `'Apartment Manager <${config.mail.auth.user}>'`,
+      to: mail,
+      subject: "Password",
+      text: `Hello ${name}, your password is ${pass}`,
+      html: `<h1>Hello ${name}, your password is ${pass}</h1>`,
+    })
+    .then((info) => {
+      return true;
+    })
+    .catch((err) => {
+      return false;
+    });
+}
 
 module.exports = router;

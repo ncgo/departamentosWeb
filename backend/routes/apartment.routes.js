@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
   const { name } = req.body;
 
   const apartment = new Apartment({
-    name,
+    name: name.toLowerCase(),
   });
 
   const created = await apartment.save();

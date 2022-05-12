@@ -17,6 +17,7 @@ var towerSchema = Schema(
       street_2: {
         type: String,
         required: false,
+        default: "",
       },
       city: {
         type: String,

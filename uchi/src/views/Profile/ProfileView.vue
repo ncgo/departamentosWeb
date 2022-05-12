@@ -6,7 +6,7 @@ const userID = localStorage.getItem("userID");
 
 const userRef = ref({});
 //!---------------------------------------------------------------------------------------------------------------------
-const api = "http://localhost:3001/api/user";
+const api = import.meta.env.VITE_HOST + "/api/user";
 
 async function fetchUser() {
   const response = await fetch(`${api}/${userID}`);
@@ -21,11 +21,12 @@ fetchUser().then((user) => {
 });
 
 const signOut = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("userID");
-  localStorage.removeItem("userFName");
-  localStorage.removeItem("userLName");
-  localStorage.removeItem("role");
+  localStorage.clear();
+  // localStorage.removeItem("token");
+  // localStorage.removeItem("userID");
+  // localStorage.removeItem("userFName");
+  // localStorage.removeItem("userLName");
+  // localStorage.removeItem("role");
   router.push("/login");
 };
 </script>

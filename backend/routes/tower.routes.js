@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
   const { name, address, apartments, amenities } = req.body;
 
   const tower = new Tower({
-    name,
+    name: name.toLowerCase(),
     address,
     apartments,
     amenities,
