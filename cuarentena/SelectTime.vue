@@ -22,13 +22,19 @@ const initMeetingsDays = () => {
     minutes: 0,
   };
 
-  meetingsDays.value = slotsGenerator(
+  let datesAvailable = slotsGenerator(
     new Date(),
     nbDaysToDisplay.value,
     start,
     end,
     30
   );
+
+  datesAvailable[1].slots.pop();
+
+  meetingsDays.value = datesAvailable;
+
+  console.log(datesAvailable, new Date());
 };
 
 initMeetingsDays();
@@ -104,8 +110,8 @@ const previousDate = () => {
   );
 };
 
-const showRef = () => {
-  console.log(this.hey);
+const handler = () => {
+  console.log(meeting.value);
 };
 </script>
 
@@ -122,7 +128,9 @@ const showRef = () => {
       :meetings-days="meetingsDays"
       @next-date="nextDate"
       @previous-date="previousDate"
+      @meeting-slot-selected="handler"
     />
+    <p>meeting Selected: {{ meeting ? meeting : "No Meeting selected" }}</p>
   </div>
 </template>
 
