@@ -9,7 +9,9 @@ const password = ref("");
 // const api = import.meta.env.VITE_HOST;
 // get .env variable host
 
-const api = "http://localhost:3001/api/login";
+// const api = "http://localhost:3001/api/login";
+// const api = "https://protected-wildwood-95234.herokuapp.com/api/login";
+const api = import.meta.env.VITE_HOST + "/api/login";
 
 async function login() {
   //login

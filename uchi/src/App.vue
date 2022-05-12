@@ -7,9 +7,23 @@
   // if not token, go to /login 
 
     const token = localStorage.getItem("token");
-    if(window.location.pathname !== "/login" && !token) {
+  
+    //validate token expiration
+    if (token) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const exp = payload.exp;
+      const now = Math.floor(Date.now() / 1000);
+      if (now > exp) {
+        localStorage.clear();
+        window.location.href = "/login";
+      }
+    } else {
+      if(window.location.pathname !== "/login") {
       window.location.href = "/login";
     }
+    }
+
+    
 </script>
 
 <template>
