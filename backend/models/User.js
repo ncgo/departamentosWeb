@@ -17,7 +17,7 @@ var UserSchema = Schema(
     },
     birthDate: {
       type: Date,
-      required: true,
+      required: false,
     },
     email: {
       type: String,

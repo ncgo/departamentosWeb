@@ -2,15 +2,16 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
+import router from "../router";
 
 const email = ref("");
 const tower = ref("");
 const apt = ref("");
 const firstName = ref("");
 const lastName = ref("");
+const phone = ref("");
 
-// const api = import.meta.env.VITE_HOST;
-// get .env variable host
+
 const api = import.meta.env.VITE_HOST + "/api/user";
 
 async function register() {
@@ -18,9 +19,10 @@ async function register() {
   const User = {
     email: email.value,
     tower: tower.value,
-    apt: apt.value,
+    apartment: apt.value,
     firstName: firstName.value,
     lastName: lastName.value,
+    phone: phone.value,
   };
 
   await fetch(`${api}`, {
@@ -32,10 +34,9 @@ async function register() {
   })
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       console.log(json.ok);
       if (json.ok) {
-        console.log(json);
+        router.push("/");
       } else {
         alert(json.message);
       }
@@ -80,8 +81,12 @@ async function register() {
           <input type="text" id="tower" v-model="tower" placeholder="Tower" />
         </div>
         <div class="apt">
-          <label for="apt">Apt</label>
+          <label for="apt">Apartment</label>
           <input type="text" id="apt" v-model="apt" placeholder="Apt" />
+        </div>
+         <div class="phone">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" v-model="phone" placeholder="Your Phone" />
         </div>
         <!-- <button type="submit">Login</button> -->
         <!-- button click  -->
