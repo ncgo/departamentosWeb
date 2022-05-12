@@ -1,6 +1,10 @@
 <script setup lang="ts">
 defineProps<{
-  amenity: object;
+  amenity : {
+    name : string,
+    description : string,
+    _id : string,
+  };
 }>();
 </script>
 

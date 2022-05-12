@@ -6,7 +6,12 @@ import {useRoute} from "vue-router";
   console.log(id);
 
 
-  const message = ref({});
+  const message = ref({
+    adminName : "",
+    date : "",
+    subject : "",
+    message : "",
+  });
 
   const getMessage = async () => {
     const res = await fetch(`${api}/message/${id}`, {

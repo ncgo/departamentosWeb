@@ -4,7 +4,10 @@ import { ref } from "vue";
 import SelectTime from "./SelectTime.vue";
 
 defineProps<{
-  service: object;
+  service: {
+    _id: string;
+    name: string;
+  };
 }>();
 
 const showTime = ref(false);
