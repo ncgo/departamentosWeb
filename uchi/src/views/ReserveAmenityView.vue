@@ -10,6 +10,7 @@ const amenityRef = ref({
   description: "",
   services: [{
     _id: "",
+    name: "",
   }],
 });
 const disabled = ref(true);
