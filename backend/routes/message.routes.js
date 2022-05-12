@@ -16,6 +16,18 @@ router.get("/:tower", async (req, res) => {
     return res.status(400).json({ ok: false, message: "Tower is required" });
   }
 });
+router.get("/first/:tower", async (req, res) => {
+  const tower = req.params.tower;
+  if (tower) {
+    const messages = await Message.findOne({ tower: tower }).sort({ date: -1 });
+    res.status(200).json({
+      ok: true,
+      messages,
+    });
+  } else {
+    return res.status(400).json({ ok: false, message: "Tower is required" });
+  }
+});
 
 router.get("/message/:id", async (req, res) => {
   const { id } = req.params;

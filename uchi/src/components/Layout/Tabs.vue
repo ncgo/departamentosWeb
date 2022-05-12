@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
+  const role = localStorage.getItem('role');
 </script>
 
 <template>
   <footer>
+    <RouterLink v-if="role==='admin'" to="/register">Register</RouterLink>
     <RouterLink to="/reserve">Reserve</RouterLink>
     <RouterLink to="/" class="tab">
       <i class="fa-solid fa-house"></i
