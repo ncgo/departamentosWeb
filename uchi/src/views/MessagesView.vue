@@ -3,7 +3,13 @@
   import { ref, useAttrs } from "@vue/runtime-core";
   const tower = localStorage.getItem("tower");
   const api = import.meta.env.VITE_HOST + "/api/message";
-  const messages = ref([]);
+  const messages = ref([{
+    _id: "",
+    adminName: "",
+    subject: "",
+    date: "",
+    
+  }]);
 
   const getMessages = async () => {
     const res = await fetch(`${api}/${tower}`, {

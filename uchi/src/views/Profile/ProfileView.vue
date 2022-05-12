@@ -4,7 +4,14 @@ import router from "../../router";
 
 const userID = localStorage.getItem("userID");
 
-const userRef = ref({});
+const userRef = ref({
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  tower: "",
+  apartment: "",
+});
 //!---------------------------------------------------------------------------------------------------------------------
 const api = import.meta.env.VITE_HOST + "/api/user";
 
