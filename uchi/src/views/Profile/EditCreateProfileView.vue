@@ -1,56 +1,57 @@
 <script setup lang="ts">
-import { ref, useAttrs } from "@vue/runtime-core";
-import { onMounted } from "vue";
-import router from "../router";
+  import { ref, useAttrs } from '@vue/runtime-core'
+  import { onMounted } from 'vue'
+  import router from '../../router'
 
-const userID = localStorage.getItem("userID");
-const firstName = ref("");
-const lastName = ref("");
-const birthdate = ref("");
-const email = ref("");
-const phone = ref("");
-const firstNameEmergency = ref("");
-const lastNameEmergency = ref("");
-const relationship = ref("");
-const phoneEmergency = ref("");
+  const userID = localStorage.getItem('userID')
+  const firstName = ref('')
+  const lastName = ref('')
+  const birthdate = ref('')
+  const email = ref('')
+  const phone = ref('')
+  const firstNameEmergency = ref('')
+  const lastNameEmergency = ref('')
+  const relationship = ref('')
+  const phoneEmergency = ref('')
 
-const api = import.meta.env.VITE_HOST + "/api/user/";
+  const api = import.meta.env.VITE_HOST + '/api/user/'
 
-const changeUser = async (e) => {
-  e.preventDefault();
+  const changeUser = async (e: any) => {
+    e.preventDefault()
 
-  const User = {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    birthdate: birthdate.value,
-    email: email.value,
-    phone: phone.value,
-    emergencyContact: {
-    firstNameEmergency: firstNameEmergency.value,
-    lastNameEmergency: lastNameEmergency.value,
-    relationship: relationship.value,
-    phoneEmergency: phoneEmergency.value,},
-  };
-  console.log(User)
+    const User = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      birthdate: birthdate.value,
+      email: email.value,
+      phone: phone.value,
+      emergencyContact: {
+        firstNameEmergency: firstNameEmergency.value,
+        lastNameEmergency: lastNameEmergency.value,
+        relationship: relationship.value,
+        phoneEmergency: phoneEmergency.value,
+      },
+    }
+    console.log(User)
 
-  const res = await fetch(`${api}/${userID}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(User),
-  });
+    const res = await fetch(`${api}/${userID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(User),
+    })
 
-  const resObject = await res.json();
+    const resObject = await res.json()
 
-  console.log(resObject);
-  console.log(resObject.ok);
+    console.log(resObject)
+    console.log(resObject.ok)
 
-  if (resObject.ok) {
-  } else {
-    alert(resObject.message);
+    if (resObject.ok) {
+    } else {
+      alert(resObject.message)
+    }
   }
-};
 </script>
 
 <template>
@@ -61,7 +62,7 @@ const changeUser = async (e) => {
     <div class="content">
       <form @submit="changeUser">
         <h2>Personal Information</h2>
-        
+
         <div class="firstName">
           <label for="firstName" class="title">First Name(s): </label>
           <input
@@ -94,23 +95,11 @@ const changeUser = async (e) => {
         </div>
         <div class="email">
           <label for="email" class="title">Email: </label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            required
-            v-model="email"
-          />
+          <input type="text" id="email" name="email" required v-model="email" />
         </div>
         <div class="phone">
           <label for="phone" class="title">Phone #: </label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            required
-            v-model="phone"
-          />
+          <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
 
         <h2>Emergency Contact Information</h2>
