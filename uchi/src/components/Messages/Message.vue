@@ -1,4 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {useRoute} from "vue-router";
+  const route = useRoute();
+  const id = route.params.id;
+  const api = import.meta.env.VITE_HOST + "/api/message"; 
+  console.log(id);
+
+
+  const message = ref({});
+
+  const getMessage = async () => {
+    const res = await fetch(`${api}/message/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => res.json());
+    message.value = res.message;
+    //refresh page
+  };
+
+  getMessage();
+  
+
+</script>
 
 <template>
   <section>
@@ -8,24 +33,19 @@
         alt=""
         class="imgSender"
       />
-      <h2 class="sender">[ADMIN] {{ $route.params.id }}</h2>
-      <p class="date">[date sent]</p>
+      <h2 class="sender">{{message.adminName}}</h2>
+      <p class="date">{{message.date}}</p>
     </div>
 
     <div class="content">
-      <h1>[Message subject]</h1>
-      ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum."]
+      <h1>{{message.subject}}</h1>
+      <p class="msgSubject">{{message.message}}</p>
     </div>
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts">import { ref } from '@vue/runtime-dom';
+
   export default {
     name: 'Profile',
     data() {
