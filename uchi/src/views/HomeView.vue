@@ -240,9 +240,6 @@
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
   }
 
-  #messages-admin h2 {
-  }
-
   form {
     display: block;
     width: 100%;

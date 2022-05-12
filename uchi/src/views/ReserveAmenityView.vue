@@ -1,34 +1,39 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
+  import { ref } from 'vue'
+  import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
 
-import ServiciosCard from "../components/Reserve/ServiciosCard.vue";
+  import ServiciosCard from '../components/Reserve/ServiciosCard.vue'
 
-const amenityRef = ref({
-  name: "",
-  description: "",
-  services: [{
-    _id: "",
-  }],
-});
-const disabled = ref(true);
+  const amenityRef = ref({
+    name: '',
+    description: '',
+    services: [
+      {
+        _id: '',
+        name: '',
+      },
+    ],
+  })
+  const disabled = ref(true)
 
-const getAmenity = async () => {
-  const route = useRoute();
-  const id = route.params.id;
+  const getAmenity = async () => {
+    const route = useRoute()
+    const id = route.params.id
 
-  const amenity = await fetch(`${import.meta.env.VITE_HOST}/api/amenity/${id}`);
-  const amenityJson = await amenity.json();
+    const amenity = await fetch(
+      `${import.meta.env.VITE_HOST}/api/amenity/${id}`
+    )
+    const amenityJson = await amenity.json()
 
-  if (amenityJson.amenity) {
-    amenityRef.value = amenityJson.amenity;
+    if (amenityJson.amenity) {
+      amenityRef.value = amenityJson.amenity
+    }
   }
-};
 
-onMounted(() => {
-  getAmenity();
-});
+  onMounted(() => {
+    getAmenity()
+  })
 </script>
 
 <template>
@@ -48,20 +53,20 @@ onMounted(() => {
 </template>
 
 <style scoped>
-main {
-  padding: 1.5rem;
-}
+  main {
+    padding: 1.5rem;
+  }
 
-h2 {
-  margin-top: 2rem;
-}
+  h2 {
+    margin-top: 2rem;
+  }
 
-.grid {
-  display: grid;
-  list-style: none;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 30px;
-  margin-top: 1rem;
-  padding: 0;
-}
+  .grid {
+    display: grid;
+    list-style: none;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 30px;
+    margin-top: 1rem;
+    padding: 0;
+  }
 </style>
