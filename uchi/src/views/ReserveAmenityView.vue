@@ -5,7 +5,13 @@ import { useRoute } from "vue-router";
 
 import ServiciosCard from "../components/Reserve/ServiciosCard.vue";
 
-const amenityRef = ref({});
+const amenityRef = ref({
+  name: "",
+  description: "",
+  services: [{
+    _id: "",
+  }],
+});
 const disabled = ref(true);
 
 const getAmenity = async () => {
