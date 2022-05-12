@@ -1,41 +1,40 @@
 <script setup lang="ts">
-import { ref } from '@vue/runtime-dom';
+  import { ref } from '@vue/runtime-dom'
 
-const role = localStorage.getItem('role');
-const subject = ref('');
-const message = ref('');
+  const role = localStorage.getItem('role')
+  const subject = ref('')
+  const message = ref('')
 
-const api = import.meta.env.VITE_HOST + "/api/message";
+  const api = import.meta.env.VITE_HOST + '/api/message'
 
-async function sendMessage(){
+  async function sendMessage() {
+    const admin = localStorage.getItem('userID')
+    const tower = localStorage.getItem('tower')
 
-  const admin = localStorage.getItem('userID');
-  const tower = localStorage.getItem('tower');
-
-  const data = {
-    admin: admin,
-    tower: tower,
-    message: message.value,
-    subject: subject.value
-  };
-
-  await fetch(api, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then(res => res.json())
-  .then(resObject => {
-    if (resObject.ok) {
-      message.value = "";
-      subject.value = "";
-    } else {
-      alert(resObject.message);
+    const data = {
+      admin: admin,
+      tower: tower,
+      message: message.value,
+      subject: subject.value,
     }
-  });
-}
 
+    await fetch(api, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((resObject) => {
+        if (resObject.ok) {
+          message.value = ''
+          subject.value = ''
+        } else {
+          alert(resObject.message)
+        }
+      })
+  }
 </script>
 
 <template>
@@ -85,7 +84,7 @@ async function sendMessage(){
             rows="3"
             placeholder="Enter message"
             v-model="message"
-            ></textarea>
+          ></textarea>
           <button type="submit" class="btn btn-primary">Send</button>
         </div>
       </form>
@@ -174,18 +173,18 @@ async function sendMessage(){
     font-weight: bold;
   }
 
-h3 {
-  color: white;
-}
+  h3 {
+    color: white;
+  }
 
-h2,
-th {
-  font-weight: bold;
-}
+  h2,
+  th {
+    font-weight: bold;
+  }
 
-#messages {
-  margin-top: 2vh;
-}
+  #messages {
+    margin-top: 2vh;
+  }
 
   #amenities {
     margin: 2vh 0;
@@ -223,14 +222,13 @@ th {
     color: #5aff15;
   }
 
-table {
-  width: 100%;
-}
+  table {
+    width: 100%;
+  }
 
-#messages-admin{
-  margin-top: 2vh;
-  
-}
+  #messages-admin {
+    margin-top: 2vh;
+  }
   .text {
     padding: 0 1vw;
     width: 80%;
@@ -242,111 +240,113 @@ table {
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
   }
 
-#messages-admin h2{
-}
+  #messages-admin h2 {
+  }
 
-form{
-  display: block;
-  width: 100%;
-  margin: 0 auto;
-  border: solid #7b2cbf;
-  border-radius: 10px;
-  padding: 1rem;
-}
+  form {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    border: solid #7b2cbf;
+    border-radius: 10px;
+    padding: 1rem;
+  }
 
-@media(min-width: 991px) {
-  form{
-    width: 50%;
+  @media (min-width: 991px) {
+    form {
+      width: 50%;
+    }
+    .msg {
+      display: flex;
+      align-items: center;
+      border: solid #7b2cbf;
+      border-radius: 15px;
+      margin-bottom: 1vh;
+      -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
+      box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
+      padding: 0.3rem;
+    }
+  }
+
+  .form-group textarea {
+    width: 100%;
+    resize: none;
+    margin-bottom: 2vh;
+    border: #7b2cbf solid 2px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .form-group textarea:active,
+  .form-group textarea:focus {
+    outline: none;
+  }
+
+  .form-group button {
+    padding: 0.5rem;
+    width: 10rem;
+    border: none;
+    background-color: #7b2cbf;
+    color: white;
+    border-radius: 0.5rem;
+  }
+
+  .form-group button:hover {
+    cursor: pointer;
+    background-color: #8f48cd;
+  }
+
+  .image {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .text {
+    width: 80%;
+    padding: 0 1vw;
+  }
+  .imgSender {
+    height: 2.5rem;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
+    box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
+  }
+
+  .sender {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .msgSubject {
+    text-align: left;
+  }
+
   .msg {
     display: flex;
     align-items: center;
     border: solid #7b2cbf;
     border-radius: 15px;
     margin-bottom: 1vh;
+    width: 100%;
     -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
     padding: 0.3rem;
   }
-}
 
-.form-group textarea{
-  width: 100%;
-  resize: none;
-  margin-bottom: 2vh;
-  border: #7b2cbf solid 2px;
-  padding: .5rem 1rem;
-  border-radius: .5rem;
-}
+  .date {
+    font-size: 0.7rem;
+    text-align: right;
+  }
 
-.form-group textarea:active, .form-group textarea:focus{
-  outline: none;
-}
+  a {
+    text-decoration: none;
+    color: #7b2cbf;
+  }
 
-.form-group button{
-  padding: 0.5rem;
-  width: 10rem;
-  border: none;
-  background-color: #7b2cbf;
-  color: white;
-  border-radius: .5rem;
-}
-
-.form-group button:hover{
-  cursor: pointer;
-  background-color: #8f48cd;
-}
-
-.image {
-  width: 20%;
-  display: flex;
-  justify-content: center;
-}
-
-.text {
-  width: 80%;
-  padding: 0 1vw;
-}
-.imgSender {
-  height: 2.5rem;
-  border-radius: 50%;
-  -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
-  box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 1);
-}
-
-.sender {
-  font-weight: bold;
-  text-align: left;
-}
-
-.msgSubject {
-  text-align: left;
-}
-
-.msg {
-  display: flex;
-  align-items: center;
-  border: solid #7b2cbf;
-  border-radius: 15px;
-  margin-bottom: 1vh;
-  width: 100%;
-  -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
-  box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.8);
-  padding: 0.3rem;
-}
-
-.date {
-  font-size: 0.7rem;
-  text-align: right;
-}
-
-a {
-  text-decoration: none;
-  color: #7b2cbf;
-}
-
-a:visited {
-  color: black;
-}
+  a:visited {
+    color: black;
+  }
 
   .button {
     background: rgb(123, 44, 191);

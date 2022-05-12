@@ -11,12 +11,13 @@
 
   const api = import.meta.env.VITE_HOST + '/api/report'
 
-  async function getUser() {}
+  async function getUserInfo() {}
 
   async function addReport() {
     const Report = {
       user: user.value,
       description: description.value,
+      subject: subject.value,
       tower: tower.value,
       apartment: apartment.value,
       status: 'Created',
