@@ -7,24 +7,33 @@
     ></router-link>
     <div class="card">
       <h1>Report [ID]</h1>
-      <table>
-        <tr>
-          <th>Date created:</th>
-          <td>[DATE]</td>
+      <h2>[SUBJECT]</h2>
+      <p>[Description]</p>
+      <div class="details">
+        <table>
+          <tr>
+            <th>Date created:</th>
+            <td>[DATE]</td>
+          </tr>
+          <!-- <tr>
+          <th>Created by:</th>
+          <td>[AUTHOR]</td>
         </tr>
         <tr>
-          <th>Description:</th>
-          <td>[Lorem ipsum dolor et amel]</td>
+          <th>Tower:</th>
+          <td>[TOWER]</td>
         </tr>
         <tr>
-          <th>Notes:</th>
-          <td>[Lorem ipsum dolor et amel]</td>
-        </tr>
-        <tr>
-          <th>Status:</th>
-          <td>[STATUS]</td>
-        </tr>
-      </table>
+          <th>Apartment:</th>
+          <td>[Apt]</td>
+        </tr> -->
+          <tr>
+            <th>Status:</th>
+            <td>[STATUS]</td>
+          </tr>
+        </table>
+      </div>
+      <p class="text-muted">Updated on: [DATE]</p>
     </div>
   </main>
 </template>
@@ -56,7 +65,6 @@
 
   h1 {
     font-weight: bold;
-    margin-bottom: 1.5rem;
   }
   #goBack {
     background: rgb(123, 44, 191);
@@ -83,10 +91,24 @@
     box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
     width: 50%;
   }
-
+  .details {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+  table {
+    margin-top: 1.5rem;
+    text-align: end;
+  }
   th {
     color: #7b2cbf;
     font-weight: bold;
     text-align: left;
+  }
+
+  .text-muted {
+    text-align: right;
+    font-size: small;
+    color: gray;
   }
 </style>

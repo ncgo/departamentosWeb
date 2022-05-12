@@ -37,7 +37,7 @@ const router = createRouter({
     {
       path: "/reports/add",
       name: "Add Report",
-      component: () => import("../views/Reports/ReportView.vue"),
+      component: () => import("../views/Reports/AddReportView.vue"),
     },
     {
       path: "/messages",

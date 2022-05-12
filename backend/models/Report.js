@@ -1,13 +1,17 @@
 // # 1
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 // # 2
 var reportSchema = Schema(
   {
     user: {
       type: Schema.ObjectId,
-      ref: "users",
+      ref: 'users',
+      required: true,
+    },
+    subject: {
+      type: String,
       required: true,
     },
     description: {
@@ -16,17 +20,17 @@ var reportSchema = Schema(
     },
     tower: {
       type: Schema.ObjectId,
-      ref: "towers",
+      ref: 'towers',
       required: true,
     },
     apartment: {
       type: Schema.ObjectId,
-      ref: "apartments",
+      ref: 'apartments',
       required: true,
     },
     status: {
       type: String,
-      default: "pending",
+      default: 'pending',
     },
     resolved: {
       type: Boolean,
@@ -34,7 +38,7 @@ var reportSchema = Schema(
     },
   },
   { timestamps: true }
-);
+)
 
 // # 3
-module.exports = mongoose.model("reports", reportSchema);
+module.exports = mongoose.model('reports', reportSchema)
