@@ -14,7 +14,7 @@ const lastNameEmergency = ref("");
 const relationship = ref("");
 const phoneEmergency = ref("");
 
-const api = import.meta.env.VITE_HOST + "/api/user/";
+const api = import.meta.env.VITE_HOST + "/api/user";
 
 const changeUser = async (e: any) => {
   e.preventDefault();
@@ -150,20 +150,26 @@ const changeUser = async (e: any) => {
 </template>
 
 <script lang="ts">
+const userID = localStorage.getItem("userID");
+const api = import.meta.env.VITE_HOST + "/api/user";
+const response = await fetch(`${api}/${userID}`);
+  
+const user = await response.json();
+console.log(user)
 export default {
   name: "Profile",
   data() {
     return {
       create: true,
       user: {
-        firstName: "",
-        lastName: "",
-        birthdate: "",
-        email: "",
-        role: "",
-        phone: "",
-        tower: "",
-        apartment: "",
+        firstName: user.user.firstName,
+        lastName: user.user.lastName,
+        birthdate: user.user.birthDate,
+        email: user.user.email,
+        role: user.user.role,
+        phone: user.user.phone,
+        tower: user.user.tower,
+        apartment: user.user.apartment,
         emergencyContact: {
           firstName: "",
           lastName: "",

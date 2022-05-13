@@ -23,7 +23,12 @@ async function fetchUser() {
 
 fetchUser().then((user) => {
   console.log(user.user);
-  userRef.value = user.user;
+  let us = user.user
+  userRef.value.firstName = us.firstName;
+  userRef.value.lastName = us.lastName;
+  userRef.value.tower = us.tower;
+  userRef.value.email = us.email;
+  userRef.value.phone = us.phone;
   console.log(userRef.value);
 });
 

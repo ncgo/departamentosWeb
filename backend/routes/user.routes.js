@@ -30,8 +30,15 @@ router.get("/:id", async (req, res) => {
   } else {
 
     const tower = await Tower.findById(user.tower);
+    const tower_name = ""
+    if (tower){
+      tower_name = tower.name
+    }
     const apartment = await Apartment.findById(user.apartment);
-
+    const apartment_name = ""
+    if (apartment){
+      apartment_name = apartment.name
+    }
     const User = {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -39,8 +46,8 @@ router.get("/:id", async (req, res) => {
       email: user.email,
       phone: user.phone,
       role: user.role,
-      tower: tower.name,
-      apartment: apartment.name,
+      tower: tower_name,
+      apartment: apartment_name,
     };
 
     console.log(user);
