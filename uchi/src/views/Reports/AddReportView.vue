@@ -9,7 +9,7 @@
   const tower = ref('')
   const apartment = ref('')
 
-  const api = import.meta.env.VITE_HOST + '/api/report'
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/report'
 
   async function getUserInfo() {}
 

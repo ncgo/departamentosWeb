@@ -8,7 +8,9 @@
   const disabled = ref(true)
 
   const getAmenities = async () => {
-    const amenities = await fetch(`${import.meta.env.VITE_HOST}/api/amenity`)
+    const amenities = await fetch(
+      `${'https://protected-wildwood-95234.herokuapp.com'}/api/amenity`
+    )
     const amenitiesJson = await amenities.json()
     if (amenitiesJson.amenities) {
       amenitiesRef.value = amenitiesJson.amenities

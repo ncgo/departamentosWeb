@@ -6,7 +6,7 @@
   const email = ref('')
   const password = ref('')
 
-  const api = import.meta.env.VITE_HOST + '/api/login'
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/login'
 
   const login = async (e: any) => {
     e.preventDefault()

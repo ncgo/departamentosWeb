@@ -14,7 +14,7 @@
   const relationship = ref('')
   const phoneEmergency = ref('')
 
-  const api = import.meta.env.VITE_HOST + '/api/user/'
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/user/'
 
   const changeUser = async (e: any) => {
     e.preventDefault()

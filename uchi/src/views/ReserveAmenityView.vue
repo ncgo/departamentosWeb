@@ -22,7 +22,7 @@
     const id = route.params.id
 
     const amenity = await fetch(
-      `${import.meta.env.VITE_HOST}/api/amenity/${id}`
+      `${'https://protected-wildwood-95234.herokuapp.com'}/api/amenity/${id}`
     )
     const amenityJson = await amenity.json()
 

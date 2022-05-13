@@ -12,7 +12,7 @@
     _id: '',
   })
 
-  const api = import.meta.env.VITE_HOST + '/api/message'
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/message'
 
   async function sendMessage() {
     const admin = localStorage.getItem('userID')

@@ -1,33 +1,29 @@
 <script setup lang="ts">
-import {useRoute} from "vue-router";
-  const route = useRoute();
-  const id = route.params.id;
-  const api = import.meta.env.VITE_HOST + "/api/message"; 
-  console.log(id);
-
+  import { useRoute } from 'vue-router'
+  const route = useRoute()
+  const id = route.params.id
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/message'
+  console.log(id)
 
   const message = ref({
-    adminName : "",
-    date : "",
-    subject : "",
-    message : "",
-  });
+    adminName: '',
+    date: '',
+    subject: '',
+    message: '',
+  })
 
   const getMessage = async () => {
     const res = await fetch(`${api}/message/${id}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    })
-    .then(res => res.json());
-    message.value = res.message;
+    }).then((res) => res.json())
+    message.value = res.message
     //refresh page
-  };
+  }
 
-  getMessage();
-  
-
+  getMessage()
 </script>
 
 <template>
@@ -38,18 +34,19 @@ import {useRoute} from "vue-router";
         alt=""
         class="imgSender"
       />
-      <h2 class="sender">{{message.adminName}}</h2>
-      <p class="date">{{message.date}}</p>
+      <h2 class="sender">{{ message.adminName }}</h2>
+      <p class="date">{{ message.date }}</p>
     </div>
 
     <div class="content">
-      <h1>{{message.subject}}</h1>
-      <p class="msgSubject">{{message.message}}</p>
+      <h1>{{ message.subject }}</h1>
+      <p class="msgSubject">{{ message.message }}</p>
     </div>
   </section>
 </template>
 
-<script lang="ts">import { ref } from '@vue/runtime-dom';
+<script lang="ts">
+  import { ref } from '@vue/runtime-dom'
 
   export default {
     name: 'Profile',

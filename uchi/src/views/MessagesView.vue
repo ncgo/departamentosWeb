@@ -1,61 +1,57 @@
 <script setup lang="ts">
-
-  import { ref, useAttrs } from "@vue/runtime-core";
-  const tower = localStorage.getItem("tower");
-  const api = import.meta.env.VITE_HOST + "/api/message";
-  const messages = ref([{
-    _id: "",
-    adminName: "",
-    subject: "",
-    date: "",
-    
-  }]);
+  import { ref, useAttrs } from '@vue/runtime-core'
+  const tower = localStorage.getItem('tower')
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/message'
+  const messages = ref([
+    {
+      _id: '',
+      adminName: '',
+      subject: '',
+      date: '',
+    },
+  ])
 
   const getMessages = async () => {
     const res = await fetch(`${api}/${tower}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    })
-    .then(res => res.json());
-    messages.value = res.messages;
-    console.log(res);
-  };
+    }).then((res) => res.json())
+    messages.value = res.messages
+    console.log(res)
+  }
 
-  getMessages();
-
-
+  getMessages()
 </script>
 
 <template>
-    <h1>Messages</h1>
-    <div class="content">
-      <table>
-        <router-link
-          v-for="(message, index) in messages"
-          :key="index"
-          :to="`/messages/message/${message._id}`"
-        >
-          <tr class="msg">
-            <td class="image">
-              <img
-                src="../assets/logo-uchi-encima-morado.png"
-                alt=""
-                class="imgSender"
-              />
-            </td>
-            <td class="text">
-              <p class="sender">[ADMIN] {{ message.adminName }}</p>
-              <p class="msgSubject">[Message subject] {{message.subject}} </p>
-              <p class="date">[date sent] {{message.date}}</p>
-            </td>
-          </tr>
-        </router-link>
-      </table>
-      <div class="message"><router-view></router-view></div>
-    </div>
-       
+  <h1>Messages</h1>
+  <div class="content">
+    <table>
+      <router-link
+        v-for="(message, index) in messages"
+        :key="index"
+        :to="`/messages/message/${message._id}`"
+      >
+        <tr class="msg">
+          <td class="image">
+            <img
+              src="../assets/logo-uchi-encima-morado.png"
+              alt=""
+              class="imgSender"
+            />
+          </td>
+          <td class="text">
+            <p class="sender">[ADMIN] {{ message.adminName }}</p>
+            <p class="msgSubject">[Message subject] {{ message.subject }}</p>
+            <p class="date">[date sent] {{ message.date }}</p>
+          </td>
+        </tr>
+      </router-link>
+    </table>
+    <div class="message"><router-view></router-view></div>
+  </div>
 </template>
 
 <style scoped>

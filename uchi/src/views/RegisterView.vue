@@ -11,7 +11,7 @@
   const lastName = ref('')
   const phone = ref('')
 
-  const api = import.meta.env.VITE_HOST + '/api/user'
+  const api = 'https://protected-wildwood-95234.herokuapp.com' + '/api/user'
 
   async function register() {
     //login
