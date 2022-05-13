@@ -29,6 +29,7 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Allow-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(data),
     })

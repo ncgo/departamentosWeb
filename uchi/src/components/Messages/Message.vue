@@ -16,6 +16,7 @@
     const res = await fetch(`${api}/message/${id}`, {
       method: 'GET',
       headers: {
+        'Allow-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
       },
     }).then((res) => res.json())
