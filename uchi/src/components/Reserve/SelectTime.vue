@@ -12,6 +12,8 @@ const meetingsDays = ref([]);
 const nbDaysToDisplay = ref(5);
 const date = ref(new Date());
 
+const dateSelected = ref(false);
+
 const initMeetingsDays = () => {
   const start = {
     hours: 8,
@@ -104,8 +106,14 @@ const previousDate = () => {
   );
 };
 
-const handle = (meeting) => {
-  console.log(meeting);
+const handleSelect = (meeting) => {
+  console.log(meeting.date);
+  dateSelected.value = true;
+};
+
+const handleUnselect = () => {
+  console.log("unselected");
+  dateSelected.value = false;
 };
 </script>
 
@@ -122,8 +130,13 @@ const handle = (meeting) => {
       :meetings-days="meetingsDays"
       @next-date="nextDate"
       @previous-date="previousDate"
-      @meeting-slot-selected="handle"
+      @meeting-slot-selected="handleSelect"
+      @meeting-slot-unselected="handleUnselect"
     />
+    <div v-if="dateSelected">
+      <button>Confirm</button>
+      <p>{{ meeting && meeting }}</p>
+    </div>
   </div>
 </template>
 
@@ -157,5 +170,14 @@ const handle = (meeting) => {
 .close:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.meeting__button {
+  background-color: #ba76f4;
+  color: #f0f0f0;
+}
+
+.meeting__button.meeting__button--selected {
+  background-color: #7b2cbf;
 }
 </style>
