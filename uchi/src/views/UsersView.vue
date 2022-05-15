@@ -1,81 +1,42 @@
-<script setup lang="ts">
-import { ref, useAttrs } from "@vue/runtime-core";
-import { onMounted } from "vue";
-import router from "../router";
 
-const email = ref("");
-const password = ref("");
-
-const api = import.meta.env.VITE_HOST + "/api/login";
-
-const login = async (e: any) => {
-  e.preventDefault();
-
-  const User = {
-    email: email.value,
-    password: password.value,
-  };
-
-  const res = await fetch(api, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(User),
-  });
-
-  const resObject = await res.json();
-
-  console.log(resObject);
-  console.log(resObject.ok);
-
-  if (resObject.ok) {
-    localStorage.setItem("token", resObject.token);
-    localStorage.setItem("userID", resObject.user.id);
-    localStorage.setItem("userFName", resObject.user.firstName);
-    localStorage.setItem("userLName", resObject.user.lastName);
-    localStorage.setItem("role", resObject.user.role);
-    localStorage.setItem("tower", resObject.user.tower);
-
-    router.push("/");
-  } else {
-    alert(resObject.message);
-  }
-};
-</script>
 <template>
   <div>
 
     <div class="row p-4">
       <div class="col-md-12">
-        <h1 class="d-inline">Items</h1>
-        <router-link :to="{ name: 'CreateItem' }" class="btn btn-primary float-right mt-2">
-          Create Item
-        </router-link>
+        <h1 class="d-inline">Users</h1>
+        
       </div>
     </div><br />
 
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <td>ID</td>
-          <td>Item Name</td>
-          <td>Item Price</td>
-          <td>Actions</td>
+          <td>First Name</td>
+          <td>Last Name</td>
+          <td>Tower</td>
+          <td>Email</td>
+          <td>Phone</td>
+          <td>Apartment</td>
+          <td>Role</td>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="item in items">
-          <td>{{ item._id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.price }}</td>
+        <tr v-for="user in users">
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.tower }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.apartment }}</td>
+          <td>{{ user.role }}</td>
           <td>
-            <router-link :to="{ name: 'EditItem', params: {id: item._id} }" class="btn btn-primary">
+            <button class="btn blue" v-on:click="editUser(user._id)">
               Edit
-            </router-link>
+            </button>
 
-            <button class="btn btn-danger" v-on:click="deleteItem(item._id)">
+            <button class="btn btn-danger" v-on:click="deleteUser(user._id)">
               Delete
             </button>
           </td>
@@ -86,32 +47,63 @@ const login = async (e: any) => {
 </template>
 
 <script>
+import { ref } from "vue";
+import router from "../router";
+
+async function fetchUserss(users_ref){
+  const api = import.meta.env.VITE_HOST + "/api/user";
+  const response = await fetch(api);
+  const jj = await response.json();
+  console.log(jj.users, users_ref);
+  users_ref = jj.users;
+  console.log(users_ref)
+  return jj.users
+}
+
 export default {
   data(){
     return{
-      items: []
+      users: ["hola"]
     }
   },
   created: function()
   {
-    this.fetchItems();
+    this.fetchUsers();
   },
   methods: {
-    fetchItems()
+    async fetchUsers()
     {
-      const uri = import.meta.env.VITE_HOST + "/api/user";
-      this.axios.get(uri).then((response) => {
-        this.users = response.data;
-      });
+      this.users = await fetchUserss(this.users.target)
+      console.log(this.users)
     },
-    deleteItem(id)
+    editUser(userID)
     {
-      const response = confirm('are you sure you want to delete?');
+      const api = import.meta.env.VITE_HOST + "/api/user";
+      const response = confirm('are you sure you want to delete this user?');
       if (response) {
-        let uri = 'http://localhost:4000/items/delete/'+id;
-        this.items.splice(id, 1);
-        this.axios.get(uri);
+        this.users.splice(this.get_pos_user(userID), 1);
+        fetch(api).then(function(data) {});
       }
+    },
+    deleteUser(userID)
+    {
+      const api = import.meta.env.VITE_HOST + "/api/user";
+      const response = confirm('are you sure you want to delete this user?');
+      if (response) {
+        this.users.splice(this.get_pos_user(userID), 1);
+        fetch(api).then(function(data) {});
+      }
+    },
+    get_pos_user(userID)
+    {
+      for (var i = 0; i < this.users.length; i++)
+      {
+        if (this.users[i]._id == userID)
+        {
+          return i;
+        }
+      }
+      return -1;
     }
   }
 }

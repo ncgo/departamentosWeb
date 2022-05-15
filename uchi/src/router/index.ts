@@ -65,6 +65,11 @@ const router = createRouter({
       name: "Register User",
       component: () => import("../views/RegisterView.vue"),
     },
+    {
+      path: "/holi",
+      name: "Register User",
+      component: () => import("../views/UsersView.vue"),
+    },
   ],
 });
 
