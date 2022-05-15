@@ -21,3 +21,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.meeting__button {
+  background-color: #ba76f4 !important;
+  color: #f0f0f0 !important;
+}
+
+.meeting__button:hover {
+  background-color: #7b2cbf !important;
+}
+
+.meeting__button.meeting__button--selected {
+  background-color: #7b2cbf !important;
+}
+
+.meeting-selector .tab__pagination__button {
+  cursor: pointer !important;
+  color: #7b2cbf !important;
+}
+
+.meeting-selector .tab__day {
+  border-bottom: 0 !important;
+}

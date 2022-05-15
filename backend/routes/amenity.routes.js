@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Amenity = require("../models/Amenity");
+const authenticateToken = require("../middleware/authenticateToken");
 
 router.get("/", async (req, res) => {
   const amenities = await Amenity.find();
@@ -68,6 +69,30 @@ router.put("/:id", async (req, res) => {
       message: "Error updating amenity",
     });
   }
+});
+
+router.post("/:aid/reserve", authenticateToken, async (req, res) => {
+  const { aid } = req.params;
+  const { id, date } = req.body;
+
+  console.log(aid, id, date, req.user.user._id);
+
+  // const newAmenity = await Amenity.findByIdAndUpdate(id, update, {
+  //   new: true,
+  // });
+
+  // if (newAmenity) {
+  res.status(201).json({
+    ok: true,
+    message: "Amenity updated",
+    // amenity: newAmenity,
+  });
+  // } else {
+  //   res.status(500).json({
+  //     ok: false,
+  //     message: "Error updating amenity",
+  //   });
+  // }
 });
 
 router.delete("/:id", async (req, res) => {
