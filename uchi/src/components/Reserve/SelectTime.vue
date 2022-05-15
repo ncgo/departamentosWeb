@@ -13,6 +13,7 @@ const nbDaysToDisplay = ref(5);
 const date = ref(new Date());
 
 const dateSelected = ref(false);
+const dateClean = ref("");
 
 const initMeetingsDays = () => {
   const start = {
@@ -107,12 +108,23 @@ const previousDate = () => {
 };
 
 const handleSelect = (meeting) => {
-  console.log(meeting.date);
+  console.log(meeting.date.toISOString());
   dateSelected.value = true;
+
+  let dt = meeting.date;
+  dateClean.value = `${(dt.getMonth() + 1).toString().padStart(2, "0")}/${dt
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${dt.getFullYear().toString().padStart(4, "0")} ${dt
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${dt.getMinutes().toString().padStart(2, "0")}:${dt
+    .getSeconds()
+    .toString()
+    .padStart(2, "0")}`;
 };
 
 const handleUnselect = () => {
-  console.log("unselected");
   dateSelected.value = false;
 };
 </script>
@@ -133,9 +145,9 @@ const handleUnselect = () => {
       @meeting-slot-selected="handleSelect"
       @meeting-slot-unselected="handleUnselect"
     />
-    <div v-if="dateSelected">
-      <button>Confirm</button>
-      <p>{{ meeting && meeting }}</p>
+    <div class="confirmContainer" v-if="dateSelected">
+      <button class="confirmBtn">Confirm</button>
+      <p>{{ dateClean }}</p>
     </div>
   </div>
 </template>
@@ -172,12 +184,28 @@ const handleUnselect = () => {
   text-decoration: underline;
 }
 
-.meeting__button {
-  background-color: #ba76f4;
-  color: #f0f0f0;
+.confirmContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0rem;
 }
 
-.meeting__button.meeting__button--selected {
+.confirmBtn {
+  width: 7rem;
+  background-color: #ba76f4;
+  border: 0;
+  border-radius: 0.4rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 2rem;
+  margin-right: 1rem;
+}
+
+.confirmBtn:hover {
   background-color: #7b2cbf;
+  cursor: pointer;
 }
 </style>

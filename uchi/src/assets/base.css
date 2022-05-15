@@ -39,3 +39,7 @@ body {
   cursor: pointer !important;
   color: #7b2cbf !important;
 }
+
+.meeting-selector .tab__day {
+  border-bottom: 0 !important;
+}
