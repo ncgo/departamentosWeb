@@ -29,6 +29,7 @@ fetchUser().then((user) => {
   userRef.value.tower = us.tower;
   userRef.value.email = us.email;
   userRef.value.phone = us.phone;
+  userRef.value.role = us.role;
   console.log(userRef.value);
 });
 
@@ -63,7 +64,7 @@ const signOut = () => {
       </table>
     </div>
 
-    <p class="role"><span class="title">Role: </span> User</p>
+    <p class="role"><span class="title">Role: </span> {{ userRef.role }}</p>
     <router-link class="button" to="/profile/edit">Edit</router-link>
     <button class="button" @click="signOut">Sign Out</button>
   </main>
