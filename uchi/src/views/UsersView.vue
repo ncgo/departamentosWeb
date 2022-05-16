@@ -19,6 +19,7 @@
           <td>Phone</td>
           <td>Apartment</td>
           <td>Role</td>
+          <td>Actions</td>
         </tr>
       </thead>
 
@@ -93,18 +94,6 @@ export default {
 </script>
 
 <style scoped>
-main {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-    160deg,
-    rgb(123, 44, 191) 0%,
-    rgb(110, 57, 157) 35%,
-    rgb(58, 41, 97) 100%
-  );
-}
 
 .container {
   display: flex;
@@ -172,4 +161,37 @@ button:hover {
   cursor: pointer;
   background-color: rgb(191, 141, 235);
 }
+table {
+    background-color: #f9f4f5;
+    padding: 2rem;
+    border-radius: 25px;
+    -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+    width: 50%;
+    border-collapse: collapse;
+    text-align: center;
+
+  }
+  thead {
+    border-bottom: solid 2px green;
+  }
+  tr td {
+    border-left: solid 2px grey;
+    padding: 8px;
+  }
+  th {
+    border-bottom: #7b2cbf solid;
+    border-collapse: collapse;
+    color: #7b2cbf;
+    font-weight: bold;
+    text-align: center;
+    border-left: solid 2px red;
+  }
+  .tableRow {
+    text-align: center;
+  }
+  .tableRow:hover {
+    background-color: #c8b8db;
+    color: white;
+  }
 </style>
