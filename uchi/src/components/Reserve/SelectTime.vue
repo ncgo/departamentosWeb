@@ -156,6 +156,7 @@ const handleSubmit = async (e) => {
   });
 
   const resObject = await res.json();
+  alert(resObject.message);
 };
 </script>
 
