@@ -1,13 +1,11 @@
-
 <template>
   <div>
-
     <div class="row p-4">
       <div class="col-md-12">
         <h1 class="d-inline">Users</h1>
-        
       </div>
-    </div><br />
+    </div>
+    <br />
 
     <table class="table table-hover table-bordered">
       <thead>
@@ -33,7 +31,10 @@
           <td>{{ user.apartment }}</td>
           <td>{{ user.role }}</td>
           <td>
-            <router-link :to="{ name: 'User Edit', params: {id: user._id} }" class="button">
+            <router-link
+              :to="{ name: 'User Edit', params: { id: user._id } }"
+              class="button"
+            >
               Edit
             </router-link>
 
@@ -47,50 +48,46 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "vue";
 import router from "../router";
 
 export default {
-  data(){
-    return{
-      users: []
-    }
+  data() {
+    return {
+      users: [],
+    };
   },
-  created: function()
-  {
+  created: function () {
     this.fetchUsers();
   },
   methods: {
-    async fetchUsers()
-    {
+    async fetchUsers() {
       const api = import.meta.env.VITE_HOST + "/api/user";
       const response = await fetch(api);
       const data = await response.json();
-      this.users = data.users
+      this.users = data.users;
     },
-    deleteUser(userID)
-    {
+    deleteUser(userID) {
       const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = confirm('are you sure you want to delete this user?');
+      const response = confirm("are you sure you want to delete this user?");
       if (response) {
         this.users.splice(this.get_pos_user(userID), 1);
-        fetch(`${api}/${userID}`, {method: 'DELETE'}).then(function(data) {});
+        fetch(`${api}/${userID}`, { method: "DELETE" }).then(function (
+          data
+        ) {});
       }
     },
-    get_pos_user(userID)
-    {
-      for (var i = 0; i < this.users.length; i++)
-      {
-        if (this.users[i]._id == userID)
-        {
+    get_pos_user(userID) {
+      for (var i = 0; i < this.users.length; i++) {
+        if (this.users[i]._id == userID) {
           return i;
         }
       }
       return -1;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
