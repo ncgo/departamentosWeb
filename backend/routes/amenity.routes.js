@@ -97,13 +97,13 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   if (newAmenity) {
     res.status(201).json({
       ok: true,
-      message: "Amenity updated",
+      message: "Amenity reserved successfully",
       amenity: newAmenity,
     });
   } else {
     res.status(500).json({
       ok: false,
-      message: "Error updating amenity",
+      message: "Error reserving amenity",
     });
   }
 });
