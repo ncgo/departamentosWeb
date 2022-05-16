@@ -24,7 +24,7 @@ const toggleShowTime = () => {
     />
     <h3>{{ service.name.charAt(0).toUpperCase() + service.name.slice(1) }}</h3>
     <button @click="toggleShowTime">Reservar</button>
-    <SelectTime v-if="showTime" :showTime="toggleShowTime" />
+    <SelectTime v-if="showTime" :showTime="toggleShowTime" :id="service._id" />
   </li>
 </template>
 

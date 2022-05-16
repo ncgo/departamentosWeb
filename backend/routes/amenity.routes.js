@@ -73,26 +73,39 @@ router.put("/:id", async (req, res) => {
 
 router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   const { aid } = req.params;
-  const { id, date } = req.body;
+  const { date, serviceId } = req.body;
+  const { user } = req.user;
 
-  console.log(aid, id, date, req.user.user._id);
+  const newReservation = {
+    id: user._id,
+    date,
+  };
 
-  // const newAmenity = await Amenity.findByIdAndUpdate(id, update, {
-  //   new: true,
-  // });
+  const newAmenity = await Amenity.findOneAndUpdate(
+    { _id: aid },
+    {
+      $push: {
+        "services.$[b].fecha_reservada": newReservation,
+      },
+    },
+    {
+      new: true,
+      arrayFilters: [{ "b._id": serviceId }],
+    }
+  );
 
-  // if (newAmenity) {
-  res.status(201).json({
-    ok: true,
-    message: "Amenity updated",
-    // amenity: newAmenity,
-  });
-  // } else {
-  //   res.status(500).json({
-  //     ok: false,
-  //     message: "Error updating amenity",
-  //   });
-  // }
+  if (newAmenity) {
+    res.status(201).json({
+      ok: true,
+      message: "Amenity updated",
+      amenity: newAmenity,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error updating amenity",
+    });
+  }
 });
 
 router.delete("/:id", async (req, res) => {

@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
+import router from "../../router";
+import { useRoute } from "vue-router";
+
 import VueMeetingSelector from "vue-meeting-selector";
 import slotsGenerator from "vue-meeting-selector/src/helpers/slotsGenerator";
 
-defineProps<{
+const props = defineProps<{
   showTime: Func;
+  id: string;
 }>();
 
 const meeting = ref(null);
@@ -14,6 +18,8 @@ const date = ref(new Date());
 
 const dateSelected = ref(false);
 const dateClean = ref("");
+
+const route = useRoute();
 
 const initMeetingsDays = () => {
   const start = {
@@ -108,7 +114,6 @@ const previousDate = () => {
 };
 
 const handleSelect = (meeting) => {
-  console.log(meeting.date.toISOString());
   dateSelected.value = true;
 
   let dt = meeting.date;
@@ -126,6 +131,31 @@ const handleSelect = (meeting) => {
 
 const handleUnselect = () => {
   dateSelected.value = false;
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const amenityId = route.params.id;
+  const token = localStorage.getItem("token");
+  const api =
+    import.meta.env.VITE_HOST + "/api/amenity/" + amenityId + "/reserve";
+
+  const body = {
+    date: meeting.value.date,
+    serviceId: props.id,
+  };
+
+  const res = await fetch(api, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const resObject = await res.json();
 };
 </script>
 
@@ -145,10 +175,12 @@ const handleUnselect = () => {
       @meeting-slot-selected="handleSelect"
       @meeting-slot-unselected="handleUnselect"
     />
-    <div class="confirmContainer" v-if="dateSelected">
-      <button class="confirmBtn">Confirm</button>
-      <p>{{ dateClean }}</p>
-    </div>
+    <form @submit="handleSubmit">
+      <div class="confirmContainer" v-if="dateSelected">
+        <button class="confirmBtn">Confirm</button>
+        <p>{{ dateClean }}</p>
+      </div>
+    </form>
   </div>
 </template>
 
