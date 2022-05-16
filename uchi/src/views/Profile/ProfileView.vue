@@ -61,10 +61,6 @@ const signOut = () => {
           <td>{{ userRef.phone }}</td>
         </tr>
       </table>
-      <p class="title">Emergency contact</p>
-      <p>[FirstName] [LastName]</p>
-      <p class="relationship">[Relationship]</p>
-      <p>[+52 XXX XXX XXXXX]</p>
     </div>
 
     <p class="role"><span class="title">Role: </span> User</p>
