@@ -2,7 +2,7 @@
   import { ref, useAttrs } from '@vue/runtime-core'
   import { useRoute } from 'vue-router'
   import { onMounted } from 'vue'
-  import router from '../router'
+  import router from '../../router'
 
   const email = ref('')
   const tower = ref('')
@@ -22,6 +22,7 @@
       firstName: firstName.value,
       lastName: lastName.value,
       phone: phone.value,
+      role: 'admin'
     }
 
     await fetch(`${api}`, {
@@ -46,7 +47,7 @@
 <template>
   <main>
     <div class="container">
-      <h1>New Tenant</h1>
+      <h1>New Administrator</h1>
       <form>
         <div class="userName">
           <label for="email">Email</label>
@@ -79,10 +80,6 @@
           <label for="tower">Tower</label>
           <input type="text" id="tower" v-model="tower" placeholder="Tower" />
         </div>
-        <div class="apt">
-          <label for="apt">Apartment</label>
-          <input type="text" id="apt" v-model="apt" placeholder="Apt" />
-        </div>
         <div class="phone">
           <label for="phone">Phone</label>
           <input
@@ -109,7 +106,7 @@
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    /* overflow: scroll; */
     background: linear-gradient(
       160deg,
       rgb(123, 44, 191) 0%,

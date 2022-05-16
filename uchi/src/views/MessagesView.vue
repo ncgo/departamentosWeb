@@ -16,6 +16,7 @@
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Allow-Control-Allow-Origin": "*",
       },
     })
     .then(res => res.json());
