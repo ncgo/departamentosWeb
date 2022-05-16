@@ -10,6 +10,7 @@
     <RouterLink to="/" class="tab">
       <i class="fa-solid fa-house"></i
     ></RouterLink>
+      <RouterLink v-if="role==='admin'" to="/users">Users</RouterLink>
     <RouterLink to="/reports">Report</RouterLink>
   </footer>
 </template>

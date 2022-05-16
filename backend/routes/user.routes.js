@@ -17,6 +17,23 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/tower/:tower?", async (req, res) => {
+  const tower = req.params.tower;
+
+  if (tower != undefined) {
+    const users = await User.find({ tower: tower });
+    res.status(200).json({
+      ok: true,
+      users: users,
+    });
+  } else {
+    res.status(400).json({
+      ok: false,
+      err: "No tower provided",
+    });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -28,16 +45,15 @@ router.get("/:id", async (req, res) => {
       message: "User not found",
     });
   } else {
-
     const tower = await Tower.findById(user.tower);
-    const tower_name = ""
-    if (tower){
-      tower_name = tower.name
+    var tower_name = "";
+    if (tower) {
+      tower_name = tower.name;
     }
     const apartment = await Apartment.findById(user.apartment);
-    const apartment_name = ""
-    if (apartment){
-      apartment_name = apartment.name
+    var apartment_name = "";
+    if (apartment) {
+      apartment_name = apartment.name;
     }
     const User = {
       firstName: user.firstName,
@@ -60,8 +76,16 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { firstName, lastName, birthDate, tower,phone, apartment, email, role } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    birthDate,
+    tower,
+    phone,
+    apartment,
+    email,
+    role,
+  } = req.body;
 
   const password = generator.generate({
     length: 10,
@@ -74,25 +98,32 @@ router.post("/", async (req, res) => {
     lastName: lastName.toLowerCase(),
     birthDate,
     phone,
-    tower,
-    apartment,
+    tower: tower.toLowerCase(),
+    apartment: apartment.toLowerCase(),
     email: email.toLowerCase(),
     password,
     role,
   });
 
-  const towerN = await Tower.findOne({ name: tower });
+  const towerN = await Tower.findOne({ name: tower.toLowerCase() });
 
   if (towerN) {
     user.tower = towerN._id;
-    const apt = await Apartment.findOne({ name: apartment });
-    if (apt) {
-      user.apartment = apt._id;
-    }else{
-      return res.status(404).json({ok: false, message: "Apartment not found"});
+    if (role !== "admin") {
+      const apt = await Apartment.findOne({ name: apartment.toLowerCase() });
+      if (apt) {
+        user.apartment = apt._id;
+      } else {
+        return res
+          .status(404)
+          .json({ ok: false, message: "Apartment not found" });
+      }
+    } else {
+      user.apartment = null;
+      user.administers_towers.push(towerN._id);
     }
-  }else{
-    return res.status(404).json({ok: false, message: "Tower not found"});
+  } else {
+    return res.status(404).json({ ok: false, message: "Tower not found" });
   }
 
   user.password = await user.encryptPassword(password);

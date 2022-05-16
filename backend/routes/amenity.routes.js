@@ -77,7 +77,7 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   const { user } = req.user;
 
   const newReservation = {
-    id: user._id,
+    userId: user._id,
     date,
   };
 
@@ -97,15 +97,28 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   if (newAmenity) {
     res.status(201).json({
       ok: true,
-      message: "Amenity updated",
+      message: "Amenity reserved successfully",
       amenity: newAmenity,
     });
   } else {
     res.status(500).json({
       ok: false,
-      message: "Error updating amenity",
+      message: "Error reserving amenity",
     });
   }
+});
+
+router.get("/:aid/:sid", async (req, res) => {
+  const { aid, sid } = req.params;
+
+  const amenity = await Amenity.findById(aid, {
+    services: { $elemMatch: { _id: sid } },
+  });
+
+  res.status(200).json({
+    ok: true,
+    amenity: amenity,
+  });
 });
 
 router.delete("/:id", async (req, res) => {

@@ -21,7 +21,7 @@ var AmenitiesSchema = Schema(
         },
         fecha_reservada: [
           {
-            id: {
+            userId: {
               type: Schema.ObjectId,
               ref: "users",
               required: true,

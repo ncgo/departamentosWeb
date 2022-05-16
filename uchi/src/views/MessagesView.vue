@@ -8,21 +8,26 @@ const messages = ref([
     adminName: "",
     subject: "",
     date: "",
-  },
-]);
 
-const getMessages = async () => {
-  const res = await fetch(`${api}/${tower}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
-  messages.value = res.messages;
-  console.log(res);
-};
+    
+  }]);
 
-getMessages();
+  const getMessages = async () => {
+    const res = await fetch(`${api}/${tower}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Allow-Control-Allow-Origin": "*",
+      },
+    })
+    .then(res => res.json());
+    messages.value = res.messages;
+    console.log(res);
+  };
+
+  getMessages();
+
+
 </script>
 
 <template>

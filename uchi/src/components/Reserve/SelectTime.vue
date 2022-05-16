@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 import router from "../../router";
 import { useRoute } from "vue-router";
 
@@ -12,6 +12,7 @@ const props = defineProps<{
 }>();
 
 const meeting = ref(null);
+const loading = ref(true);
 const meetingsDays = ref([]);
 const nbDaysToDisplay = ref(5);
 const date = ref(new Date());
@@ -20,6 +21,65 @@ const dateSelected = ref(false);
 const dateClean = ref("");
 
 const route = useRoute();
+
+const getAvailableDates = async () => {
+  const amenityId = route.params.id;
+  const serviceId = props.id;
+  const token = localStorage.getItem("token");
+
+  let reserved_dates = [];
+
+  const api =
+    import.meta.env.VITE_HOST + "/api/amenity/" + amenityId + "/" + serviceId;
+
+  const res = await fetch(api, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const resObject = await res.json();
+
+  if (resObject) {
+    reserved_dates = resObject.amenity.services[0].fecha_reservada;
+  }
+
+  return reserved_dates;
+};
+
+const generateDays = async (newDate, start, end) => {
+  loading.value = true;
+  let usedDays = await getAvailableDates();
+
+  let availableDays = slotsGenerator(
+    newDate,
+    nbDaysToDisplay.value,
+    start,
+    end,
+    30
+  );
+
+  usedDays = usedDays.map((reservation) => {
+    return new Date(reservation.date);
+  });
+
+  availableDays.map((day) => {
+    day.slots = day.slots.filter((date) => {
+      for (let i = 0; i < usedDays.length; i++) {
+        if (usedDays[i].getTime() == date.date.getTime()) {
+          return false;
+        }
+      }
+      return true;
+    });
+    return day;
+  });
+
+  meetingsDays.value = availableDays;
+
+  loading.value = false;
+};
 
 const initMeetingsDays = () => {
   const start = {
@@ -31,13 +91,7 @@ const initMeetingsDays = () => {
     minutes: 0,
   };
 
-  meetingsDays.value = slotsGenerator(
-    new Date(),
-    nbDaysToDisplay.value,
-    start,
-    end,
-    30
-  );
+  generateDays(new Date(), start, end);
 };
 
 initMeetingsDays();
@@ -62,13 +116,8 @@ const nextDate = () => {
 
   const newDate = new Date(d.setDate(d.getDate() + 7));
   date.value = newDate;
-  meetingsDays.value = slotsGenerator(
-    newDate,
-    nbDaysToDisplay.value,
-    start,
-    end,
-    30
-  );
+
+  generateDays(newDate, start, end);
 };
 
 const previousDate = () => {
@@ -104,13 +153,7 @@ const previousDate = () => {
 
   date.value = newDate;
 
-  meetingsDays.value = slotsGenerator(
-    newDate,
-    nbDaysToDisplay.value,
-    start,
-    end,
-    30
-  );
+  generateDays(newDate, start, end);
 };
 
 const handleSelect = (meeting) => {
@@ -156,6 +199,9 @@ const handleSubmit = async (e) => {
   });
 
   const resObject = await res.json();
+  alert(resObject.message);
+
+  initMeetingsDays();
 };
 </script>
 
@@ -168,7 +214,7 @@ const handleSubmit = async (e) => {
       class="meeting-selector"
       v-model="meeting"
       :date="date"
-      :loading="false"
+      :loading="loading"
       :meetings-days="meetingsDays"
       @next-date="nextDate"
       @previous-date="previousDate"
