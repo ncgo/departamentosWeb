@@ -1,8 +1,37 @@
 const express = require("express");
 const router = express.Router();
+const nodemailer = require("nodemailer");
 
+const config = require("../config");
 const Amenity = require("../models/Amenity");
 const authenticateToken = require("../middleware/authenticateToken");
+
+async function sendMailConfirmation(mail, name, date, service) {
+  let transporter = nodemailer.createTransport({
+    host: config.mail.host,
+    port: config.mail.port,
+    secure: false,
+    auth: {
+      user: config.mail.auth.user,
+      pass: config.mail.auth.pass,
+    },
+  });
+
+  let info = await transporter
+    .sendMail({
+      from: `'Apartment Manager <${config.mail.auth.user}>'`,
+      to: mail,
+      subject: "Service Reservation",
+      text: `Hello ${name}, your reservation was succesfull on ${date} for ${service}`,
+      html: `<h1>Hello ${name}, your reservation was succesfull on ${date} for ${service}</h1>`,
+    })
+    .then((info) => {
+      return true;
+    })
+    .catch((err) => {
+      return false;
+    });
+}
 
 router.get("/", async (req, res) => {
   const amenities = await Amenity.find();
@@ -100,6 +129,17 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
       message: "Amenity reserved successfully",
       amenity: newAmenity,
     });
+
+    const service = newAmenity.services.filter((s) => {
+      return s._id == serviceId;
+    });
+
+    sendMailConfirmation(
+      user.email,
+      user.firstName,
+      date.toString(),
+      service[0].name
+    );
   } else {
     res.status(500).json({
       ok: false,
