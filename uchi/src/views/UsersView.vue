@@ -32,8 +32,10 @@
           <td>{{ user.apartment }}</td>
           <td>{{ user.role }}</td>
           <td>
-            <button class="btn blue" v-on:click="editUser(user._id)">
+            <button class="btn btn-danger">
+            <router-link :to="{ name: 'User Edit', params: {id: user._id} }" class="btn btn-danger">
               Edit
+            </router-link>
             </button>
 
             <button class="btn btn-danger" v-on:click="deleteUser(user._id)">
@@ -50,20 +52,10 @@
 import { ref } from "vue";
 import router from "../router";
 
-async function fetchUserss(users_ref){
-  const api = import.meta.env.VITE_HOST + "/api/user";
-  const response = await fetch(api);
-  const jj = await response.json();
-  console.log(jj.users, users_ref);
-  users_ref = jj.users;
-  console.log(users_ref)
-  return jj.users
-}
-
 export default {
   data(){
     return{
-      users: ["hola"]
+      users: []
     }
   },
   created: function()
@@ -73,17 +65,10 @@ export default {
   methods: {
     async fetchUsers()
     {
-      this.users = await fetchUserss(this.users.target)
-      console.log(this.users)
-    },
-    editUser(userID)
-    {
       const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = confirm('are you sure you want to delete this user?');
-      if (response) {
-        this.users.splice(this.get_pos_user(userID), 1);
-        fetch(api).then(function(data) {});
-      }
+      const response = await fetch(api);
+      const data = await response.json();
+      this.users = data.users
     },
     deleteUser(userID)
     {
@@ -91,7 +76,7 @@ export default {
       const response = confirm('are you sure you want to delete this user?');
       if (response) {
         this.users.splice(this.get_pos_user(userID), 1);
-        fetch(api).then(function(data) {});
+        fetch(`${api}/${userID}`, {method: 'DELETE'}).then(function(data) {});
       }
     },
     get_pos_user(userID)
@@ -166,6 +151,16 @@ input:focus {
 }
 
 button {
+  padding: 0.7rem 6rem;
+  border: none;
+  border-radius: 0.6rem;
+  background-color: rgb(147, 105, 184);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+router-link {
   padding: 0.7rem 6rem;
   border: none;
   border-radius: 0.6rem;

@@ -66,9 +66,14 @@ const router = createRouter({
       component: () => import("../views/RegisterView.vue"),
     },
     {
-      path: "/holi",
-      name: "Register User",
+      path: "/users",
+      name: "Users View",
       component: () => import("../views/UsersView.vue"),
+    },
+    {
+      path: "/users/edit/:id",
+      name: "User Edit",
+      component: () => import("../views/UserView.vue"),
     },
   ],
 });

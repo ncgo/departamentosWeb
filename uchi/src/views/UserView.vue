@@ -2,8 +2,11 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { onMounted } from "vue";
 import router from "../../router";
+import { useRoute } from "vue-router";
 
-const userID = localStorage.getItem("userID");
+
+const route = useRoute();
+const userID = route.params.id;
 const firstName = ref("");
 const lastName = ref("");
 const birthdate = ref("");
@@ -70,7 +73,7 @@ const changeUser = async (e: any) => {
             id="firstName"
             name="firstName"
             required
-            v-model="user.firstName"
+            v-model="firstName"
           />
         </div>
         <div class="lastName">
@@ -80,7 +83,7 @@ const changeUser = async (e: any) => {
             id="lastName"
             name="lastName"
             required
-            v-model="user.lastName"
+            v-model="lastName"
           />
         </div>
         <div class="birthdate">
@@ -90,16 +93,16 @@ const changeUser = async (e: any) => {
             id="birthdate"
             name="birthdate"
             required
-            v-model="user.birthdate"
+            v-model="birthdate"
           />
         </div>
         <div class="email">
           <label for="email" class="title">Email: </label>
-          <input type="text" id="email" name="email" required v-model="user.email" />
+          <input type="text" id="email" name="email" required v-model="email" />
         </div>
         <div class="phone">
           <label for="phone" class="title">Phone #: </label>
-          <input type="text" id="phone" name="phone" required v-model="user.phone" />
+          <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
 
         <h2>Emergency Contact Information</h2>
@@ -150,25 +153,20 @@ const changeUser = async (e: any) => {
 </template>
 
 <script lang="ts">
-const userID = localStorage.getItem("userID");
-const api = import.meta.env.VITE_HOST + "/api/user";
-const response = await fetch(`${api}/${userID}`);
-  
-const user = await response.json();
-console.log(user)
 export default {
+  name: "Profile",
   data() {
     return {
       create: true,
       user: {
-        firstName: user.user.firstName,
-        lastName: user.user.lastName,
-        birthdate: user.user.birthDate,
-        email: user.user.email,
-        role: user.user.role,
-        phone: user.user.phone,
-        tower: user.user.tower,
-        apartment: user.user.apartment,
+        firstName: "",
+        lastName: "",
+        birthdate: "",
+        email: "",
+        role: "",
+        phone: "",
+        tower: "",
+        apartment: "",
         emergencyContact: {
           firstName: "",
           lastName: "",
@@ -186,12 +184,12 @@ export default {
   methods: {
     async createUser() {},
     async fetchUser() {
-      const userID = localStorage.getItem("userID");
+      const route = useRoute();
+      const userID = route.params.id;
       const api = import.meta.env.VITE_HOST + "/api/user";
       const response = await fetch(`${api}/${userID}`);
       const user = await response.json();
-      console.log(this.user)
-      this.user.user = {
+      this.user = {
         firstName: user.user.firstName,
         lastName: user.user.lastName,
         birthdate: user.user.birthDate,
@@ -207,7 +205,6 @@ export default {
           phone: "",
         }
       }
-      console.log(this.user)
     },
   },
 };
