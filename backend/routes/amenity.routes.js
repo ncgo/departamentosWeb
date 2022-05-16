@@ -108,6 +108,20 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/:aid/:sid", async (req, res) => {
+  const { aid, sid } = req.params;
+
+  const amenity = await Amenity.find({
+    _id: aid,
+    "services._id": sid,
+  }).populate({ match: { price: { $lte: 500 } } });
+
+  res.status(200).json({
+    ok: true,
+    amenity: amenity,
+  });
+});
+
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   Amenity.findByIdAndDelete(id, (err, amenity) => {
