@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 import router from "../../router";
 import { useRoute } from "vue-router";
 
@@ -12,6 +12,7 @@ const props = defineProps<{
 }>();
 
 const meeting = ref(null);
+const loading = ref(true);
 const meetingsDays = ref([]);
 const nbDaysToDisplay = ref(5);
 const date = ref(new Date());
@@ -158,6 +159,38 @@ const handleSubmit = async (e) => {
   const resObject = await res.json();
   alert(resObject.message);
 };
+
+const getAvailableDates = async () => {
+  loading.value = true;
+
+  const amenityId = route.params.id;
+  const serviceId = props.id;
+  const token = localStorage.getItem("token");
+
+  let reserved_dates = [];
+
+  const api =
+    import.meta.env.VITE_HOST + "/api/amenity/" + amenityId + "/" + serviceId;
+
+  const res = await fetch(api, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const resObject = await res.json();
+
+  if (resObject) {
+    reserved_dates = resObject.amenity.services[0].fecha_reservada;
+  }
+  console.log(resObject, reserved_dates);
+  loading.value = false;
+};
+
+onMounted(() => {
+  getAvailableDates();
+});
 </script>
 
 <template>
@@ -169,7 +202,7 @@ const handleSubmit = async (e) => {
       class="meeting-selector"
       v-model="meeting"
       :date="date"
-      :loading="false"
+      :loading="loading"
       :meetings-days="meetingsDays"
       @next-date="nextDate"
       @previous-date="previousDate"
