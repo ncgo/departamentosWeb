@@ -74,8 +74,8 @@ router.post("/", async (req, res) => {
     lastName: lastName.toLowerCase(),
     birthDate,
     phone,
-    tower,
-    apartment,
+    tower: tower.toLowerCase(),
+    apartment: apartment.toLowerCase(),
     email: email.toLowerCase(),
     password,
     role,
@@ -85,11 +85,17 @@ router.post("/", async (req, res) => {
 
   if (towerN) {
     user.tower = towerN._id;
-    const apt = await Apartment.findOne({ name: apartment });
-    if (apt) {
-      user.apartment = apt._id;
+    if(role !== 'admin'){
+      const apt = await Apartment.findOne({ name: apartment.toLowerCase() });
+      if (apt) {
+        user.apartment = apt._id;
+      }else{
+        return res.status(404).json({ok: false, message: "Apartment not found"});
+      }
     }else{
-      return res.status(404).json({ok: false, message: "Apartment not found"});
+      user.apartment = null;
+      user.administers_towers.push(towerN._id);
+
     }
   }else{
     return res.status(404).json({ok: false, message: "Tower not found"});

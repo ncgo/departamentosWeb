@@ -26,26 +26,32 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, address, apartments, amenities } = req.body;
 
-  const tower = new Tower({
-    name: name.toLowerCase(),
-    address,
-    apartments,
-    amenities,
-  });
+  const TowerExist = await Tower.findOne({ name: name.toLowerCase() });
 
-  const created = await tower.save();
-
-  if (created) {
-    res.status(201).json({
-      ok: true,
-      message: "Tower created",
-      tower: created,
-    });
+  if (TowerExist) {
+    return res.status(400).json({ ok: false, error: "Tower already exists" });
   } else {
-    res.status(500).json({
-      ok: false,
-      message: "Error creating tower",
+    const tower = new Tower({
+      name: name.toLowerCase(),
+      address,
+      apartments,
+      amenities,
     });
+
+    const created = await tower.save();
+
+    if (created) {
+      res.status(201).json({
+        ok: true,
+        message: "Tower created",
+        tower: created,
+      });
+    } else {
+      res.status(500).json({
+        ok: false,
+        message: "Error creating tower",
+      });
+    }
   }
 });
 

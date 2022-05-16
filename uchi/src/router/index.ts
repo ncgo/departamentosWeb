@@ -62,8 +62,28 @@ const router = createRouter({
     },
     {
       path: "/register",
-      name: "Register User",
-      component: () => import("../views/RegisterView.vue"),
+      name: "Register",
+      component: () => import("../views/Register/RegisterView.vue"),
+    },
+    {
+      path: "/register/tenant",
+      name: "Register Tenant",
+      component: () => import("../views/Register/User.vue"),
+    },
+    {
+      path: "/register/admin",
+      name: "Register Administrator",
+      component: () => import("../views/Register/Admin.vue"),
+    },
+    {
+      path: "/register/tower",
+      name: "Register Tower",
+      component: () => import("../views/Register/Tower.vue"),
+    },
+    {
+      path: "/register/apartment",
+      name: "Register Apartment",
+      component: () => import("../views/Register/Apartment.vue"),
     },
     {
       path: "/users",

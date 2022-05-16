@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Apartment = require("../models/Apartment");
+const Tower = require("../models/Tower");
 
 router.get("/", async (req, res) => {
   const apartments = await Apartment.find();
@@ -24,25 +25,41 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name } = req.body;
+  const { name, tower } = req.body;
 
-  const apartment = new Apartment({
-    name: name.toLowerCase(),
-  });
+  const Towers = await Tower.findOne({ name: tower.toLowerCase()});
 
-  const created = await apartment.save();
-
-  if (created) {
-    res.status(201).json({
-      ok: true,
-      message: "Apartment created",
-      apartment: created,
-    });
+  if (!Towers) {
+    return res.status(400).json({ ok: false, message: "Tower not found" });
   } else {
-    res.status(500).json({
-      ok: false,
-      message: "Error creating apartment",
+
+    const aptExist = await Apartment.findOne({ name: name.toLowerCase() });
+
+    if (aptExist) {
+      return res.status(400).json({ ok: false, message: "Apartment already exists" });
+    }
+
+    const apartment = new Apartment({
+      name: name.toLowerCase(),
     });
+
+    const apt = await apartment.save();
+
+    Towers.apartments.push(apt._id);
+
+    const towerSaved = await Towers.save();
+
+    if (towerSaved) {
+      res.status(200).json({
+        ok: true,
+        message: "Apartment created",
+      });Towers
+    } else {
+      res.status(400).json({
+        ok: false,
+        message: "Error creating apartment",
+      });
+    }
   }
 });
 

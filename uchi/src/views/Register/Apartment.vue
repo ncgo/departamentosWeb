@@ -2,26 +2,18 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
-import router from "../router";
+import router from "../../router";
 
-const email = ref("");
+const name = ref("");
 const tower = ref("");
-const apt = ref("");
-const firstName = ref("");
-const lastName = ref("");
-const phone = ref("");
 
-const api = import.meta.env.VITE_HOST + "/api/user";
+const api = import.meta.env.VITE_HOST + "/api/apartment";
 
 async function register() {
   //login
-  const User = {
-    email: email.value,
+  const Aparment = {
+    name: name.value,
     tower: tower.value,
-    apartment: apt.value,
-    firstName: firstName.value,
-    lastName: lastName.value,
-    phone: phone.value,
   };
 
   await fetch(`${api}`, {
@@ -29,7 +21,7 @@ async function register() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(User),
+    body: JSON.stringify(Aparment),
   })
     .then((res) => res.json())
     .then((json) => {
@@ -46,57 +38,31 @@ async function register() {
 <template>
   <main>
     <div class="container">
-      <h1>New Tenant</h1>
+      <h1>New Apartment</h1>
       <form>
         <div class="userName">
-          <label for="email">Email</label>
+          <label for="name">Apartment #</label>
           <input
             type="text"
-            id="email"
-            v-model="email"
-            placeholder="your@mail.com"
-          />
-        </div>
-        <div class="firstName">
-          <label for="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            v-model="firstName"
-            placeholder="First Name"
-          />
-        </div>
-        <div class="lastName">
-          <label for="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            v-model="lastName"
-            placeholder="Last Name"
+            id="name"
+            v-model="name"
+            placeholder="Apartment #"
           />
         </div>
         <div class="tower">
-          <label for="tower">Tower</label>
-          <input type="text" id="tower" v-model="tower" placeholder="Tower" />
-        </div>
-        <div class="apt">
-          <label for="apt">Apartment</label>
-          <input type="text" id="apt" v-model="apt" placeholder="Apt" />
-        </div>
-        <div class="phone">
-          <label for="phone">Phone</label>
+          <label for="firstName">Tower</label>
           <input
-            type="tel"
-            id="phone"
-            v-model="phone"
-            placeholder="Your Phone"
+            type="text"
+            id="tower"
+            v-model="tower"
+            placeholder="Tower"
           />
         </div>
         <!-- <button type="submit">Login</button> -->
         <!-- button click  -->
         <div class="login">
           <label for="apt">ㅤ</label>
-          <button type="button" @click="register">Register</button>
+          <button type="button" @click="register">Save</button>
         </div>
       </form>
     </div>
@@ -109,7 +75,7 @@ main {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  /* overflow: scroll; */
   background: linear-gradient(
     160deg,
     rgb(123, 44, 191) 0%,
