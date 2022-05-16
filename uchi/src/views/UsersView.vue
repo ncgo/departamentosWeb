@@ -32,13 +32,11 @@
           <td>{{ user.apartment }}</td>
           <td>{{ user.role }}</td>
           <td>
-            <button class="btn btn-danger">
-            <router-link :to="{ name: 'User Edit', params: {id: user._id} }" class="btn btn-danger">
+            <router-link :to="{ name: 'User Edit', params: {id: user._id} }" class="button">
               Edit
             </router-link>
-            </button>
 
-            <button class="btn btn-danger" v-on:click="deleteUser(user._id)">
+            <button class="button" v-on:click="deleteUser(user._id)">
               Delete
             </button>
           </td>
@@ -150,7 +148,7 @@ input:focus {
   outline: none;
 }
 
-button {
+.button {
   padding: 0.7rem 6rem;
   border: none;
   border-radius: 0.6rem;
