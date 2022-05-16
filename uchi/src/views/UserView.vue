@@ -28,12 +28,6 @@ const changeUser = async (e: any) => {
     birthdate: birthdate.value,
     email: email.value,
     phone: phone.value,
-    emergencyContact: {
-      firstNameEmergency: firstNameEmergency.value,
-      lastNameEmergency: lastNameEmergency.value,
-      relationship: relationship.value,
-      phoneEmergency: phoneEmergency.value,
-    },
   };
   console.log(User);
 
@@ -61,7 +55,7 @@ const changeUser = async (e: any) => {
   <main>
     <div id="circle"></div>
     <h1 v-if="create == true">Create User Profile</h1>
-    <img src="../../assets/user.png" alt="" class="profileImage" />
+    <img src="../assets/user.png" alt="" class="profileImage" />
     <div class="content">
       <form @submit="changeUser">
         <h2>Personal Information</h2>
@@ -104,49 +98,7 @@ const changeUser = async (e: any) => {
           <label for="phone" class="title">Phone #: </label>
           <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
-
-        <h2>Emergency Contact Information</h2>
-        <div class="firstNameEmergency">
-          <label for="firstNameEmergency" class="title">First Name(s): </label>
-          <input
-            type="text"
-            id="firstNameEmergency"
-            name="firstNameEmergency"
-            required
-            v-model="firstNameEmergency"
-          />
-        </div>
-        <div class="lastNameEmergency">
-          <label for="lastNameEmergency" class="title">Last Name(s): </label>
-          <input
-            type="text"
-            id="lastNameEmergency"
-            name="lastNameEmergency"
-            required
-            v-model="lastNameEmergency"
-          />
-        </div>
-        <div class="relationship">
-          <label for="relationship" class="title">Relationship: </label>
-          <input
-            type="text"
-            id="relationship"
-            name="relationship"
-            required
-            v-model="relationship"
-          />
-        </div>
-        <div class="phoneEmergency">
-          <label for="phoneEmergency" class="title">Phone #: </label>
-          <input
-            type="text"
-            id="phoneEmergency"
-            name="phoneEmergency"
-            required
-            v-model="phoneEmergency"
-          />
-        </div>
-        <button type="submit">Create User</button>
+        <button type="submit">Edit User</button>
       </form>
     </div>
   </main>
@@ -158,22 +110,6 @@ export default {
   data() {
     return {
       create: true,
-      user: {
-        firstName: "",
-        lastName: "",
-        birthdate: "",
-        email: "",
-        role: "",
-        phone: "",
-        tower: "",
-        apartment: "",
-        emergencyContact: {
-          firstName: "",
-          lastName: "",
-          relationship: "",
-          phone: "",
-        },
-      },
     };
   },
   components: {},
@@ -189,22 +125,16 @@ export default {
       const api = import.meta.env.VITE_HOST + "/api/user";
       const response = await fetch(`${api}/${userID}`);
       const user = await response.json();
-      this.user = {
-        firstName: user.user.firstName,
-        lastName: user.user.lastName,
-        birthdate: user.user.birthDate,
-        email: user.user.email,
-        role: user.user.role,
-        phone: user.user.phone,
-        tower: user.user.tower,
-        apartment: user.user.apartment,
-        emergencyContact: {
-          firstName: "",
-          lastName: "",
-          relationship: "",
-          phone: "",
-        }
-      }
+      
+      this.firstName= user.user.firstName
+      this.lastName= user.user.lastName
+      this.birthdate= user.user.birthDate
+      this.email= user.user.email
+      this.role= user.user.role
+      this.phone= user.user.phone
+      this.tower= user.user.tower
+      this.apartment= user.user.apartment
+      
     },
   },
 };

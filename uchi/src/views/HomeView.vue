@@ -155,6 +155,9 @@ getMessages();
         </div>
       </div>
       <router-link to="/reserve" class="button">See more</router-link>
+      <div v-if="role === 'admin'" id="messages">
+      <router-link :to="{ name: 'Users View'}"  class="button">Edit users</router-link>
+    </div>
     </div>
 
     <div id="reports">
