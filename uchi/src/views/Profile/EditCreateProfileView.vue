@@ -9,10 +9,6 @@ const lastName = ref("");
 const birthdate = ref("");
 const email = ref("");
 const phone = ref("");
-const firstNameEmergency = ref("");
-const lastNameEmergency = ref("");
-const relationship = ref("");
-const phoneEmergency = ref("");
 
 const api = import.meta.env.VITE_HOST + "/api/user";
 
@@ -25,12 +21,6 @@ const changeUser = async (e: any) => {
     birthdate: birthdate.value,
     email: email.value,
     phone: phone.value,
-    emergencyContact: {
-      firstNameEmergency: firstNameEmergency.value,
-      lastNameEmergency: lastNameEmergency.value,
-      relationship: relationship.value,
-      phoneEmergency: phoneEmergency.value,
-    },
   };
   console.log(User);
 
@@ -70,7 +60,7 @@ const changeUser = async (e: any) => {
             id="firstName"
             name="firstName"
             required
-            v-model="user.firstName"
+            v-model="firstName"
           />
         </div>
         <div class="lastName">
@@ -80,7 +70,7 @@ const changeUser = async (e: any) => {
             id="lastName"
             name="lastName"
             required
-            v-model="user.lastName"
+            v-model="lastName"
           />
         </div>
         <div class="birthdate">
@@ -90,60 +80,18 @@ const changeUser = async (e: any) => {
             id="birthdate"
             name="birthdate"
             required
-            v-model="user.birthdate"
+            v-model="birthdate"
           />
         </div>
         <div class="email">
           <label for="email" class="title">Email: </label>
-          <input type="text" id="email" name="email" required v-model="user.email" />
+          <input type="text" id="email" name="email" required v-model="email" />
         </div>
         <div class="phone">
           <label for="phone" class="title">Phone #: </label>
-          <input type="text" id="phone" name="phone" required v-model="user.phone" />
+          <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
-
-        <h2>Emergency Contact Information</h2>
-        <div class="firstNameEmergency">
-          <label for="firstNameEmergency" class="title">First Name(s): </label>
-          <input
-            type="text"
-            id="firstNameEmergency"
-            name="firstNameEmergency"
-            required
-            v-model="firstNameEmergency"
-          />
-        </div>
-        <div class="lastNameEmergency">
-          <label for="lastNameEmergency" class="title">Last Name(s): </label>
-          <input
-            type="text"
-            id="lastNameEmergency"
-            name="lastNameEmergency"
-            required
-            v-model="lastNameEmergency"
-          />
-        </div>
-        <div class="relationship">
-          <label for="relationship" class="title">Relationship: </label>
-          <input
-            type="text"
-            id="relationship"
-            name="relationship"
-            required
-            v-model="relationship"
-          />
-        </div>
-        <div class="phoneEmergency">
-          <label for="phoneEmergency" class="title">Phone #: </label>
-          <input
-            type="text"
-            id="phoneEmergency"
-            name="phoneEmergency"
-            required
-            v-model="phoneEmergency"
-          />
-        </div>
-        <button type="submit">Create User</button>
+        <button class = "button" type="submit">Edit User</button>
       </form>
     </div>
   </main>
@@ -169,12 +117,6 @@ export default {
         phone: user.user.phone,
         tower: user.user.tower,
         apartment: user.user.apartment,
-        emergencyContact: {
-          firstName: "",
-          lastName: "",
-          relationship: "",
-          phone: "",
-        },
       },
     };
   },
@@ -191,22 +133,13 @@ export default {
       const response = await fetch(`${api}/${userID}`);
       const user = await response.json();
       console.log(this.user)
-      this.user.user = {
-        firstName: user.user.firstName,
-        lastName: user.user.lastName,
-        birthdate: user.user.birthDate,
-        email: user.user.email,
-        role: user.user.role,
-        phone: user.user.phone,
-        tower: user.user.tower,
-        apartment: user.user.apartment,
-        emergencyContact: {
-          firstName: "",
-          lastName: "",
-          relationship: "",
-          phone: "",
-        }
-      }
+      //this.user.user = {
+        this.firstName= user.user.firstName;
+        this.lastName= user.user.lastName;
+        this.birthdate= user.user.birthDate;
+        this.email= user.user.email;
+        this.phone= user.user.phone;
+      //}
       console.log(this.user)
     },
   },
