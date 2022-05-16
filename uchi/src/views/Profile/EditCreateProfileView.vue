@@ -91,19 +91,26 @@ const changeUser = async (e: any) => {
           <label for="phone" class="title">Phone #: </label>
           <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
-        <button class = "button" type="submit">Edit User</button>
+        <button class="button" type="submit">Edit User</button>
       </form>
     </div>
   </main>
 </template>
 
 <script lang="ts">
-const userID = localStorage.getItem("userID");
-const api = import.meta.env.VITE_HOST + "/api/user";
-const response = await fetch(`${api}/${userID}`);
-  
-const user = await response.json();
-console.log(user)
+const getUser = async () => {
+  const userID = localStorage.getItem("userID");
+  const api = import.meta.env.VITE_HOST + "/api/user";
+  const response = await fetch(`${api}/${userID}`);
+
+  const user = await response.json();
+  console.log(user);
+};
+
+onMounted(() => {
+  getUser();
+});
+
 export default {
   data() {
     return {
@@ -121,8 +128,7 @@ export default {
     };
   },
   components: {},
-  created: function()
-  {
+  created: function () {
     this.fetchUser();
   },
   methods: {
@@ -132,15 +138,15 @@ export default {
       const api = import.meta.env.VITE_HOST + "/api/user";
       const response = await fetch(`${api}/${userID}`);
       const user = await response.json();
-      console.log(this.user)
+      console.log(this.user);
       //this.user.user = {
-        this.firstName= user.user.firstName;
-        this.lastName= user.user.lastName;
-        this.birthdate= user.user.birthDate;
-        this.email= user.user.email;
-        this.phone= user.user.phone;
+      // this.firstName= user.user.firstName;
+      // this.lastName= user.user.lastName;
+      // this.birthdate= user.user.birthDate;
+      // this.email= user.user.email;
+      // this.phone= user.user.phone;
       //}
-      console.log(this.user)
+      console.log(this.user);
     },
   },
 };

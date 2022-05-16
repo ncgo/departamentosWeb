@@ -23,22 +23,21 @@
 
       <tbody>
         <tr v-for="user in users">
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.tower }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.phone }}</td>
-          <td>{{ user.apartment }}</td>
-          <td>{{ user.role }}</td>
+          <td>{{ user["firstName"] }}</td>
+          <td>{{ user["lastName"] }}</td>
+          <td>{{ user["tower"] }}</td>
+          <td>{{ user["email"] }}</td>
+          <td>{{ user["phone"] }}</td>
+          <td>{{ user["apartment"] }}</td>
+          <td>{{ user["role"] }}</td>
           <td>
             <router-link
-              :to="{ name: 'User Edit', params: { id: user._id } }"
+              :to="{ name: 'User Edit', params: { id: user['_id'] } }"
               class="button"
             >
               Edit
             </router-link>
-
-            <button class="button" v-on:click="deleteUser(user._id)">
+            <button class="button" v-on:click="deleteUser(user['_id'])">
               Delete
             </button>
           </td>
@@ -80,7 +79,7 @@ export default {
     },
     get_pos_user(userID) {
       for (var i = 0; i < this.users.length; i++) {
-        if (this.users[i]._id == userID) {
+        if (this.users[i]["_id"] == userID) {
           return i;
         }
       }
@@ -91,7 +90,6 @@ export default {
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   justify-content: center;
@@ -159,36 +157,35 @@ button:hover {
   background-color: rgb(191, 141, 235);
 }
 table {
-    background-color: #f9f4f5;
-    padding: 2rem;
-    border-radius: 25px;
-    -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
-    box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
-    width: 50%;
-    border-collapse: collapse;
-    text-align: center;
-
-  }
-  thead {
-    border-bottom: solid 2px green;
-  }
-  tr td {
-    border-left: solid 2px grey;
-    padding: 8px;
-  }
-  th {
-    border-bottom: #7b2cbf solid;
-    border-collapse: collapse;
-    color: #7b2cbf;
-    font-weight: bold;
-    text-align: center;
-    border-left: solid 2px red;
-  }
-  .tableRow {
-    text-align: center;
-  }
-  .tableRow:hover {
-    background-color: #c8b8db;
-    color: white;
-  }
+  background-color: #f9f4f5;
+  padding: 2rem;
+  border-radius: 25px;
+  -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+  box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
+  width: 50%;
+  border-collapse: collapse;
+  text-align: center;
+}
+thead {
+  border-bottom: solid 2px green;
+}
+tr td {
+  border-left: solid 2px grey;
+  padding: 8px;
+}
+th {
+  border-bottom: #7b2cbf solid;
+  border-collapse: collapse;
+  color: #7b2cbf;
+  font-weight: bold;
+  text-align: center;
+  border-left: solid 2px red;
+}
+.tableRow {
+  text-align: center;
+}
+.tableRow:hover {
+  background-color: #c8b8db;
+  color: white;
+}
 </style>

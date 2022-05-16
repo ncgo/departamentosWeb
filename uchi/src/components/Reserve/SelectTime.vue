@@ -7,11 +7,11 @@ import VueMeetingSelector from "vue-meeting-selector";
 import slotsGenerator from "vue-meeting-selector/src/helpers/slotsGenerator";
 
 const props = defineProps<{
-  showTime: Func;
+  showTime: any;
   id: string;
 }>();
 
-const meeting = ref(null);
+const meeting: any = ref(null);
 const loading = ref(true);
 const meetingsDays = ref([]);
 const nbDaysToDisplay = ref(5);
@@ -50,9 +50,11 @@ const getAvailableDates = async () => {
 
 const generateDays = async (newDate, start, end) => {
   loading.value = true;
-  let usedDays = await getAvailableDates();
+  let usedDays: Date[] = [];
+  usedDays = await getAvailableDates();
 
-  let availableDays = slotsGenerator(
+  let availableDays: any;
+  availableDays = slotsGenerator(
     newDate,
     nbDaysToDisplay.value,
     start,
@@ -60,7 +62,7 @@ const generateDays = async (newDate, start, end) => {
     30
   );
 
-  usedDays = usedDays.map((reservation) => {
+  usedDays = usedDays.map((reservation: any) => {
     return new Date(reservation.date);
   });
 
@@ -96,7 +98,8 @@ const initMeetingsDays = () => {
 
 initMeetingsDays();
 
-const meetingSelector = ref(null);
+let meetingSelector: any;
+meetingSelector = ref(null);
 
 const up = () => meetingSelector.value.previousMeetings();
 

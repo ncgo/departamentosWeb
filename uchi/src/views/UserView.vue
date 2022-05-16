@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, useAttrs } from "@vue/runtime-core";
 import { onMounted } from "vue";
-import router from "../../router";
 import { useRoute } from "vue-router";
-
 
 const route = useRoute();
 const userID = route.params.id;
@@ -12,6 +10,9 @@ const lastName = ref("");
 const birthdate = ref("");
 const email = ref("");
 const phone = ref("");
+const role = ref("");
+const tower = ref("");
+const apartment = ref("");
 const firstNameEmergency = ref("");
 const lastNameEmergency = ref("");
 const relationship = ref("");
@@ -113,8 +114,7 @@ export default {
     };
   },
   components: {},
-  created: function()
-  {
+  created: function () {
     this.fetchUser();
   },
   methods: {
@@ -125,16 +125,15 @@ export default {
       const api = import.meta.env.VITE_HOST + "/api/user";
       const response = await fetch(`${api}/${userID}`);
       const user = await response.json();
-      
-      this.firstName= user.user.firstName
-      this.lastName= user.user.lastName
-      this.birthdate= user.user.birthDate
-      this.email= user.user.email
-      this.role= user.user.role
-      this.phone= user.user.phone
-      this.tower= user.user.tower
-      this.apartment= user.user.apartment
-      
+
+      firstName.value = user.user.firstName;
+      lastName.value = user.user.lastName;
+      birthdate.value = user.user.birthDate;
+      email.value = user.user.email;
+      role.value = user.user.role;
+      phone.value = user.user.phone;
+      tower.value = user.user.tower;
+      apartment.value = user.user.apartment;
     },
   },
 };
