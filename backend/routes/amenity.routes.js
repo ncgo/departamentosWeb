@@ -111,10 +111,9 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
 router.get("/:aid/:sid", async (req, res) => {
   const { aid, sid } = req.params;
 
-  const amenity = await Amenity.find(
-    { _id: aid, "services._id": sid },
-    { services: { $elemMatch: { _id: sid } } }
-  );
+  const amenity = await Amenity.findById(aid, {
+    services: { $elemMatch: { _id: sid } },
+  });
 
   res.status(200).json({
     ok: true,
