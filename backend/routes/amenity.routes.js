@@ -77,7 +77,7 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
   const { user } = req.user;
 
   const newReservation = {
-    id: user._id,
+    userId: user._id,
     date,
   };
 
@@ -111,10 +111,10 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
 router.get("/:aid/:sid", async (req, res) => {
   const { aid, sid } = req.params;
 
-  const amenity = await Amenity.find({
-    _id: aid,
-    "services._id": sid,
-  }).populate({ match: { price: { $lte: 500 } } });
+  const amenity = await Amenity.find(
+    { _id: aid, "services._id": sid },
+    { services: { $elemMatch: { _id: sid } } }
+  );
 
   res.status(200).json({
     ok: true,
