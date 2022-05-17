@@ -33,6 +33,7 @@ const getAvailableDates = async () => {
     import.meta.env.VITE_HOST + "/api/amenity/" + amenityId + "/" + serviceId;
 
   const res = await fetch(api, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
