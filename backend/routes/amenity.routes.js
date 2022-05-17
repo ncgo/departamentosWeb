@@ -114,12 +114,12 @@ router.post("/:aid/reserve", authenticateToken, async (req, res) => {
     { _id: aid },
     {
       $push: {
-        "services.$[b].fecha_reservada": newReservation,
+        "services.$[a].fecha_reservada": newReservation,
       },
     },
     {
       new: true,
-      arrayFilters: [{ "b._id": serviceId }],
+      arrayFilters: [{ "a._id": serviceId }],
     }
   );
 
