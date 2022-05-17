@@ -38,16 +38,36 @@ const changeUser = async (e: any) => {
   console.log(resObject.ok);
 
   if (resObject.ok) {
+    alert(resObject.message);
   } else {
     alert(resObject.message);
   }
 };
+
+const getUser = async () => {
+  const userID = localStorage.getItem("userID");
+  const api = import.meta.env.VITE_HOST + "/api/user";
+  const response = await fetch(`${api}/${userID}`);
+
+  const user = await response.json();
+  console.log("user", user);
+
+  firstName.value = user.user.firstName;
+  lastName.value = user.user.lastName;
+  birthdate.value = user.user.birthDate;
+  email.value = user.user.email;
+  phone.value = user.user.phone;
+};
+
+onMounted(() => {
+  getUser();
+});
 </script>
 
 <template>
   <main>
     <div id="circle"></div>
-    <h1 v-if="create == true">Create User Profile</h1>
+    <!-- <h1 v-if="create == true">Create User Profile</h1> -->
     <img src="../../assets/user.png" alt="" class="profileImage" />
     <div class="content">
       <form @submit="changeUser">
@@ -97,60 +117,6 @@ const changeUser = async (e: any) => {
   </main>
 </template>
 
-<script lang="ts">
-const getUser = async () => {
-  const userID = localStorage.getItem("userID");
-  const api = import.meta.env.VITE_HOST + "/api/user";
-  const response = await fetch(`${api}/${userID}`);
-
-  const user = await response.json();
-  console.log(user);
-};
-
-onMounted(() => {
-  getUser();
-});
-
-export default {
-  data() {
-    return {
-      create: true,
-      user: {
-        firstName: user.user.firstName,
-        lastName: user.user.lastName,
-        birthdate: user.user.birthDate,
-        email: user.user.email,
-        role: user.user.role,
-        phone: user.user.phone,
-        tower: user.user.tower,
-        apartment: user.user.apartment,
-      },
-    };
-  },
-  components: {},
-  created: function () {
-    this.fetchUser();
-  },
-  methods: {
-    async createUser() {},
-    async fetchUser() {
-      const userID = localStorage.getItem("userID");
-      const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = await fetch(`${api}/${userID}`);
-      const user = await response.json();
-      console.log(this.user);
-      //this.user.user = {
-      // this.firstName= user.user.firstName;
-      // this.lastName= user.user.lastName;
-      // this.birthdate= user.user.birthDate;
-      // this.email= user.user.email;
-      // this.phone= user.user.phone;
-      //}
-      console.log(this.user);
-    },
-  },
-};
-</script>
 <style scoped>
 main {
   padding: 1.5rem;
