@@ -35,7 +35,8 @@ router.get('/user/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { user, description, tower, apartment, status, resolved } = req.body
+  const { user, description, subject, tower, apartment, status, resolved } =
+    req.body
 
   const report = new Report({
     user,
