@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div class="all">
     <div class="row p-4">
       <div class="col-md-12">
         <h1 class="d-inline">Users</h1>
@@ -17,7 +17,8 @@
           <td>Phone</td>
           <td>Apartment</td>
           <td>Role</td>
-          <td>Actions</td>
+          <td></td>
+          <td></td>
         </tr>
       </thead>
 
@@ -25,10 +26,10 @@
         <tr v-for="user in users">
           <td>{{ user["firstName"] }}</td>
           <td>{{ user["lastName"] }}</td>
-          <td>{{ user["tower"] }}</td>
+          <td>{{ user["towerName"] }}</td>
           <td>{{ user["email"] }}</td>
           <td>{{ user["phone"] }}</td>
-          <td>{{ user["apartment"] }}</td>
+          <td>{{ user["apartmentName"] }}</td>
           <td>{{ user["role"] }}</td>
           <td>
             <router-link
@@ -37,6 +38,8 @@
             >
               Edit
             </router-link>
+            </td>
+            <td>
             <button class="button" v-on:click="deleteUser(user['_id'])">
               Delete
             </button>
@@ -131,6 +134,9 @@ input:active,
 input:focus {
   outline: none;
 }
+.all {
+  padding: 2rem
+}
 
 .button {
   padding: 0.7rem 6rem;
@@ -138,8 +144,11 @@ input:focus {
   border-radius: 0.6rem;
   background-color: rgb(147, 105, 184);
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 12px;
   font-weight: bold;
+  width: 10rem;
+  float: left;
+  text-align: center;
 }
 
 router-link {
@@ -150,11 +159,13 @@ router-link {
   color: #fff;
   font-size: 1.2rem;
   font-weight: bold;
+  width: 10rem;
 }
 
-button:hover {
+.button:hover {
   cursor: pointer;
   background-color: rgb(191, 141, 235);
+
 }
 table {
   background-color: #f9f4f5;
@@ -162,7 +173,7 @@ table {
   border-radius: 25px;
   -webkit-box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
   box-shadow: 0px 5px 15px -9px rgba(0, 0, 0, 0.27);
-  width: 50%;
+  width: 100%;
   border-collapse: collapse;
   text-align: center;
 }

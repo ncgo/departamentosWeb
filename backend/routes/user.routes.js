@@ -10,10 +10,30 @@ const Apartment = require("../models/Apartment");
 
 router.get("/", async (req, res) => {
   const users = await User.find();
+  var users_info = []
+  for (var i =0; i < users.length; i++){
+    const tower = await Tower.findById(users[i].tower);
+    var tower_name = "";
+    if (tower) {
+      tower_name = tower.name;
+    }
+    const apartment = await Apartment.findById(users[i].apartment);
+    var apartment_name = "";
+    if (apartment) {
+      apartment_name = apartment.name;
+    }
+    var user_info = {"_id": users[i]._id,"firstName": users[i].firstName, 
+    "lastName": users[i].lastName, "birthDate" : users[i].birthDate, 
+    "email": users[i].email, "password": users[i].password, "role": users[i].role,
+    "phone": users[i].phone, "tower": users[i].tower, "administers_towers": users[i].administers_towers,
+    "apartment": users[i].apartment, "towerName":tower_name, "apartmentName": apartment_name
+    }
+    users_info.push(user_info)
 
+  }
   res.status(200).json({
     ok: true,
-    users: users,
+    users: users_info,
   });
 });
 
