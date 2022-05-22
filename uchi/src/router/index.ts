@@ -56,6 +56,11 @@ const router = createRouter({
       component: () => import("../views/Profile/ProfileView.vue"),
     },
     {
+      path: "/profile/create",
+      name: "Create Profile",
+      component: () => import("../views/Profile/CreateUser.vue"),
+    },
+    {
       path: "/profile/edit",
       name: "Edit Profile",
       component: () => import("../views/Profile/EditCreateProfileView.vue"),
@@ -94,6 +99,11 @@ const router = createRouter({
       path: "/users/edit/:id",
       name: "User Edit",
       component: () => import("../views/UserView.vue"),
+    },
+    {
+      path: "/reservations",
+      name: "Reservations",
+      component: () => import("../views/ReservationsView.vue"),
     },
   ],
 });

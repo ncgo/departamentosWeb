@@ -184,4 +184,29 @@ router.delete("/:id", async (req, res) => {
   });
 });
 
+
+router.get("/reservations", async (req, res) => {
+  const amenities = await Amenity.find();
+
+  var reservations = []
+  for(var i = 0; i < amenities.length; i++){
+    for(var j = 0; j<amenities[i].services.length; j++){
+      for(var k = 0; k < amenities[i].services[j].fecha_reservada.length; k++)
+      {
+        reservations.push({"amenity": amenities[i].name, "service": amenities[i].services[j].name,
+                           "UserId": amenities[i].services[j].fecha_reservada[k].userId,
+                           "Date": amenities[i].services[j].fecha_reservada[k].date})
+      }
+    }
+  }
+
+  console.log(reservations)
+
+  res.status(200).json({
+    ok: true,
+    reservations: reservations,
+    hola: hola,
+  });
+});
+
 module.exports = router;
