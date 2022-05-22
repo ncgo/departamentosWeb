@@ -12,7 +12,7 @@
         <tr>
           <td>Amenity</td>
           <td>Service</td>
-          <td>User Id</td>
+          <td>User Name</td>
           <td>Date</td>
         </tr>
       </thead>
@@ -21,7 +21,7 @@
         <tr v-for="reservation in reservations">
           <td>{{ reservation["amenity"] }}</td>
           <td>{{ reservation["service"] }}</td>
-          <td>{{ reservation["UserId"] }}</td>
+          <td>{{ reservation["UserName"] }}</td>
           <td>{{ reservation["Date"] }}</td>
         </tr>
       </tbody>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async fetchReservations() {
-      const api = import.meta.env.VITE_HOST + "/api/amenity/reservations";
+      const api = import.meta.env.VITE_HOST + "/api/amenity/admview/to/reservations";
       const response = await fetch(api);
       const data = await response.json();
       console.log(data)
