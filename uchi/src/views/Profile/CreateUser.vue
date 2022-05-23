@@ -50,7 +50,7 @@ const changeUser = async (e: any) => {
   <main>
     <div id="circle"></div>
     <h1 v-if="create == true">Create User Profile</h1>
-    <img src="../assets/user.png" alt="" class="profileImage" />
+    <img src="../../assets/user.png" alt="" class="profileImage" />
     <div class="content">
       <form @submit="changeUser">
         <h2>Personal Information</h2>
