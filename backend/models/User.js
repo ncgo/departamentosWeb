@@ -37,6 +37,11 @@ var UserSchema = Schema(
       type: String,
       required: true,
     },
+    activated: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
     tower: {
       type: Schema.ObjectId,
       ref: 'towers',

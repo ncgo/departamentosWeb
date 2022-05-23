@@ -396,7 +396,7 @@ a {
   margin-top: 2.5vh;
   border: 0;
   font-weight: bold;
-}
+}display: block;
 
 .button:hover {
   cursor: pointer;
