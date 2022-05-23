@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "@vue/runtime-dom";
+import ServicesAvailable from "../components/Reserve/ServicesAvailable.vue";
 
 const role = localStorage.getItem("role");
 const subject = ref("");
@@ -124,40 +125,14 @@ getMessages();
 
     <div id="amenities">
       <h2>Amenities</h2>
-      <div class="pills">
-        <div class="amenity">
-          <img src="../assets/washer.png" />
-          <h3>[MAQUINA 1]</h3>
-          <div class="status true">
-            <i class="fa-solid fa-circle-check fa-4x"></i>
-          </div>
-        </div>
-        <div class="amenity">
-          <img src="../assets/washer.png" />
-          <h3>[MAQUINA 2]</h3>
-          <div class="status false">
-            <i class="fa-solid fa-circle-xmark fa-4x"></i>
-          </div>
-        </div>
-        <div class="amenity">
-          <img src="../assets/washer.png" />
-          <h3>[MAQUINA 3]</h3>
-          <div class="status false">
-            <i class="fa-solid fa-circle-xmark fa-4x"></i>
-          </div>
-        </div>
-        <div class="amenity">
-          <img src="../assets/washer.png" />
-          <h3>[MAQUINA 4]</h3>
-          <div class="status true">
-            <i class="fa-solid fa-circle-check fa-4x"></i>
-          </div>
-        </div>
-      </div>
-    <div v-if="role === 'admin'" id="messages">
-      <router-link :to="{ name: 'Reservations'}"  class="button">See reservations</router-link>
-    </div>
+      <ServicesAvailable />
 
+      <router-link to="/reserve" class="button">See more</router-link>
+      <div v-if="role === 'admin'" id="messages">
+        <router-link :to="{ name: 'Users View' }" class="button"
+          >Edit users</router-link
+        >
+      </div>
     </div>
 
     <div id="reports">
@@ -323,6 +298,10 @@ form {
   border-radius: 0.5rem;
 }
 
+.form-group button:hover {
+  cursor: pointer;
+  background-color: #8f48cd;
+}
 
 .image {
   width: 20%;
@@ -372,6 +351,10 @@ a {
   color: #7b2cbf;
 }
 
+a:visited {
+  color: black;
+}
+
 .button {
   background: rgb(123, 44, 191);
   background: linear-gradient(
@@ -381,7 +364,6 @@ a {
   );
   border-radius: 10px;
   color: white;
-  display: block;
   padding: 0.5rem 32px;
   text-align: center;
   text-decoration: none;
@@ -389,12 +371,10 @@ a {
   margin-top: 2.5vh;
   border: 0;
   font-weight: bold;
-}display: block;
+}
 
-.button:hover {
-  cursor: pointer;
-  background-color: rgb(191, 141, 235);
-
+.button a {
+  color: white;
 }
 
 #reports {
