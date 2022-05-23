@@ -17,12 +17,12 @@ const router = createRouter({
     {
       path: "/reserve",
       name: "reserve",
-      component: () => import("../views/ReserveView.vue"),
+      component: () => import("../views/Reserve/ReserveView.vue"),
     },
     {
       path: "/reserve/:id",
       name: "reserveAmenity",
-      component: () => import("../views/ReserveAmenityView.vue"),
+      component: () => import("../views/Reserve/ReserveAmenityView.vue"),
     },
     {
       path: "/reports",
@@ -43,12 +43,13 @@ const router = createRouter({
       path: "/messages",
       name: "Messages",
       component: () => import("../views/MessagesView.vue"),
-      children: [{
-        path: "/messages/message/:id",
-        name: "Message",
-        component: () => import("../components/Messages/Message.vue"),
-      }
-      ]
+      children: [
+        {
+          path: "/messages/message/:id",
+          name: "Message",
+          component: () => import("../components/Messages/Message.vue"),
+        },
+      ],
     },
     {
       path: "/profile",

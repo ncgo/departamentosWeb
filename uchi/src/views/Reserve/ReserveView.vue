@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { onMounted } from "vue";
 
-import Amenities from "../components/Reserve/Amenities.vue";
+import Amenities from "../../components/Reserve/Amenities.vue";
 </script>
 
 <template>

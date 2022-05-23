@@ -90,7 +90,7 @@ const initMeetingsDays = () => {
     minutes: 0,
   };
   const end = {
-    hours: 16,
+    hours: 20,
     minutes: 0,
   };
 

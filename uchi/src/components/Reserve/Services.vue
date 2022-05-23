@@ -3,7 +3,8 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 
-import ServiciosCard from "../components/Reserve/ServiciosCard.vue";
+import ServiciosCard from "./ServiciosCard.vue";
+import ServiciosCardAvailable from "./ServiciosCardAvailable.vue";
 
 const amenityRef = ref({
   name: "",
@@ -35,30 +36,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <h1>{{ amenityRef.name }}</h1>
-    <p>{{ amenityRef.description }}</p>
+  <h1>{{ amenityRef.name }}</h1>
+  <p>{{ amenityRef.description }}</p>
 
-    <h2>Servicios</h2>
-    <ul class="grid">
-      <ServiciosCard
-        v-for="service in amenityRef.services"
-        :key="service._id"
-        :service="service"
-      />
-    </ul>
-  </main>
+  <h2>Servicios</h2>
+  <ul class="grid">
+    <ServiciosCard
+      v-for="service in amenityRef.services"
+      :key="service._id"
+      :service="service"
+    />
+  </ul>
 </template>
 
 <style scoped>
-main {
-  padding: 1.5rem;
-}
-
 h2 {
   margin-top: 2rem;
 }
-
 .grid {
   display: grid;
   list-style: none;
