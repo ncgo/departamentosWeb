@@ -154,10 +154,10 @@ getMessages();
           </div>
         </div>
       </div>
-      <router-link to="/reserve" class="button">See more</router-link>
-      <div v-if="role === 'admin'" id="messages">
-      <router-link :to="{ name: 'Users View'}"  class="button">Edit users</router-link>
+    <div v-if="role === 'admin'" id="messages">
+      <router-link :to="{ name: 'Reservations'}"  class="button">See reservations</router-link>
     </div>
+
     </div>
 
     <div id="reports">
@@ -323,10 +323,6 @@ form {
   border-radius: 0.5rem;
 }
 
-.form-group button:hover {
-  cursor: pointer;
-  background-color: #8f48cd;
-}
 
 .image {
   width: 20%;
@@ -376,10 +372,6 @@ a {
   color: #7b2cbf;
 }
 
-a:visited {
-  color: black;
-}
-
 .button {
   background: rgb(123, 44, 191);
   background: linear-gradient(
@@ -389,6 +381,7 @@ a:visited {
   );
   border-radius: 10px;
   color: white;
+  display: block;
   padding: 0.5rem 32px;
   text-align: center;
   text-decoration: none;
@@ -396,10 +389,12 @@ a:visited {
   margin-top: 2.5vh;
   border: 0;
   font-weight: bold;
-}
+}display: block;
 
-.button a {
-  color: white;
+.button:hover {
+  cursor: pointer;
+  background-color: rgb(191, 141, 235);
+
 }
 
 #reports {

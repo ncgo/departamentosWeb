@@ -26,7 +26,7 @@ const changeUser = async (e: any) => {
   const User = {
     firstName: firstName.value,
     lastName: lastName.value,
-    birthdate: birthdate.value,
+    birthDate: birthdate.value,
     email: email.value,
     phone: phone.value,
   };

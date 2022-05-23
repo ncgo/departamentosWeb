@@ -16,6 +16,13 @@ router.post("/", async (req, res) => {
             message: "User not found",
         });
     }else{
+        if(!user.activated){
+            return res.status(404).json({
+            ok: false,
+            message: "User not activated",
+        });
+
+        }
         if (await user.validatePassword(password)) {
             const token = jwt.sign({user}, process.env.SECRET_KEY, {
                 expiresIn: "24h",

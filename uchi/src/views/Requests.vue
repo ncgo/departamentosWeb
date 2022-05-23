@@ -17,8 +17,8 @@
           <td>Phone</td>
           <td>Apartment</td>
           <td>Role</td>
-          <td>Edit</td>
-          <td>Delete</td>
+          <td>Accept</td>
+          <td>Decline</td>
         </tr>
       </thead>
 
@@ -32,16 +32,14 @@
           <td>{{ user["apartmentName"] }}</td>
           <td>{{ user["role"] }}</td>
           <td>
-            <router-link
-              :to="{ name: 'User Edit', params: { id: user['_id'] } }"
-              class="button"
-            >
-              Edit
-            </router-link>
+             <button class="button" v-on:click="AcceptUser(user['_id'])">
+              Accept
+            </button>
+
             </td>
             <td>
-            <button class="button" v-on:click="deleteUser(user['_id'])">
-              Delete
+            <button class="button" v-on:click="DeclineUser(user['_id'])">
+              Decline
             </button>
           </td>
         </tr>
@@ -65,14 +63,24 @@ export default {
   },
   methods: {
     async fetchUsers() {
-      const api = import.meta.env.VITE_HOST + "/api/user";
+      const api = import.meta.env.VITE_HOST + "/api/user/requests/getdeactivated";
       const response = await fetch(api);
       const data = await response.json();
       this.users = data.users;
     },
-    deleteUser(userID) {
+    AcceptUser(userID) {
+      const api = import.meta.env.VITE_HOST + "/api/user/activate";
+      const response = confirm("are you sure you want to accept this user?");
+      if (response) {
+        this.users.splice(this.get_pos_user(userID), 1);
+        fetch(`${api}/${userID}`, { method: "PUT" }).then(function (
+          data
+        ) {});
+      }
+    },
+    DeclineUser(userID) {
       const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = confirm("are you sure you want to delete this user?");
+      const response = confirm("are you sure you want to decline this user?");
       if (response) {
         this.users.splice(this.get_pos_user(userID), 1);
         fetch(`${api}/${userID}`, { method: "DELETE" }).then(function (

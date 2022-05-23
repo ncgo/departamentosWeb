@@ -10,10 +10,65 @@ const Apartment = require("../models/Apartment");
 
 router.get("/", async (req, res) => {
   const users = await User.find();
+  var users_info = []
+  for (var i =0; i < users.length; i++){
+    if(!users[i].activated){
+      continue;
+    }
+    const tower = await Tower.findById(users[i].tower);
+    var tower_name = "";
+    if (tower) {
+      tower_name = tower.name;
+    }
+    const apartment = await Apartment.findById(users[i].apartment);
+    var apartment_name = "";
+    if (apartment) {
+      apartment_name = apartment.name;
+    }
+    var user_info = {"_id": users[i]._id,"firstName": users[i].firstName, 
+    "lastName": users[i].lastName, "birthDate" : users[i].birthDate, 
+    "email": users[i].email, "password": users[i].password, "role": users[i].role,
+    "phone": users[i].phone, "tower": users[i].tower, "administers_towers": users[i].administers_towers,
+    "apartment": users[i].apartment, "towerName":tower_name, "apartmentName": apartment_name
+    }
+    users_info.push(user_info)
 
+  }
   res.status(200).json({
     ok: true,
-    users: users,
+    users: users_info,
+  });
+});
+
+router.get("/requests/getdeactivated", async (req, res) => {
+  const users = await User.find();
+  var users_info = []
+  for (var i =0; i < users.length; i++){
+    if(users[i].activated){
+      continue;
+    }
+    const tower = await Tower.findById(users[i].tower);
+    var tower_name = "";
+    if (tower) {
+      tower_name = tower.name;
+    }
+    const apartment = await Apartment.findById(users[i].apartment);
+    var apartment_name = "";
+    if (apartment) {
+      apartment_name = apartment.name;
+    }
+    var user_info = {"_id": users[i]._id,"firstName": users[i].firstName, 
+    "lastName": users[i].lastName, "birthDate" : users[i].birthDate, 
+    "email": users[i].email, "password": users[i].password, "role": users[i].role,
+    "phone": users[i].phone, "tower": users[i].tower, "administers_towers": users[i].administers_towers,
+    "apartment": users[i].apartment, "towerName":tower_name, "apartmentName": apartment_name
+    }
+    users_info.push(user_info)
+
+  }
+  res.status(200).json({
+    ok: true,
+    users: users_info,
   });
 });
 
@@ -103,6 +158,7 @@ router.post("/", async (req, res) => {
     email: email.toLowerCase(),
     password,
     role,
+    activated: false,
   });
 
   const towerN = await Tower.findOne({ name: tower.toLowerCase() });
@@ -153,6 +209,25 @@ router.put("/:id", async (req, res) => {
   const newUser = await User.findByIdAndUpdate(id, update, {
     new: true,
   });
+
+  if (newUser) {
+    res.status(201).json({
+      ok: true,
+      message: "User updated",
+      user: newUser,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error updating user",
+    });
+  }
+});
+
+router.put("/activate/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const newUser = await User.findByIdAndUpdate(id, {activated : true});
 
   if (newUser) {
     res.status(201).json({

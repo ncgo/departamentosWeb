@@ -2,13 +2,20 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { onMounted } from "vue";
 import router from "../../router";
+import { useRoute } from "vue-router";
 
-const userID = localStorage.getItem("userID");
+
+const route = useRoute();
+const userID = route.params.id;
 const firstName = ref("");
 const lastName = ref("");
 const birthdate = ref("");
 const email = ref("");
 const phone = ref("");
+const firstNameEmergency = ref("");
+const lastNameEmergency = ref("");
+const relationship = ref("");
+const phoneEmergency = ref("");
 
 const api = import.meta.env.VITE_HOST + "/api/user";
 
@@ -18,7 +25,7 @@ const changeUser = async (e: any) => {
   const User = {
     firstName: firstName.value,
     lastName: lastName.value,
-    birthDate: birthdate.value,
+    birthdate: birthdate.value,
     email: email.value,
     phone: phone.value,
   };
@@ -38,37 +45,17 @@ const changeUser = async (e: any) => {
   console.log(resObject.ok);
 
   if (resObject.ok) {
-    alert(resObject.message);
   } else {
     alert(resObject.message);
   }
 };
-
-const getUser = async () => {
-  const userID = localStorage.getItem("userID");
-  const api = import.meta.env.VITE_HOST + "/api/user";
-  const response = await fetch(`${api}/${userID}`);
-
-  const user = await response.json();
-  console.log("user", user);
-
-  firstName.value = user.user.firstName;
-  lastName.value = user.user.lastName;
-  birthdate.value = user.user.birthDate;
-  email.value = user.user.email;
-  phone.value = user.user.phone;
-};
-
-onMounted(() => {
-  getUser();
-});
 </script>
 
 <template>
   <main>
     <div id="circle"></div>
-    <!-- <h1 v-if="create == true">Create User Profile</h1> -->
-    <img src="../../assets/user.png" alt="" class="profileImage" />
+    <h1 v-if="create == true">Create User Profile</h1>
+    <img src="../assets/user.png" alt="" class="profileImage" />
     <div class="content">
       <form @submit="changeUser">
         <h2>Personal Information</h2>
@@ -111,12 +98,47 @@ onMounted(() => {
           <label for="phone" class="title">Phone #: </label>
           <input type="text" id="phone" name="phone" required v-model="phone" />
         </div>
-        <button class="button" type="submit">Edit User</button>
+        <button type="submit">Edit User</button>
       </form>
     </div>
   </main>
 </template>
 
+<script lang="ts">
+export default {
+  name: "Profile",
+  data() {
+    return {
+      create: true,
+    };
+  },
+  components: {},
+  created: function()
+  {
+    this.fetchUser();
+  },
+  methods: {
+    async createUser() {},
+    async fetchUser() {
+      const route = useRoute();
+      const userID = route.params.id;
+      const api = import.meta.env.VITE_HOST + "/api/user";
+      const response = await fetch(`${api}/${userID}`);
+      const user = await response.json();
+      
+      this.firstName= user.user.firstName
+      this.lastName= user.user.lastName
+      this.birthdate= user.user.birthDate
+      this.email= user.user.email
+      this.role= user.user.role
+      this.phone= user.user.phone
+      this.tower= user.user.tower
+      this.apartment= user.user.apartment
+      
+    },
+  },
+};
+</script>
 <style scoped>
 main {
   padding: 1.5rem;

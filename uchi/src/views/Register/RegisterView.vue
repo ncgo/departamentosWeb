@@ -9,7 +9,7 @@ import { faTentArrowDownToLine } from "@fortawesome/free-solid-svg-icons";
 
 
 function tenant(){
-    router.push('/register/tenant');
+    router.push('/profile/create');
 }
 function apartment(){
     router.push('/register/apartment');
@@ -18,7 +18,7 @@ function tower(){
     router.push('/register/tower');
 }
 function admin(){
-    router.push('/register/admin');
+    router.push('/profile/create');
 }
 
 </script>

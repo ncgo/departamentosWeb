@@ -2,6 +2,7 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { onMounted } from "vue";
 import router from "../router";
+import { useRoute } from "vue-router";
 
 const email = ref("");
 const password = ref("");
@@ -69,8 +70,10 @@ const login = async (e: any) => {
         </div>
         <!-- <button type="submit">Login</button> -->
         <!-- button click  -->
-        <button type="submit">Login</button>
+        <button class = "button" type="submit">Login</button>
       </form>
+      <br>
+      <router-link :to="{ name: 'Create Profile'}"  class="button">Create account</router-link>
     </div>
   </main>
 </template>
@@ -131,7 +134,7 @@ input:focus {
   outline: none;
 }
 
-button {
+.button {
   padding: 0.7rem 6rem;
   border: none;
   border-radius: 0.6rem;
@@ -141,7 +144,7 @@ button {
   font-weight: bold;
 }
 
-button:hover {
+.button:hover {
   cursor: pointer;
   background-color: rgb(191, 141, 235);
 }

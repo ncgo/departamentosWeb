@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 
 const config = require("../config");
 const Amenity = require("../models/Amenity");
+const User = require("../models/User");
 const authenticateToken = require("../middleware/authenticateToken");
 
 async function sendMailConfirmation(mail, name, date, service) {
@@ -39,6 +40,31 @@ router.get("/", async (req, res) => {
   res.status(200).json({
     ok: true,
     amenities: amenities,
+  });
+});
+
+router.get("/admview/to/reservations", async (req, res) => {
+  
+  const amenities = await Amenity.find();
+  
+  var reservations = []
+  for(var i = 0; i < amenities.length; i++){
+    for(var j = 0; j<amenities[i].services.length; j++){
+      for(var k = 0; k < amenities[i].services[j].fecha_reservada.length; k++)
+      {
+
+        const user = await User.findById(amenities[i].services[j].fecha_reservada[k].userId);
+
+        reservations.push({"amenity": amenities[i].name, "service": amenities[i].services[j].name,
+                           "UserName": user.firstName + " " + user.lastName,
+                           "Date": amenities[i].services[j].fecha_reservada[k].date})
+      }
+    }
+  }
+
+  res.status(200).json({
+    ok: true,
+    reservations: reservations
   });
 });
 
@@ -183,5 +209,8 @@ router.delete("/:id", async (req, res) => {
     });
   });
 });
+
+
+
 
 module.exports = router;
