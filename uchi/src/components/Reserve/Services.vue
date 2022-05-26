@@ -13,6 +13,7 @@ const amenityRef = ref({
     {
       _id: "",
       name: "",
+      type: "",
     },
   ],
 });
@@ -45,6 +46,7 @@ onMounted(() => {
       v-for="service in amenityRef.services"
       :key="service._id"
       :service="service"
+      :type="service.type"
     />
   </ul>
 </template>

@@ -62,7 +62,7 @@ async function getMessages() {
       if (resObject.ok) {
         lastMessage.value = resObject.messages;
       } else {
-        alert(resObject.message);
+        // alert(resObject.message);
       }
     });
 }
@@ -125,7 +125,12 @@ getMessages();
 
     <div id="amenities">
       <h2>Amenities</h2>
-      <ServicesAvailable />
+      <!-- Services Available lavanderia  -->
+
+      <ServicesAvailable :type="'lavanderia'"/>
+      <ServicesAvailable :type="'sala'"/>
+      <ServicesAvailable :type="'cine'"/>
+      <ServicesAvailable :type="'alberca'"/>
 
       <router-link to="/reserve" class="button">See more</router-link>
       <div v-if="role === 'admin'" id="messages">
@@ -431,3 +436,4 @@ th {
   }
 }
 </style>
+

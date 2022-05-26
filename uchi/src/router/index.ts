@@ -111,6 +111,11 @@ const router = createRouter({
       name: "Reservations",
       component: () => import("../views/ReservationsView.vue"),
     },
+    {
+      path: "/register/amenity",
+      name: "Register Amenity",
+      component: () => import("../views/Reserve/RegisterAmenitiesView.vue"),
+    },
   ],
 });
 

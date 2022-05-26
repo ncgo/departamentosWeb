@@ -3,6 +3,7 @@ defineProps<{
   amenity : {
     name : string,
     description : string,
+    type: string,
     _id : string,
   };
 }>();
@@ -11,9 +12,10 @@ defineProps<{
 <template>
   <RouterLink :to="'/reserve/' + amenity._id" style="text-decoration: none">
     <li class="wrapper">
-      <img
-        src="https://hispanosemprendedores.com/wp-content/uploads/2021/02/laundry-machines-J9AM5SS.jpg"
-      />
+      <img  v-if="amenity.type == 'lavanderia'" src="https://hispanosemprendedores.com/wp-content/uploads/2021/02/laundry-machines-J9AM5SS.jpg"/>
+      <img  v-if="amenity.type == 'alberca'" src="https://www.momalia.com/wp-content/uploads/2019/09/area-de-piscina-hotel2.jpg"/>
+      <img  v-if="amenity.type == 'sala'" src="https://www.ciudaris.com/blog/wp-content/uploads/ciudaris-areas-comunes-de-un-edificio.jpg"/>
+      <img  v-if="amenity.type == 'cine'" src="https://d2prydcqrq5962.cloudfront.net/image/journal/article?img_id=362654&t=1581428941743"/>
       <h3>{{ amenity.name }}</h3>
       <p>{{ amenity.description }}</p>
     </li>

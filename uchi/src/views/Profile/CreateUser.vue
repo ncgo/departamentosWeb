@@ -16,7 +16,7 @@ const password = ref("");
 
 const api = import.meta.env.VITE_HOST + "/api/user";
 const changeUser = async (e: any) => {
-  e.preventDefault();
+  // e.preventDefault();
   const User = {
     firstName: firstName.value,
     lastName: lastName.value,

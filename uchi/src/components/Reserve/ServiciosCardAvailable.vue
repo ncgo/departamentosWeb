@@ -7,6 +7,7 @@ const props = defineProps<{
     _id: string;
     name: string;
     fecha_reservada: any;
+    type: string;
   };
 }>();
 
@@ -54,9 +55,10 @@ onMounted(() => {
 
 <template>
   <li class="wrapper">
-    <img
-      src="https://www.lg.com/cac/images/lavadoras-y-secadoras/md06205436/gallery/D-02.jpg"
-    />
+    <img  v-if="service.type == 'lavanderia'" src="https://www.lg.com/cac/images/lavadoras-y-secadoras/md06205436/gallery/D-02.jpg"/>
+      <img  v-if="service.type == 'alberca'" src="https://www.digdesarrollos.com/wp-content/uploads/2019/11/Departamentos-con-alberca-1200x445.jpg"/>
+      <img  v-if="service.type == 'sala'" src="https://constructivo.com/imgPosts/1536855564lCEPSQuq.jpg"/>
+      <img  v-if="service.type == 'cine'" src="https://www.multimedia.com.mx/wp-content/uploads/2020/10/salas_cine_0313_620x250.jpg"/>
     <h3>{{ service.name.charAt(0).toUpperCase() + service.name.slice(1) }}</h3>
     <div v-if="available" class="status true">
       <i class="fa-solid fa-circle-check fa-4x"></i>
