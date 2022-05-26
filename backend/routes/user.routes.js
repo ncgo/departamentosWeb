@@ -10,11 +10,11 @@ const Apartment = require("../models/Apartment");
 
 router.get("/", async (req, res) => {
   const users = await User.find();
-  var users_info = []
-  for (var i =0; i < users.length; i++){
-    if(!users[i].activated){
-      continue;
-    }
+  var users_info = [];
+  for (var i = 0; i < users.length; i++) {
+    // if (!users[i].activated) {
+    //   continue;
+    // }
     const tower = await Tower.findById(users[i].tower);
     var tower_name = "";
     if (tower) {
@@ -25,14 +25,23 @@ router.get("/", async (req, res) => {
     if (apartment) {
       apartment_name = apartment.name;
     }
-    var user_info = {"_id": users[i]._id,"firstName": users[i].firstName, 
-    "lastName": users[i].lastName, "birthDate" : users[i].birthDate, 
-    "email": users[i].email, "password": users[i].password, "role": users[i].role,
-    "phone": users[i].phone, "tower": users[i].tower, "administers_towers": users[i].administers_towers,
-    "apartment": users[i].apartment, "towerName":tower_name, "apartmentName": apartment_name
-    }
-    users_info.push(user_info)
-
+    var user_info = {
+      _id: users[i]._id,
+      firstName: users[i].firstName,
+      lastName: users[i].lastName,
+      birthDate: users[i].birthDate,
+      email: users[i].email,
+      password: users[i].password,
+      role: users[i].role,
+      phone: users[i].phone,
+      tower: users[i].tower,
+      administers_towers: users[i].administers_towers,
+      apartment: users[i].apartment,
+      towerName: tower_name,
+      apartmentName: apartment_name,
+      activated: users[i].activated,
+    };
+    users_info.push(user_info);
   }
   res.status(200).json({
     ok: true,
@@ -42,9 +51,9 @@ router.get("/", async (req, res) => {
 
 router.get("/requests/getdeactivated", async (req, res) => {
   const users = await User.find();
-  var users_info = []
-  for (var i =0; i < users.length; i++){
-    if(users[i].activated){
+  var users_info = [];
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].activated) {
       continue;
     }
     const tower = await Tower.findById(users[i].tower);
@@ -57,14 +66,22 @@ router.get("/requests/getdeactivated", async (req, res) => {
     if (apartment) {
       apartment_name = apartment.name;
     }
-    var user_info = {"_id": users[i]._id,"firstName": users[i].firstName, 
-    "lastName": users[i].lastName, "birthDate" : users[i].birthDate, 
-    "email": users[i].email, "password": users[i].password, "role": users[i].role,
-    "phone": users[i].phone, "tower": users[i].tower, "administers_towers": users[i].administers_towers,
-    "apartment": users[i].apartment, "towerName":tower_name, "apartmentName": apartment_name
-    }
-    users_info.push(user_info)
-
+    var user_info = {
+      _id: users[i]._id,
+      firstName: users[i].firstName,
+      lastName: users[i].lastName,
+      birthDate: users[i].birthDate,
+      email: users[i].email,
+      password: users[i].password,
+      role: users[i].role,
+      phone: users[i].phone,
+      tower: users[i].tower,
+      administers_towers: users[i].administers_towers,
+      apartment: users[i].apartment,
+      towerName: tower_name,
+      apartmentName: apartment_name,
+    };
+    users_info.push(user_info);
   }
   res.status(200).json({
     ok: true,
@@ -140,21 +157,19 @@ router.post("/", async (req, res) => {
     apartment,
     email,
     role,
-    password,
+    // password,
   } = req.body;
 
-
   const userExist = await User.findOne({ email: email });
-  if(userExist){
-    return res.status(400).json({ok: false, message: "User already exists"});
+  if (userExist) {
+    return res.status(400).json({ ok: false, message: "User already exists" });
   }
 
-
-  // const password = generator.generate({
-  //   length: 10,
-  //   numbers: true,
-  //   uppercase: true,
-  // });
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+    uppercase: true,
+  });
 
   var user = new User({
     firstName: firstName.toLowerCase(),
@@ -235,7 +250,7 @@ router.put("/:id", async (req, res) => {
 router.put("/activate/:id", async (req, res) => {
   const { id } = req.params;
 
-  const newUser = await User.findByIdAndUpdate(id, {activated : true});
+  const newUser = await User.findByIdAndUpdate(id, { activated: true });
 
   if (newUser) {
     res.status(201).json({

@@ -1,5 +1,121 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import router from "../router";
+
+const users = ref([
+  {
+    _id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    role: "",
+    activated: false,
+    towerName: "",
+    apartmentName: "",
+  },
+]);
+
+async function fetchUsers() {
+  const api = import.meta.env.VITE_HOST + "/api/user";
+  const response = await fetch(api);
+  const data = await response.json();
+  users.value = data.users;
+
+  console.log(users.value[0]);
+}
+
+async function deleteUser(userID) {
+  const api = import.meta.env.VITE_HOST + "/api/user";
+  const response = confirm("are you sure you want to delete this user?");
+  if (response) {
+    // users.splice(get_pos_user(userID), 1);
+    fetch(`${api}/${userID}`, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json.ok);
+        if (json.ok) {
+          fetchUsers();
+        } else {
+          alert(json.message);
+        }
+      });
+  }
+}
+
+async function activate(userID){
+  const api = import.meta.env.VITE_HOST + "/api/user/activate";
+
+  await fetch(`${api}/${userID}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json.ok);
+      if (json.ok) {
+        fetchUsers();
+      } else {
+        alert(json.message);
+      }
+    });
+
+}
+
+fetchUsers();
+
+// export default {
+//   data() {
+//     return {
+//       users: {
+//         _id: "",
+//         firstName: "",
+//         lastName: "",
+//         email: "",
+//         phone: "",
+//         role: "",
+//         activated: "",
+//         towerName: "",
+//         apartmentName: "",
+//       },
+//     };
+//   },
+//   created: function () {
+//     this.fetchUsers();
+//   },
+//   methods: {
+//     async fetchUsers() {
+//       const api = import.meta.env.VITE_HOST + "/api/user";
+//       const response = await fetch(api);
+//       const data = await response.json();
+//       this.users = data.users;
+//     },
+//     deleteUser(userID) {
+//       const api = import.meta.env.VITE_HOST + "/api/user";
+//       const response = confirm("are you sure you want to delete this user?");
+//       if (response) {
+//         this.users.splice(this.get_pos_user(userID), 1);
+//         fetch(`${api}/${userID}`, { method: "DELETE" }).then(function (
+//           data
+//         ) {});
+//       }
+//     },
+//     get_pos_user(userID) {
+//       for (var i = 0; i < this.users.length; i++) {
+//         if (this.users[i]["_id"] == userID) {
+//           return i;
+//         }
+//       }
+//       return -1;
+//     },
+//   },
+// };
+</script>
+
 <template>
-   <div class="all">
+  <div class="all">
     <div class="row p-4">
       <div class="col-md-12">
         <h1 class="d-inline">Users</h1>
@@ -17,6 +133,7 @@
           <td>Phone</td>
           <td>Apartment</td>
           <td>Role</td>
+          <td>Active</td>
           <td>Edit</td>
           <td>Delete</td>
         </tr>
@@ -31,6 +148,9 @@
           <td>{{ user["phone"] }}</td>
           <td>{{ user["apartmentName"] }}</td>
           <td>{{ user["role"] }}</td>
+          <td v-if="user.activated">{{ user["activated"] }}</td>
+          <td v-if="!user.activated"><button class="button" @click="activate(user._id)">Activate</button></td>
+          <!-- <td>{{ user["activated"] }}</td> -->
           <td>
             <router-link
               :to="{ name: 'User Edit', params: { id: user['_id'] } }"
@@ -38,8 +158,8 @@
             >
               Edit
             </router-link>
-            </td>
-            <td>
+          </td>
+          <td>
             <button class="button" v-on:click="deleteUser(user['_id'])">
               Delete
             </button>
@@ -49,48 +169,6 @@
     </table>
   </div>
 </template>
-
-<script lang="ts">
-import { ref } from "vue";
-import router from "../router";
-
-export default {
-  data() {
-    return {
-      users: [],
-    };
-  },
-  created: function () {
-    this.fetchUsers();
-  },
-  methods: {
-    async fetchUsers() {
-      const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = await fetch(api);
-      const data = await response.json();
-      this.users = data.users;
-    },
-    deleteUser(userID) {
-      const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = confirm("are you sure you want to delete this user?");
-      if (response) {
-        this.users.splice(this.get_pos_user(userID), 1);
-        fetch(`${api}/${userID}`, { method: "DELETE" }).then(function (
-          data
-        ) {});
-      }
-    },
-    get_pos_user(userID) {
-      for (var i = 0; i < this.users.length; i++) {
-        if (this.users[i]["_id"] == userID) {
-          return i;
-        }
-      }
-      return -1;
-    },
-  },
-};
-</script>
 
 <style scoped>
 .container {
@@ -135,7 +213,7 @@ input:focus {
   outline: none;
 }
 .all {
-  padding: 2rem
+  padding: 2rem;
 }
 
 .button {
@@ -165,7 +243,6 @@ router-link {
 .button:hover {
   cursor: pointer;
   background-color: rgb(191, 141, 235);
-
 }
 table {
   background-color: #f9f4f5;

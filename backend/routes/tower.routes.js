@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
   const TowerExist = await Tower.findOne({ name: name.toLowerCase() });
 
   if (TowerExist) {
-    return res.status(400).json({ ok: false, error: "Tower already exists" });
+    return res.status(409).json({ ok: false, message: "Tower already exists" });
   } else {
     const tower = new Tower({
       name: name.toLowerCase(),
