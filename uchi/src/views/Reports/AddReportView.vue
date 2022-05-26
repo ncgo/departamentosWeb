@@ -1,13 +1,8 @@
 <script setup lang="ts">
   import { ref, useAttrs } from '@vue/runtime-core'
-  import { useRoute } from 'vue-router'
-  import { onMounted } from 'vue'
   import router from '../../router'
-  const user = ref('')
   const subject = ref('')
   const description = ref('')
-  const tower = ref('')
-  const apartment = ref('')
 
   const api = import.meta.env.VITE_HOST + '/api/report'
 

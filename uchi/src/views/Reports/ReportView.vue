@@ -45,17 +45,17 @@
             <td>{{ report.createdAt }}</td>
           </tr>
           <!-- <tr>
-          <th>Created by:</th>
-          <td>[AUTHOR]</td>
-        </tr>
-        <tr>
-          <th>Tower:</th>
-          <td>[TOWER]</td>
-        </tr>
-        <tr>
-          <th>Apartment:</th>
-          <td>[Apt]</td>
-        </tr> -->
+            <th>Created by:</th>
+            <td>[AUTHOR]</td>
+          </tr>
+          <tr>
+            <th>Tower:</th>
+            <td>[TOWER]</td>
+          </tr>
+          <tr>
+            <th>Apartment:</th>
+            <td>[Apt]</td>
+          </tr> -->
           <tr>
             <th>Status:</th>
             <td>{{ report.status }}</td>

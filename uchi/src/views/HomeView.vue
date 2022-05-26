@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from '@vue/runtime-dom'
   import ServicesAvailable from '../components/Reserve/ServicesAvailable.vue'
-
+  import router from '../router'
   const role = localStorage.getItem('role')
   const subject = ref('')
   const message = ref('')
@@ -12,6 +12,16 @@
     date: '',
     _id: '',
   })
+
+  const activeReports = ref([
+    {
+      _id: '',
+      subject: '',
+      description: '',
+      status: '',
+      updatedAt: '',
+    },
+  ])
 
   const api = import.meta.env.VITE_HOST + '/api/message'
 
@@ -67,7 +77,33 @@
       })
   }
 
+  async function getReports() {
+    const userID = localStorage.getItem('userID')
+    const api = import.meta.env.VITE_HOST + '/api/report'
+
+    await fetch(`${api}/user/${userID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Allow-Control-Allow-Origin': '*',
+      },
+    })
+      .then((res) => res.json())
+      .then((resObject) => {
+        if (resObject.ok) {
+          activeReports.value = resObject.reports
+        } else {
+          alert(resObject.message)
+        }
+      })
+  }
+
+  function toReport(id) {
+    router.push('/reports/' + id)
+  }
+
   getMessages()
+  getReports()
 </script>
 
 <template>
@@ -144,17 +180,25 @@
 
     <div id="reportsSection">
       <div id="reports">
-        <h2>Reports</h2>
+        <h2>Active Reports</h2>
         <table>
           <tr>
             <th>Report #</th>
+            <th>Updated At</th>
             <th>Description</th>
             <th>Status</th>
           </tr>
-          <tr>
-            <td>[#XXXXX]</td>
-            <td>[Humedad en las paredes del baño]</td>
-            <td>[EN PROCESO]</td>
+          <tr
+            @click="toReport(report._id)"
+            class="tableRow"
+            v-for="report in activeReports"
+            :key="report['_id']"
+            :report="report"
+          >
+            <td># {{ report._id.substring(17) }}</td>
+            <td>{{ report.updatedAt.substring(0, 10) }}</td>
+            <td>{{ report.subject }}</td>
+            <td>{{ report.status }}</td>
           </tr>
         </table>
       </div>
