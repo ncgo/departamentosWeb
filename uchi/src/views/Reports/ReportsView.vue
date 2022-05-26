@@ -25,7 +25,7 @@
   ])
 
   const getActiveReports = async () => {
-    if (role == 'user') {
+    if (role == 'tenant') {
       const res = await fetch(`${api}/user/${userID}`, {
         method: 'GET',
         headers: {
@@ -47,7 +47,7 @@
   }
 
   const getResolvedReports = async () => {
-    if (role == 'user') {
+    if (role == 'tenant') {
       const res = await fetch(`${api}/user/resolved/${userID}`, {
         method: 'GET',
         headers: {
