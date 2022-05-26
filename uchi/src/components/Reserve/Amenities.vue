@@ -6,9 +6,9 @@ import AmenityCard from "./AmenityCard.vue";
 
 const amenitiesRef = ref([]);
 const disabled = ref(true);
-
+const tower = localStorage.getItem("tower");
 const getAmenities = async () => {
-  const amenities = await fetch(`${import.meta.env.VITE_HOST}/api/amenity`);
+  const amenities = await fetch(`${import.meta.env.VITE_HOST}/api/amenity/tower/${tower}`);
   const amenitiesJson = await amenities.json();
   if (amenitiesJson.amenities) {
     amenitiesRef.value = amenitiesJson.amenities;

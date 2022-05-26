@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const Tower = require("../models/Tower");
+const User = require("../models/User");
+const Apartment = require("../models/Apartment");
 
 router.get("/", async (req, res) => {
   const towers = await Tower.find();
@@ -9,6 +11,47 @@ router.get("/", async (req, res) => {
   res.status(200).json({
     ok: true,
     towers: towers,
+  });
+});
+
+router.get("/towers/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const towers = await User.findById(id).populate("tower");
+  
+  var towerList = [{}];
+  towerList.pop();
+
+  for (let i = 0; i < towers.administers_towers.length; i++) {
+    var tw = await Tower.findById(towers.administers_towers[i]);
+    towerList.push(tw);
+  }
+  
+  res.status(200).json({
+    ok: true,
+    towers: towerList,
+  });
+});
+
+router.get("/apartments/:id", async (req, res) => {
+  const { id } = req.params;
+  const apartments = await Tower.findById(id).populate("apartments");
+
+  console.log(apartments.apartments);
+  res.status(200).json({
+    ok: true,
+    apartments: apartments.apartments,
+  });
+});
+
+router.get("/apartment/:id", async (req, res) => {
+  const { id } = req.params;
+  const apartment = await Apartment.findById(id);
+  const tenants = await User.find({"apartment": id});
+  res.status(200).json({
+    ok: true,
+    tenants: tenants,
+    apartment: apartment.name,
   });
 });
 
@@ -39,6 +82,45 @@ router.post("/", async (req, res) => {
     });
 
     const created = await tower.save();
+
+    if (created) {
+      res.status(201).json({
+        ok: true,
+        message: "Tower created",
+        tower: created,
+      });
+    } else {
+      res.status(500).json({
+        ok: false,
+        message: "Error creating tower",
+      });
+    }
+  }
+});
+
+router.post("/admin/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, address, apartments, amenities } = req.body;
+
+  const TowerExist = await Tower.findOne({ name: name.toLowerCase() });
+
+  if (TowerExist) {
+    return res.status(400).json({ ok: false, error: "Tower already exists" });
+  } else {
+    const tower = new Tower({
+      name: name.toLowerCase(),
+      address,
+      apartments,
+      amenities,
+    });
+
+    const created = await tower.save();
+
+    const user = await User.findById(id);
+
+    user.administers_towers.push(created._id);
+
+    const updated = await user.save();
 
     if (created) {
       res.status(201).json({

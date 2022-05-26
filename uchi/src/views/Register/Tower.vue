@@ -10,6 +10,7 @@ const street2 = ref("");
 const city = ref("");
 const pc = ref("");
 const country = ref("");
+const userID = localStorage.getItem("userID");
 
 const api = import.meta.env.VITE_HOST + "/api/tower";
 
@@ -26,7 +27,7 @@ async function register() {
     },
   };
 
-  await fetch(`${api}`, {
+  await fetch(`${api}/admin/${userID}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -15,7 +15,7 @@ const apartment = ref("");
 const password = ref("");
 
 const api = import.meta.env.VITE_HOST + "/api/user";
-const changeUser = async (e: any) => {
+const register = async (e: any) => {
   // e.preventDefault();
   const User = {
     firstName: firstName.value,
@@ -52,7 +52,7 @@ const changeUser = async (e: any) => {
     <h1 v-if="create == true">Create User Profile</h1>
     <img src="../../assets/user.png" alt="" class="profileImage" />
     <div class="content">
-      <form @submit="changeUser">
+      <form @submit="register">
         <h2>Personal Information</h2>
 
         <div class="firstName">
@@ -125,25 +125,25 @@ export default {
   },
   components: {},
   created: function () {
-    this.fetchUser();
+    // this.fetchUser();
   },
   methods: {
     async createUser() {},
-    async fetchUser() {
-      const route = useRoute();
-      const userID = route.params.id;
-      const api = import.meta.env.VITE_HOST + "/api/user";
-      const response = await fetch(`${api}/${userID}`);
-      const user = await response.json();
-      firstName.value = user.user.firstName;
-      lastName.value = user.user.lastName;
-      birthdate.value = user.user.birthDate;
-      email.value = user.user.email;
-      role.value = user.user.role;
-      phone.value = user.user.phone;
-      tower.value = user.user.tower;
-      apartment.value = user.user.apartment;
-    },
+    // async fetchUser() {
+    //   const route = useRoute();
+    //   const userID = route.params.id;
+    //   const api = import.meta.env.VITE_HOST + "/api/user";
+    //   const response = await fetch(`${api}/${userID}`);
+    //   const user = await response.json();
+    //   firstName.value = user.user.firstName;
+    //   lastName.value = user.user.lastName;
+    //   birthdate.value = user.user.birthDate;
+    //   email.value = user.user.email;
+    //   role.value = user.user.role;
+    //   phone.value = user.user.phone;
+    //   tower.value = user.user.tower;
+    //   apartment.value = user.user.apartment;
+    // },
   },
 };
 </script>

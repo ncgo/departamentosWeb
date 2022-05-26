@@ -24,6 +24,19 @@ router.get("/:id", async (req, res) => {
   });
 });
 
+router.get("/tenant/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const apartments = await Tower.findById(id).populate("apartments").populate("amenities");
+
+  // const apartment = await Apartment.findById(id);
+
+  res.status(200).json({
+    ok: true,
+    apartment: apartments,
+  });
+});
+
 router.post("/", async (req, res) => {
   const { name, tower } = req.body;
 
