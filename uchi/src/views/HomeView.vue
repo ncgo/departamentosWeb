@@ -3,6 +3,7 @@
   import ServicesAvailable from '../components/Reserve/ServicesAvailable.vue'
   import router from '../router'
   const role = localStorage.getItem('role')
+  const tower = localStorage.getItem('tower')
   const subject = ref('')
   const message = ref('')
 
@@ -55,8 +56,6 @@
   }
 
   async function getMessages() {
-    const tower = localStorage.getItem('tower')
-
     const data = {
       tower: tower,
     }
@@ -81,21 +80,39 @@
     const userID = localStorage.getItem('userID')
     const api = import.meta.env.VITE_HOST + '/api/report'
 
-    await fetch(`${api}/user/${userID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Allow-Control-Allow-Origin': '*',
-      },
-    })
-      .then((res) => res.json())
-      .then((resObject) => {
-        if (resObject.ok) {
-          activeReports.value = resObject.reports
-        } else {
-          alert(resObject.message)
-        }
+    if (role == 'user') {
+      await fetch(`${api}/user/${userID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
       })
+        .then((res) => res.json())
+        .then((resObject) => {
+          if (resObject.ok) {
+            activeReports.value = resObject.reports
+          } else {
+            alert(resObject.message)
+          }
+        })
+    } else {
+      await fetch(`${api}/tower/${tower}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
+      })
+        .then((res) => res.json())
+        .then((resObject) => {
+          if (resObject.ok) {
+            activeReports.value = resObject.reports
+          } else {
+            alert(resObject.message)
+          }
+        })
+    }
   }
 
   function toReport(id) {

@@ -12,6 +12,18 @@ router.get('/', async (req, res) => {
   })
 })
 
+//Get all reports for a particular tower
+router.get('/tower/:id', async (req, res) => {
+  const { id } = req.params
+  const reports = await Report.find({ tower: id, resolved: false })
+
+  res.status(200).json({
+    ok: true,
+    reports: reports,
+  })
+})
+
+//Get a particular report
 router.get('/:id', async (req, res) => {
   const { id } = req.params
 
@@ -23,6 +35,7 @@ router.get('/:id', async (req, res) => {
   })
 })
 
+//Get all active reports for a particular user
 router.get('/user/:id', async (req, res) => {
   const { id } = req.params
 
@@ -34,6 +47,7 @@ router.get('/user/:id', async (req, res) => {
   })
 })
 
+//Get all resolved reports for a particular user
 router.get('/user/resolved/:id', async (req, res) => {
   const { id } = req.params
 
