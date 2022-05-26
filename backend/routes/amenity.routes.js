@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const config = require("../config");
 const Amenity = require("../models/Amenity");
 const User = require("../models/User");
+const Tower = require("../models/Tower");
 const authenticateToken = require("../middleware/authenticateToken");
 
 async function sendMailConfirmation(mail, name, date, service) {
@@ -43,28 +44,46 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/type/:tower/:type", async (req, res) => {
+  const tower = req.params.tower;
+  const type = req.params.type;
+
+  const amenities = await Amenity.findOne({ tower: tower, type: type });
+
+  res.status(200).json({
+    ok: true,
+    amenity: amenities,
+  });
+});
+
 router.get("/admview/to/reservations", async (req, res) => {
-  
   const amenities = await Amenity.find();
-  
-  var reservations = []
-  for(var i = 0; i < amenities.length; i++){
-    for(var j = 0; j<amenities[i].services.length; j++){
-      for(var k = 0; k < amenities[i].services[j].fecha_reservada.length; k++)
-      {
 
-        const user = await User.findById(amenities[i].services[j].fecha_reservada[k].userId);
+  var reservations = [];
+  for (var i = 0; i < amenities.length; i++) {
+    for (var j = 0; j < amenities[i].services.length; j++) {
+      for (
+        var k = 0;
+        k < amenities[i].services[j].fecha_reservada.length;
+        k++
+      ) {
+        const user = await User.findById(
+          amenities[i].services[j].fecha_reservada[k].userId
+        );
 
-        reservations.push({"amenity": amenities[i].name, "service": amenities[i].services[j].name,
-                           "UserName": user.firstName + " " + user.lastName,
-                           "Date": amenities[i].services[j].fecha_reservada[k].date})
+        reservations.push({
+          amenity: amenities[i].name,
+          service: amenities[i].services[j].name,
+          UserName: user.firstName + " " + user.lastName,
+          Date: amenities[i].services[j].fecha_reservada[k].date,
+        });
       }
     }
   }
 
   res.status(200).json({
     ok: true,
-    reservations: reservations
+    reservations: reservations,
   });
 });
 
@@ -72,6 +91,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   const amenity = await Amenity.findById(id);
+  console.log(amenity);
 
   res.status(200).json({
     ok: true,
@@ -80,12 +100,23 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, description, services } = req.body;
+  const { name, description, services, type } = req.body;
+
+  console.log(req.body)
+  var tower = req.body.tower.toLowerCase()
+
+  const towerExist = await Tower.findOne({ name: tower });
+
+  if (!towerExist) {
+    return res.status(404).json({ ok: false, message: "Tower doesn't exist" });
+  }
 
   const amenity = new Amenity({
     name,
     description,
     services,
+    type,
+    tower: towerExist._id,
   });
 
   const created = await amenity.save();
@@ -109,6 +140,37 @@ router.put("/:id", async (req, res) => {
   const update = req.body;
 
   const newAmenity = await Amenity.findByIdAndUpdate(id, update, {
+    new: true,
+  });
+
+  if (newAmenity) {
+    res.status(201).json({
+      ok: true,
+      message: "Amenity updated",
+      amenity: newAmenity,
+    });
+  } else {
+    res.status(500).json({
+      ok: false,
+      message: "Error updating amenity",
+    });
+  }
+});
+
+router.put("/add/:amenity", async (req, res) => {
+  const { amenity } = req.params;
+  var update = req.body;
+
+  const getAmenity = await Amenity.findById(amenity);
+
+  if (!getAmenity) {
+    return res.status(404).json({ ok: false, message: "Amenity doesn't exist" });
+  }
+
+  //push new service name
+  update.type = getAmenity.type;
+  getAmenity.services.push(update);
+  const newAmenity = await Amenity.findByIdAndUpdate(amenity, getAmenity, {
     new: true,
   });
 
@@ -209,8 +271,5 @@ router.delete("/:id", async (req, res) => {
     });
   });
 });
-
-
-
 
 module.exports = router;

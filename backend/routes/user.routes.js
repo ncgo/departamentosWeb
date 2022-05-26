@@ -140,13 +140,21 @@ router.post("/", async (req, res) => {
     apartment,
     email,
     role,
+    password,
   } = req.body;
 
-  const password = generator.generate({
-    length: 10,
-    numbers: true,
-    uppercase: true,
-  });
+
+  const userExist = await User.findOne({ email: email });
+  if(userExist){
+    return res.status(400).json({ok: false, message: "User already exists"});
+  }
+
+
+  // const password = generator.generate({
+  //   length: 10,
+  //   numbers: true,
+  //   uppercase: true,
+  // });
 
   var user = new User({
     firstName: firstName.toLowerCase(),

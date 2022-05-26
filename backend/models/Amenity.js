@@ -13,9 +13,22 @@ var AmenitiesSchema = Schema(
       type: String,
       required: true,
     },
+    tower: {
+      type: Schema.Types.ObjectId,
+      ref: "towers",
+      required: true,
+    },
+    type : {
+      type: String,
+      required: true,
+    },
     services: [
       {
         name: {
+          type: String,
+          required: true,
+        },
+        type: {
           type: String,
           required: true,
         },
