@@ -28,11 +28,11 @@
 
 <template>
   <div id="app" v-if="$route.path !== '/login'">
-    <Header v-if="$route.path !== '/login'" />
+    <Header v-if="$route.path !== '/login' && $route.path !== '/profile/add' "  />
     <div id="content">
       <RouterView />
     </div>
-    <Tabs v-if="$route.path !== '/login'"/>
+    <Tabs v-if="$route.path !== '/login' && $route.path !== '/profile/add'"/>
   </div>
       <RouterView v-if="$route.path === '/login'"/>
 </template>

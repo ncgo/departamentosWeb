@@ -121,7 +121,7 @@ router.get("/:id", async (req, res) => {
       apartment: apartment_name,
     };
 
-    console.log(user);
+    // console.log(user);
 
     res.status(200).json({
       ok: true,

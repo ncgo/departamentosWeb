@@ -73,7 +73,7 @@ const login = async (e: any) => {
         <button class = "button" type="submit">Login</button>
       </form>
       <br>
-      <router-link :to="{ name: 'Create Profile'}"  class="button">Create account</router-link>
+      <router-link :to="{ name: 'Add Profile'}"  class="button">Create account</router-link>
     </div>
   </main>
 </template>

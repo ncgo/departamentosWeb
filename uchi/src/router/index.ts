@@ -62,6 +62,11 @@ const router = createRouter({
       component: () => import("../views/Profile/CreateUser.vue"),
     },
     {
+      path: "/profile/add",
+      name: "Add Profile",
+      component: () => import("../views/Profile/CreateUser.vue"),
+    },
+    {
       path: "/profile/edit",
       name: "Edit Profile",
       component: () => import("../views/Profile/EditCreateProfileView.vue"),
@@ -115,6 +120,21 @@ const router = createRouter({
       path: "/register/amenity",
       name: "Register Amenity",
       component: () => import("../views/Reserve/RegisterAmenitiesView.vue"),
+    },
+    {
+      path: "/towers",
+      name: "Towers",
+      component: () => import("../views/Towers/TowersView.vue"),
+    },
+    {
+      path: "/apartments/:id",
+      name: "Apartments",
+      component: () => import("../views/Towers/ApartmentsView.vue"),
+    },
+    {
+      path: "/apartment/:id",
+      name: "Apartment",
+      component: () => import("../views/Towers/ApartmentView.vue"),
     },
   ],
 });

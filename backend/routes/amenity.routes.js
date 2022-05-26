@@ -43,6 +43,15 @@ router.get("/", async (req, res) => {
     amenities: amenities,
   });
 });
+router.get("/tower/:tower", async (req, res) => {
+  const { tower } = req.params;
+  const amenities = await Amenity.find({tower: tower});
+
+  res.status(200).json({
+    ok: true,
+    amenities: amenities,
+  });
+});
 
 router.get("/type/:tower/:type", async (req, res) => {
   const tower = req.params.tower;
@@ -91,7 +100,6 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   const amenity = await Amenity.findById(id);
-  console.log(amenity);
 
   res.status(200).json({
     ok: true,
@@ -102,7 +110,6 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, description, services, type } = req.body;
 
-  console.log(req.body)
   var tower = req.body.tower.toLowerCase()
 
   const towerExist = await Tower.findOne({ name: tower });
