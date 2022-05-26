@@ -12,10 +12,21 @@ router.get('/', async (req, res) => {
   })
 })
 
-//Get all reports for a particular tower
+//Get all active reports for a particular tower
 router.get('/tower/:id', async (req, res) => {
   const { id } = req.params
   const reports = await Report.find({ tower: id, resolved: false })
+
+  res.status(200).json({
+    ok: true,
+    reports: reports,
+  })
+})
+
+//Get all resolved reports for a particular tower
+router.get('/tower/resolved/:id', async (req, res) => {
+  const { id } = req.params
+  const reports = await Report.find({ tower: id, resolved: true })
 
   res.status(200).json({
     ok: true,

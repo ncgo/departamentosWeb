@@ -2,6 +2,7 @@
   import { ref, useAttrs } from '@vue/runtime-core'
   import { useRoute } from 'vue-router'
   const route = useRoute()
+  const role = localStorage.getItem('role')
   const id = route.params.id
   const api = import.meta.env.VITE_HOST + '/api/report'
   const report = ref({
@@ -11,7 +12,11 @@
     status: '',
     updatedAt: '',
     createdAt: '',
+    user: '',
+    apartment: '',
   })
+
+  const status = ['Received', 'Pending', 'In Progress', 'Resolved']
 
   const getReport = async () => {
     const res = await fetch(`${api}/${id}`, {
@@ -24,6 +29,12 @@
     report.value = res.report
     console.log(res)
     console.log(report.value)
+  }
+
+  const updateStatus = async () => {
+    if (report['status'] == 'Created') {
+      report['status'] = 'Received'
+    }
   }
 
   getReport()
@@ -44,21 +55,37 @@
             <th>Date created:</th>
             <td>{{ report.createdAt }}</td>
           </tr>
-          <!-- <tr>
+          <tr v-if="role == 'admin'">
             <th>Created by:</th>
-            <td>[AUTHOR]</td>
+            <td>{{ report.user }}</td>
           </tr>
-          <tr>
-            <th>Tower:</th>
-            <td>[TOWER]</td>
-          </tr>
-          <tr>
+          <tr v-if="role == 'admin'">
             <th>Apartment:</th>
-            <td>[Apt]</td>
-          </tr> -->
-          <tr>
+            <td>{{ report.apartment }}</td>
+          </tr>
+          <tr v-if="role == 'user'">
             <th>Status:</th>
             <td>{{ report.status }}</td>
+          </tr>
+
+          <tr v-if="role == 'admin'">
+            <th>Status:</th>
+            <td>
+              <select name="status" id="status">
+                <option
+                  v-for="stat in status"
+                  :key="stat"
+                  :stat="stat"
+                  :value="stat"
+                  :v-model="report['status']"
+                >
+                  {{ stat }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><button @click="updateStatus">Save</button></td>
           </tr>
         </table>
       </div>

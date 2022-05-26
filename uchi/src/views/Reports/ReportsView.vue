@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { ref, useAttrs } from '@vue/runtime-core'
   const userID = localStorage.getItem('userID')
+  const tower = localStorage.getItem('tower')
+  const role = localStorage.getItem('role')
   const api = import.meta.env.VITE_HOST + '/api/report'
   const activeReports = ref([
     {
@@ -23,29 +25,47 @@
   ])
 
   const getActiveReports = async () => {
-    const res = await fetch(`${api}/user/${userID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Allow-Control-Allow-Origin': '*',
-      },
-    }).then((res) => res.json())
-    activeReports.value = res.reports
-    console.log(res)
-    console.log(activeReports.value)
+    if (role == 'user') {
+      const res = await fetch(`${api}/user/${userID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
+      }).then((res) => res.json())
+      activeReports.value = res.reports
+    } else {
+      const res = await fetch(`${api}/tower/${tower}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
+      }).then((res) => res.json())
+      activeReports.value = res.reports
+    }
   }
 
   const getResolvedReports = async () => {
-    const res = await fetch(`${api}/user/resolved/${userID}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Allow-Control-Allow-Origin': '*',
-      },
-    }).then((res) => res.json())
-    resolvedReports.value = res.reports
-    console.log(res)
-    console.log(resolvedReports.value)
+    if (role == 'user') {
+      const res = await fetch(`${api}/user/resolved/${userID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
+      }).then((res) => res.json())
+      resolvedReports.value = res.reports
+    } else {
+      const res = await fetch(`${api}/tower/resolved/${tower}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Allow-Control-Allow-Origin': '*',
+        },
+      }).then((res) => res.json())
+      resolvedReports.value = res.reports
+    }
   }
 
   getActiveReports()
@@ -75,6 +95,7 @@
         <td>{{ report.subject }}</td>
         <td>{{ report.updatedAt.substring(0, 10) }}</td>
         <td>{{ report.status }}</td>
+        <i class="fa-solid fa-hammer" v-if="role == 'admin'"></i>
       </tr>
     </table>
     <br />
