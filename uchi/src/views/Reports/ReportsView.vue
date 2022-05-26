@@ -40,7 +40,7 @@
         <th>Status</th>
       </tr>
       <tr
-        @click="toReport"
+        @click="toReport(report._id)"
         class="tableRow"
         v-for="report in reports"
         :key="report['_id']"
@@ -61,8 +61,8 @@
     name: 'Reports',
     components: {},
     methods: {
-      toReport() {
-        this.$router.push('/reports/report')
+      toReport(id) {
+        this.$router.push('/reports/' + id)
       },
     },
   }

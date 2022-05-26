@@ -1,4 +1,33 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { ref, useAttrs } from '@vue/runtime-core'
+  import { useRoute } from 'vue-router'
+  const route = useRoute()
+  const id = route.params.id
+  const api = import.meta.env.VITE_HOST + '/api/report'
+  const report = ref({
+    _id: '',
+    subject: '',
+    description: '',
+    status: '',
+    updatedAt: '',
+    createdAt: '',
+  })
+
+  const getReport = async () => {
+    const res = await fetch(`${api}/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Allow-Control-Allow-Origin': '*',
+      },
+    }).then((res) => res.json())
+    report.value = res.report
+    console.log(res)
+    console.log(report.value)
+  }
+
+  getReport()
+</script>
 
 <template>
   <main>
@@ -6,14 +35,14 @@
       ><i class="fa-solid fa-arrow-left"></i
     ></router-link>
     <div class="card">
-      <h1>Report [ID]</h1>
-      <h2>[SUBJECT]</h2>
-      <p>[Description]</p>
+      <h1>Report #{{ report._id.substring(17) }}</h1>
+      <h2>{{ report.subject }}</h2>
+      <p>{{ report.description }}</p>
       <div class="details">
         <table>
           <tr>
             <th>Date created:</th>
-            <td>[DATE]</td>
+            <td>{{ report.createdAt }}</td>
           </tr>
           <!-- <tr>
           <th>Created by:</th>
@@ -29,11 +58,11 @@
         </tr> -->
           <tr>
             <th>Status:</th>
-            <td>[STATUS]</td>
+            <td>{{ report.status }}</td>
           </tr>
         </table>
       </div>
-      <p class="text-muted">Updated on: [DATE]</p>
+      <p class="text-muted">Updated on: {{ report.updatedAt }}</p>
     </div>
   </main>
 </template>
