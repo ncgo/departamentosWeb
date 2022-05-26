@@ -105,7 +105,7 @@ router.put('/:id', async (req, res) => {
   const update = req.body
 
   const newReport = await Report.findByIdAndUpdate(id, update, {
-    new: true,
+    status: status,
   })
 
   if (newReport) {

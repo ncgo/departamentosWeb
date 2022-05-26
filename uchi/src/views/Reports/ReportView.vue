@@ -35,9 +35,33 @@
     if (report['status'] == 'Created') {
       report['status'] = 'Received'
     }
+
+    fetch(api, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        status: report['status'],
+      }),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          alert('Report status updated')
+        } else {
+          alert('Tower not found')
+        }
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   getReport()
+  updateStatus()
 </script>
 
 <template>
@@ -84,7 +108,7 @@
               </select>
             </td>
           </tr>
-          <tr>
+          <tr v-if="role == 'admin'">
             <td><button @click="updateStatus">Save</button></td>
           </tr>
         </table>
