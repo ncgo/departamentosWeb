@@ -47,7 +47,7 @@ getTowers();
   <div class="all">
     <div class="row p-4">
       <div class="col-md-12">
-        <h1 class="d-inline">Towers</h1>
+        <h1 class="d-inline">Tenants</h1>
       </div>
     </div>
     <br />
