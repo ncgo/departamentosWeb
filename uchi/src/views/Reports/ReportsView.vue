@@ -1,4 +1,32 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { ref, useAttrs } from '@vue/runtime-core'
+  const userID = localStorage.getItem('userID')
+  const api = import.meta.env.VITE_HOST + '/api/report'
+  const reports = ref([
+    {
+      _id: '',
+      subject: '',
+      description: '',
+      status: '',
+      updatedAt: '',
+    },
+  ])
+
+  const getReports = async () => {
+    const res = await fetch(`${api}/user/${userID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Allow-Control-Allow-Origin': '*',
+      },
+    }).then((res) => res.json())
+    reports.value = res.reports
+    console.log(res)
+    console.log(reports.value)
+  }
+
+  getReports()
+</script>
 
 <template>
   <main>
@@ -7,15 +35,21 @@
     <table>
       <tr>
         <th>Report #ID</th>
-        <th>Date Created</th>
-        <th>Report Description</th>
+        <th>Date Updated</th>
+        <th>Report Subject</th>
         <th>Status</th>
       </tr>
-      <tr @click="toReport" class="tableRow">
-        <td>#[XXXXX]</td>
-        <td>[DATE]</td>
-        <td>[Lorem ipsum dolor et amel]</td>
-        <td>[STATUS]</td>
+      <tr
+        @click="toReport"
+        class="tableRow"
+        v-for="report in reports"
+        :key="report['_id']"
+        :report="report"
+      >
+        <td># {{ report._id.substring(17) }}</td>
+        <td>{{ report.updatedAt.substring(0, 10) }}</td>
+        <td>{{ report.subject }}</td>
+        <td>{{ report.status }}</td>
       </tr>
     </table>
   </main>
@@ -25,9 +59,6 @@
   import router from '../../router'
   export default {
     name: 'Reports',
-    data() {
-      return {}
-    },
     components: {},
     methods: {
       toReport() {

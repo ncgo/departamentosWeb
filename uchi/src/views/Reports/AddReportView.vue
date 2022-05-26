@@ -37,7 +37,7 @@
       .then((json) => {
         console.log(json.ok)
         if (json.ok) {
-          router.push('/')
+          router.push('/reports')
         } else {
           alert(json.message)
         }
