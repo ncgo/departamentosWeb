@@ -1,10 +1,8 @@
 <script setup lang="ts">
   import { ref, useAttrs } from '@vue/runtime-core'
   import { useRoute } from 'vue-router'
-  import router from '../../router'
   const route = useRoute()
   const role = localStorage.getItem('role')
-  const statusR = ref('')
   const id = route.params.id
   const api = import.meta.env.VITE_HOST + '/api/report'
   const report = ref({
@@ -29,12 +27,8 @@
       },
     }).then((res) => res.json())
     report.value = res.report
-
-    if(report.value.status == "Created"){
-      report.value.status = "Received"
-    }
-      console.log(report.value.status)
-
+    console.log(res)
+    console.log(report.value)
   }
 
   const updateStatus = async () => {
@@ -42,30 +36,25 @@
       report['status'] = 'Received'
     }
 
-    console.log(report.value.status)
-
-    fetch(`${api}/${id}`, {
+    fetch(api, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        status: report.value.status,
+        status: report['status'],
       }),
     })
       .then((res) => {
-        if (res.status === 201) {
-          alert('Report status updated')
-          router.push('/reports')
-          router.push('/reports')
-        } else {
-          alert('Tower not found')
-        }
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 
   getReport()
-  // updateStatus()
+  updateStatus()
 </script>
 
 <template>
@@ -99,12 +88,16 @@
           <tr v-if="role == 'admin'">
             <th>Status:</th>
             <td>
-              <select name="status" id="status" v-model="report.status">
-                <!-- const status = ['Received', 'Pending', 'In Progress', 'Resolved'] -->
-                <option >Received</option>
-                <option >Pending</option>
-                <option >In Progress</option>
-                <option >Resolved</option>
+              <select name="status" id="status">
+                <option
+                  v-for="stat in status"
+                  :key="stat"
+                  :stat="stat"
+                  :value="stat"
+                  :v-model="report['status']"
+                >
+                  {{ stat }}
+                </option>
               </select>
             </td>
           </tr>
@@ -118,7 +111,7 @@
   </main>
 </template>
 
-<!-- <script lang="ts">
+<script lang="ts">
   import router from '../../router'
   export default {
     name: 'Reports',
@@ -132,7 +125,7 @@
       },
     },
   }
-</script> -->
+</script>
 
 <style scoped>
   main {
