@@ -27,6 +27,7 @@ function show() {
 function register(e) {
     //post to api
     e.preventDefault();
+    console.log(amenityRef.value);
 
     fetch(api, {
       method: "POST",
@@ -43,6 +44,7 @@ function register(e) {
       .then((res) => {
         if (res.status === 201) {
           // alert("Amenities registered");
+          window.location.reload();
         } else {
           alert("Tower not found");
         }
@@ -54,7 +56,7 @@ function register(e) {
         console.log(err);
       });
       showModal.value = false;
-      window.location.reload();
+      
 }
 </script>
 

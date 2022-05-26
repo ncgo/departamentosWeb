@@ -13,6 +13,7 @@ const getAmenities = async () => {
   if (amenitiesJson.amenities) {
     amenitiesRef.value = amenitiesJson.amenities;
   }
+  console.log(amenitiesRef.value);
 };
 
 onMounted(() => {

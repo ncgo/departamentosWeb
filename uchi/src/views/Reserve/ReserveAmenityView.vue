@@ -29,6 +29,7 @@
       .then((res) => {
         if (res.status === 201) {
           alert('Amenities registered')
+          window.location.reload()
         } else {
           alert('Tower not found')
         }
@@ -46,7 +47,7 @@
     // Services.reload();
     // ServicesAvailable.reload();
     // Services.onMounted();
-    window.location.reload()
+    
   }
 
   function show() {
