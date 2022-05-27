@@ -2,6 +2,7 @@
 import { ref, useAttrs } from "@vue/runtime-core";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
+import router from "../../router";
 const route = useRoute();
 const userID = route.params.id;
 const firstName = ref("");
@@ -16,7 +17,7 @@ const password = ref("");
 
 const api = import.meta.env.VITE_HOST + "/api/user";
 const register = async (e: any) => {
-  // e.preventDefault();
+  e.preventDefault();
   const User = {
     firstName: firstName.value,
     lastName: lastName.value,
@@ -26,7 +27,7 @@ const register = async (e: any) => {
     role: role.value,
     tower: tower.value,
     apartment: apartment.value,
-    password: password.value,
+    // password: password.value,
   };
   console.log(User);
   const res = await fetch(`${api}`, {
@@ -40,6 +41,15 @@ const register = async (e: any) => {
   console.log(resObject);
   console.log(resObject.ok);
   if (resObject.ok) {
+    // router.push("/users");
+    firstName.value = "";
+    lastName.value = "";
+    birthdate.value = "";
+    email.value = "";
+    phone.value = "";
+    role.value = "";
+    tower.value = "";
+    apartment.value = "";
   } else {
     alert(resObject.message);
   }
@@ -105,10 +115,10 @@ const register = async (e: any) => {
           <label for="apartment" class="title">Apartment #: </label>
           <input type="text" id="apartment" name="apartment" required v-model="apartment" />
         </div>
-        <div class="password">
+        <!-- <div class="password">
           <label for="password" class="title">Password: </label>
           <input type="text" id="password" name="password" required v-model="password" />
-        </div>
+        </div> -->
         <button type="submit">Create User</button>
       </form>
     </div>

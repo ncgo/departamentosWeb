@@ -40,7 +40,7 @@ var UserSchema = Schema(
     activated: {
       type: Boolean,
       required: true,
-      default: true,
+      default: false,
     },
     tower: {
       type: Schema.ObjectId,

@@ -109,6 +109,13 @@ router.get("/tower/:tower?", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
+  if(!id){
+    res.status(400).json({
+      ok: false,
+      err: "No id provided"
+    });
+  }
+
   const user = await User.findById(id);
 
   if (!user) {
